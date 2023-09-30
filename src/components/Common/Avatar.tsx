@@ -1,9 +1,9 @@
 import Image from 'next/legacy/image'
 
 interface AvatarProps {
-  size: 'sm' | 'md' | 'lg';
   src: string;
   alt: string;
+  size?: 'sm' | 'md' | 'lg';
 }
 
 const avatarSize = {
@@ -12,7 +12,7 @@ const avatarSize = {
   lg: 'w-14 h-14'
 }
 
-const Avatar = ({ size = 'md', src, alt }: AvatarProps) => {
+const Avatar = ({ src, alt, size = 'md' }: AvatarProps) => {
   return (
     <div className={`${avatarSize[size]}`}>
       <Image src={src} alt={alt} width={200} height={200} className='rounded-full'/>
