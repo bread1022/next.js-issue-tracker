@@ -3,9 +3,9 @@ import { PlusIcon } from "../ui";
 
 export default function NewIssueBtn() {
   return (
-    <Button size="md" color="primary">
+    <Button.Link href={'/new'} color="primary">
       <PlusIcon />
       이슈 작성
-    </Button>
+    </Button.Link>
   );
 }

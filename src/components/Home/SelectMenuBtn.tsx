@@ -8,7 +8,7 @@ interface SelectMenuBtnProps {
 
 export default function SelectMenuBtn({ label, onClick }: SelectMenuBtnProps) {
   return (
-    <Button onClick={onClick}>
+    <Button onClick={onClick} color="ghost">
       {label}
       <ArrowDownIcon />
     </Button>
