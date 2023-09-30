@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={nanum.className}>
-      <body className='w-full max-w-screen-xl overflow-auto mx-auto '>
+      <body className='w-full max-w-screen-xl overflow-auto mx-auto bg-zinc-100 text-zinc-600'>
         <AuthSessionContext>
           <Header />
           {children}
