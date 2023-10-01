@@ -1,14 +1,14 @@
-import Link from "next/link";
-import { ButtonHTMLAttributes, LinkHTMLAttributes, ReactNode } from "react";
+import Link from 'next/link';
+import { ButtonHTMLAttributes, LinkHTMLAttributes, ReactNode } from 'react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg';
   color?: 'ghost' | 'primary' | 'default';
   onClick?: () => void;
   children: ReactNode;
 }
 
-interface LinkButton extends LinkHTMLAttributes<HTMLAnchorElement>{
+interface LinkButton extends LinkHTMLAttributes<HTMLAnchorElement> {
   href: string;
   size?: 'sm' | 'md' | 'lg';
   color?: 'ghost' | 'primary' | 'default';
@@ -24,31 +24,47 @@ const buttonSizes = {
 const buttonColors = {
   ghost: 'hover:bg-gray-100',
   primary: 'bg-blue-500 text-white hover:bg-blue-600',
-  default: 'border border-zinc-400'
-}
+  default: 'border border-zinc-400',
+};
 
-const buttonDefault = 'h-full flex justify-center items-center rounded-md hover:opacity-60';
+const buttonDefault =
+  'h-full flex justify-center items-center rounded-md hover:opacity-60';
 
-const Button = ({ size = 'md', color = 'default', onClick, children, ...rest }: ButtonProps) => {
+const Button = ({
+  size = 'md',
+  color = 'default',
+  onClick,
+  children,
+  ...rest
+}: ButtonProps) => {
   return (
     <button
       className={`${buttonDefault} ${buttonSizes[size]} ${buttonColors[color]}`}
       onClick={onClick}
       {...rest}
-      >
+    >
       {children}
     </button>
   );
-}
+};
 
-Button.Link = ({ href, size = 'md', color = 'default', onClick, children, ...rest }: LinkButton) => {
+Button.Link = ({
+  href,
+  size = 'md',
+  color = 'default',
+  onClick,
+  children,
+  ...rest
+}: LinkButton) => {
   return (
-    <Link href={href}
+    <Link
+      href={href}
       className={`${buttonDefault} ${buttonSizes[size]} ${buttonColors[color]}`}
-      {...rest}>
+      {...rest}
+    >
       {children}
     </Link>
   );
-}
+};
 
 export default Button;

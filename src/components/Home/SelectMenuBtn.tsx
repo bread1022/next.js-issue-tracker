@@ -1,5 +1,5 @@
-import Button from "../Common/Button";
-import { ArrowDownIcon } from "../ui";
+import Button from '../Common/Button';
+import { ArrowDownIcon } from '../ui';
 
 interface SelectMenuBtnProps {
   label: string;

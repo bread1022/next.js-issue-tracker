@@ -6,35 +6,35 @@ export default {
     {
       title: 'Title',
       name: 'title',
-      type: 'string'
+      type: 'string',
     },
     {
       title: 'Contents',
       name: 'contents',
-      type: 'text'
+      type: 'text',
     },
     {
       title: 'isOpen',
       name: 'isOpen',
-      type: 'boolean'
+      type: 'boolean',
     },
     {
       title: 'Author',
       name: 'author',
       type: 'reference',
-      to: [{type: 'user'}]
+      to: [{type: 'user'}],
     },
     {
       title: 'Assignee',
       name: 'assignee',
       type: 'reference',
-      to: [{type: 'user'}]
+      to: [{type: 'user'}],
     },
     {
       title: 'Labels',
       name: 'labels',
       type: 'array',
-      of: [{type: 'reference', to: {type: 'label'}}]
+      of: [{type: 'reference', to: {type: 'label'}}],
     },
     {
       title: 'CommentsBy',
@@ -50,27 +50,27 @@ export default {
               title: 'Author',
               name: 'author',
               type: 'reference',
-              to: [{type: 'user'}]
+              to: [{type: 'user'}],
             },
             {
               title: 'Comment',
               name: 'comment',
-              type: 'text'
-            }
-          ]
-        }
-      ]
+              type: 'text',
+            },
+          ],
+        },
+      ],
     },
     {
       title: 'Created At',
       name: 'createdAt',
-      type: 'datetime'
+      type: 'datetime',
     },
     {
       title: 'Updated At',
       name: 'updatedAt',
-      type: 'datetime'
-    }
+      type: 'datetime',
+    },
   ],
   preview: {
     select: {
@@ -78,11 +78,11 @@ export default {
       author: 'author.username',
     },
     prepare(selection) {
-      const {title, author} = selection;
+      const {title, author} = selection
       return {
         title: title,
-        subtitle: author
+        subtitle: author,
       }
-    }
-  }
+    },
+  },
 }

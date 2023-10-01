@@ -6,32 +6,32 @@ export default {
     {
       title: 'Name',
       name: 'name',
-      type: 'string'
+      type: 'string',
     },
     {
       title: 'Color',
       name: 'color',
-      type: 'string'
+      type: 'string',
     },
     {
       title: 'FontColor',
       name: 'fontColor',
-      type: 'string'
+      type: 'string',
     },
     {
       title: 'Description',
       name: 'description',
-      type: 'string'
+      type: 'string',
     },
     {
       title: 'Created At',
       name: 'createdAt',
-      type: 'datetime'
+      type: 'datetime',
     },
     {
       title: 'Updated At',
       name: 'updatedAt',
-      type: 'datetime'
-    }
-  ]
+      type: 'datetime',
+    },
+  ],
 }

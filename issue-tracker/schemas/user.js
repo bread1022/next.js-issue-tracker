@@ -6,36 +6,36 @@ export default {
     {
       title: 'Username',
       name: 'username',
-      type: 'string'
+      type: 'string',
     },
     {
       title: 'Name',
       name: 'name',
-      type: 'string'
+      type: 'string',
     },
     {
       title: 'Email',
       name: 'email',
-      type: 'string'
+      type: 'string',
     },
     {
       title: 'Avatar',
       name: 'avatar',
-      type: 'string'
+      type: 'string',
     },
   ],
   preview: {
     select: {
       title: 'title',
       name: 'name',
-      avatar: 'avatar'
+      avatar: 'avatar',
     },
     prepare(selection) {
-      const {title, name} = selection;
+      const {title, name} = selection
       return {
         title: title,
         subtitle: name,
       }
-    }
-  }
+    },
+  },
 }

@@ -1,5 +1,5 @@
-import Button from "../Common/Button";
-import { PlusIcon } from "../ui";
+import Button from '../Common/Button';
+import { PlusIcon } from '../ui';
 
 export default function NewIssueBtn() {
   return (
