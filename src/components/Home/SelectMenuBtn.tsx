@@ -1,5 +1,5 @@
 import Button from '../Common/Button';
-import { ArrowDownIcon } from '../ui';
+import Icon from '../ui/Icon';
 
 interface SelectMenuBtnProps {
   label: string;
@@ -8,9 +8,9 @@ interface SelectMenuBtnProps {
 
 export default function SelectMenuBtn({ label, onClick }: SelectMenuBtnProps) {
   return (
-    <Button onClick={onClick} color="ghost">
+    <Button onClick={onClick} color="ghost" size="max">
       {label}
-      <ArrowDownIcon />
+      <Icon name="ArrowDown" color="text" />
     </Button>
   );
 }

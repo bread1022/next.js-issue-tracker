@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko" className={nanum.className}>
-      <body className="w-full max-w-screen-xl overflow-auto mx-auto bg-zinc-100 text-zinc-600">
+      <body className="w-full max-w-screen-xl overflow-auto mx-auto bg-neutral text-text">
         <AuthSessionContext>
           <Header />
           {children}

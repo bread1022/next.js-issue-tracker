@@ -27,8 +27,8 @@ export default {
     {
       title: 'Assignee',
       name: 'assignee',
-      type: 'reference',
-      to: [{type: 'user'}],
+      type: 'array',
+      of: [{type: 'reference', to: {type: 'user'}}],
     },
     {
       title: 'Labels',
