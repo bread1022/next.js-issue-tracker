@@ -4,9 +4,9 @@ import SelectMenuBtn from '../SelectMenuBtn';
 import useFocus from '@/hook/useFocus';
 import Icon from '@/components/ui/Icon';
 
-interface FilterBarProps {}
+interface FilterInputBarProps {}
 
-const FilterBar = ({}: FilterBarProps) => {
+const FilterInputBar = ({}: FilterInputBarProps) => {
   const { isFocus, onFocus, onBlur } = useFocus();
 
   const handleFilterBarBtn = () => console.log('필터버튼 클릭');
@@ -37,4 +37,4 @@ const FilterBar = ({}: FilterBarProps) => {
   );
 };
 
-export default FilterBar;
+export default FilterInputBar;

@@ -4,8 +4,8 @@ export default {
   type: 'document',
   fields: [
     {
-      title: 'Username',
-      name: 'username',
+      title: 'UserId',
+      name: 'userId',
       type: 'string',
     },
     {
@@ -26,15 +26,15 @@ export default {
   ],
   preview: {
     select: {
-      title: 'title',
-      name: 'name',
+      title: 'avatar',
+      userId: 'userId',
       avatar: 'avatar',
     },
     prepare(selection) {
-      const {title, name} = selection
+      const {avatar, userId} = selection
       return {
-        title: title,
-        subtitle: name,
+        title: avatar,
+        subtitle: userId,
       }
     },
   },

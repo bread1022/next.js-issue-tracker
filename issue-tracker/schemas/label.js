@@ -4,13 +4,13 @@ export default {
   type: 'document',
   fields: [
     {
-      title: 'Name',
-      name: 'name',
+      title: 'LabelName',
+      name: 'labelName',
       type: 'string',
     },
     {
-      title: 'Color',
-      name: 'color',
+      title: 'BackgroundColor',
+      name: 'backgroundColor',
       type: 'string',
     },
     {
