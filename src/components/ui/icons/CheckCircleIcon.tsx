@@ -1,5 +1,5 @@
 import { RiCheckboxCircleLine } from 'react-icons/ri';
 
-export default function CheckCircleIcon() {
-  return <RiCheckboxCircleLine />;
+export default function CheckCircleIcon({ ...rest }) {
+  return <RiCheckboxCircleLine {...rest} />;
 }

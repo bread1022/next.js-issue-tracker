@@ -1,5 +1,5 @@
 import { RiCheckboxBlankLine } from 'react-icons/ri';
 
-export default function UnCheckBoxIcon() {
-  return <RiCheckboxBlankLine />;
+export default function UnCheckBoxIcon({ ...rest }) {
+  return <RiCheckboxBlankLine {...rest} />;
 }
