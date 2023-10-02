@@ -1,10 +1,10 @@
 import Button from '../Common/Button';
-import { PlusIcon } from '../ui';
+import Icon from '../ui/Icon';
 
 export default function NewIssueBtn() {
   return (
     <Button.Link href={'/new'} color="primary">
-      <PlusIcon />
+      <Icon name="Plus" color="white" />
       이슈 작성
     </Button.Link>
   );

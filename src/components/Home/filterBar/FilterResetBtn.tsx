@@ -1,10 +1,10 @@
 import Button from '@/components/Common/Button';
-import { CloseIcon } from '@/components/ui';
+import Icon from '@/components/ui/Icon';
 
 export default function FilterResetBtn() {
   return (
-    <Button size="sm">
-      <CloseIcon /> 현재의 검색 필터 및 정렬 지우기
+    <Button color="ghost" size="sm">
+      <Icon name="Close" /> 현재의 검색 필터 및 정렬 지우기
     </Button>
   );
 }

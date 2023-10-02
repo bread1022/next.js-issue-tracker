@@ -18,7 +18,7 @@ interface LinkButton extends LinkHTMLAttributes<HTMLAnchorElement> {
 }
 
 const buttonSizes = {
-  sm: 'w-14 py-1 px-2 text-xs gap-1',
+  sm: 'w-max py-1 px-2 text-xs gap-1',
   md: 'w-32 py-2 px-3 text-sm gap-2',
   lg: 'w-52 py-3 px-4 text-md gap-4',
   max: 'min-w-[80px] w-max py-2 px-2 text-sm gap-2',
@@ -26,7 +26,7 @@ const buttonSizes = {
 
 const buttonColors = {
   ghost: '',
-  primary: 'bg-primary text-white hover:bg-secondary',
+  primary: 'bg-primary text-white',
   default: 'border border-border',
 };
 

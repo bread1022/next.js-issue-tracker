@@ -1,5 +1,5 @@
 import Button from '../Common/Button';
-import { LabelIcon } from '../ui';
+import Icon from '../ui/Icon';
 
 interface LabelBtnProps {
   count?: number;
@@ -8,7 +8,7 @@ interface LabelBtnProps {
 export default function LabelBtn({ count }: LabelBtnProps) {
   return (
     <Button.Link href={'/label'}>
-      <LabelIcon />
+      <Icon name="Label" />
       레이블
       {!!count && <p className="text-xs">({count})</p>}
     </Button.Link>
