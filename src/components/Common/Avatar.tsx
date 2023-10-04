@@ -16,7 +16,7 @@ const avatarSize = {
 const Avatar = ({ src, alt, backgroundColor, size = 'md' }: AvatarProps) => {
   return (
     <div
-      className={`${avatarSize[size]} rounded-full`}
+      className={`${avatarSize[size]} rounded-full mx-auto`}
       style={{ backgroundColor }}
     >
       {src && (

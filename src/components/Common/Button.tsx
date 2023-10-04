@@ -20,7 +20,7 @@ interface LinkButton extends LinkHTMLAttributes<HTMLAnchorElement> {
 const buttonSizes = {
   sm: 'w-max py-1 px-2 text-xs gap-1',
   md: 'w-32 py-2 px-3 text-sm gap-2',
-  lg: 'w-52 py-3 px-4 text-md gap-4',
+  lg: 'w-52 py-3 px-4 text-sm gap-4',
   max: 'min-w-[80px] w-max py-2 px-2 text-sm gap-2',
 };
 
@@ -36,7 +36,7 @@ const buttonDefault =
 const Button = ({
   size = 'md',
   color = 'default',
-  active = false,
+  active = true,
   onClick,
   children,
   ...rest
@@ -45,7 +45,7 @@ const Button = ({
     <button
       className={`${buttonDefault} ${buttonSizes[size]} ${
         buttonColors[color]
-      } ${active && 'font-semibold'}`}
+      } ${active || 'opacity-80'}`}
       onClick={onClick}
       {...rest}
     >
