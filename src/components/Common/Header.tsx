@@ -12,7 +12,7 @@ export default function Header() {
 
   return (
     <header className="px-4">
-      <h3>Issue tracker</h3>
+      <h3 className="text-2xl">Issue tracker</h3>
       {session?.user?.image && session?.user?.name && (
         <Avatar src={session.user?.image} alt={session.user?.name} />
       )}
