@@ -20,7 +20,7 @@ export interface IconProps extends SVGProps<SVGSVGElement> {
   color?: keyof typeof colors;
 }
 
-const Icon = ({ name, size, color = 'text', ...rest }: IconProps) => {
+const Icon = ({ name, size = 14, color = 'text', ...rest }: IconProps) => {
   const Icon = icons[name];
   return <Icon size={size} color={`${colors[color]}`} {...rest} />;
 };

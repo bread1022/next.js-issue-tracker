@@ -18,6 +18,7 @@ const config: Config = {
         secondary: '#1d4ed8',
         indigo: '#172554',
         white: '#fff',
+        neutralWeak: '#fafafa',
         neutral: '#f4f4f5',
         neutralText: '#e4e4e7',
         border: '#d4d4d8',
