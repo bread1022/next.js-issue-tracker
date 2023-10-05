@@ -11,7 +11,7 @@ const useAutoSizeTextArea = ({ ref, value }: useAutoSizeTextAreaProps) => {
       ref.style.height = 'auto';
       ref.style.height = ref.scrollHeight + 'px';
     }
-  }, [value]);
+  }, [ref, value]);
 };
 
 export default useAutoSizeTextArea;

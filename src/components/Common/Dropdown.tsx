@@ -34,19 +34,6 @@ const Dropdown = ({
   onClick,
   children,
 }: DropdownProps) => {
-  return (
-    <Dropdown.MenuBtn label={label} onClick={onClick}>
-      <Dropdown.Menu align={align}>
-        {title && <Dropdown.Header>{title}</Dropdown.Header>}
-        <ul className={`${!title && 'rounded-t-lg overflow-hidden'}`}>
-          {children}
-        </ul>
-      </Dropdown.Menu>
-    </Dropdown.MenuBtn>
-  );
-};
-
-Dropdown.MenuBtn = ({ label, onClick, children }: DropdownMenuBtnProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuBtnClick = () => {
@@ -65,7 +52,14 @@ Dropdown.MenuBtn = ({ label, onClick, children }: DropdownMenuBtnProps) => {
         {label}
         <Icon name="ArrowDown" color="text" />
       </Button>
-      {isMenuOpen && children}
+      {isMenuOpen && (
+        <Dropdown.Menu align={align}>
+          {title && <Dropdown.Header>{title}</Dropdown.Header>}
+          <ul className={`${!title && 'rounded-t-lg overflow-hidden'}`}>
+            {children}
+          </ul>
+        </Dropdown.Menu>
+      )}
     </div>
   );
 };
