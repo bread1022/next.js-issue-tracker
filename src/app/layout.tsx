@@ -11,14 +11,18 @@ const nanum = Nanum_Gothic_Coding({
 });
 
 export const metadata: Metadata = {
-  title: 'Issue Tracker - Next.js',
+  title: {
+    default: 'Issue Tracker - Next.js',
+    template: 'Issue | %s',
+  },
   description: 'Next.js로 재탄생한 이슈 트래커',
+  icons: '/favicon.ico',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko" className={nanum.className}>
-      <body className="w-full max-w-screen-xl overflow-auto mx-auto bg-neutral text-text">
+      <body className="w-full min-w-max max-w-screen-xl overflow-auto mx-auto bg-neutral text-text">
         <AuthSessionContext>
           <Header />
           {children}

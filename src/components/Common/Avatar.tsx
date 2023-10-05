@@ -9,7 +9,7 @@ interface AvatarProps {
 
 const avatarSize = {
   sm: 'w-4 h-4',
-  md: 'w-8 h-8',
+  md: 'w-9 h-9',
   lg: 'w-14 h-14',
 };
 

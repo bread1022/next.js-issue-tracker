@@ -1,5 +1,3 @@
 export default function Home() {
-  return (
-    <></>
-  )
+  return <>로그인 화면으로 리다이렉트</>;
 }

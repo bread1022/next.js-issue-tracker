@@ -1,21 +1,28 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
 import Avatar from './Avatar';
+import SignInOutButton from '../Signin/SignInOutButton';
+import Logo from './Logo';
 
 export default function Header() {
-  const pathname = usePathname();
   const { data: session } = useSession();
-
-  // sign-in페이지에서는 헤더를 보여주지 않는다.
+  if (!session) return <></>;
+  const user = session?.user;
 
   return (
-    <header className="px-4">
-      <h3 className="text-2xl">Issue tracker</h3>
-      {session?.user?.image && session?.user?.name && (
-        <Avatar src={session.user?.image} alt={session.user?.name} />
-      )}
+    <header className="px-8 py-3 flex justify-between">
+      <Logo />
+      <div className="group flex gap-3 items-center">
+        <div className="hidden group-hover:block">
+          <SignInOutButton session={session} />
+        </div>
+        <div className="group-hover cursor-pointer">
+          {user?.image && user.name && (
+            <Avatar src={user.image} alt={user.name} />
+          )}
+        </div>
+      </div>
     </header>
   );
 }

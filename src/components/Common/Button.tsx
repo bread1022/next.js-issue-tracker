@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, LinkHTMLAttributes, ReactNode } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg' | 'max';
-  color?: 'ghost' | 'primary' | 'default';
+  color?: 'ghost' | 'primary' | 'default' | 'black';
   active?: boolean;
   onClick?: () => void;
   children: ReactNode;
@@ -12,7 +12,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 interface LinkButton extends LinkHTMLAttributes<HTMLAnchorElement> {
   href: string;
   size?: 'sm' | 'md' | 'lg' | 'max';
-  color?: 'ghost' | 'primary' | 'default';
+  color?: 'ghost' | 'primary' | 'default' | 'black';
   active?: boolean;
   children: ReactNode;
 }
@@ -20,7 +20,7 @@ interface LinkButton extends LinkHTMLAttributes<HTMLAnchorElement> {
 const buttonSizes = {
   sm: 'w-max py-1 px-2 text-xs gap-1',
   md: 'w-32 py-2 px-3 text-sm gap-2',
-  lg: 'w-52 py-3 px-4 text-sm gap-4',
+  lg: 'w-max py-3 px-4 text-sm gap-4',
   max: 'min-w-[80px] w-max py-2 px-2 text-sm gap-2',
 };
 
@@ -28,6 +28,7 @@ const buttonColors = {
   ghost: '',
   primary: 'bg-primary text-white',
   default: 'border border-border',
+  black: 'bg-black text-white',
 };
 
 const buttonDefault =

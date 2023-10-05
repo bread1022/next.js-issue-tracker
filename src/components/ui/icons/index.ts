@@ -13,3 +13,4 @@ export { default as Clip } from './ClipIcon';
 export { default as UnCheckCircle } from './UnCheckCircleIcon';
 export { default as CheckCircle } from './CheckCircleIcon';
 export { default as Edit } from './EditIcon';
+export { default as GitHub } from './GitHubIcon';
