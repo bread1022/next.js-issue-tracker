@@ -3,9 +3,9 @@ import { client } from './sanity';
 export interface OAuthUser {
   id: string;
   userId: string;
-  name?: string;
-  email?: string;
-  avatarUrl: string;
+  name: string;
+  email: string;
+  avatarUrl?: string;
 }
 
 export async function addUser({

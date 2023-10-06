@@ -77,12 +77,5 @@ export default {
       title: 'title',
       author: 'author.username',
     },
-    prepare(selection) {
-      const {title, author} = selection
-      return {
-        title: title,
-        subtitle: author,
-      }
-    },
   },
 }

@@ -19,22 +19,22 @@ export default {
       type: 'string',
     },
     {
-      title: 'Avatar',
-      name: 'avatar',
+      title: 'AvatarUrl',
+      name: 'avatarUrl',
       type: 'string',
     },
   ],
   preview: {
     select: {
-      title: 'avatar',
       userId: 'userId',
-      avatar: 'avatar',
+      name: 'name',
+      email: 'email',
     },
     prepare(selection) {
-      const {avatar, userId} = selection
+      const {userId, name, email} = selection
       return {
-        title: avatar,
-        subtitle: userId,
+        title: `@${userId} - ${name}`,
+        subtitle: email,
       }
     },
   },

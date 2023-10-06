@@ -10,7 +10,7 @@ declare module 'next-auth' {
   interface User {
     id: string;
     userId: string;
-    name?: string;
+    name: string;
     email: string;
     avatarUrl?: string;
   }
