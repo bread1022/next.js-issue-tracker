@@ -16,7 +16,7 @@ interface DropdownMenuProps {
 }
 
 interface DropdownProps extends DropdownMenuBtnProps, DropdownMenuProps {
-  title?: string;
+  menuTitle?: string;
 }
 
 interface DropdownItemProps {
@@ -29,7 +29,7 @@ interface DropdownItemProps {
 
 const Dropdown = ({
   label,
-  title,
+  menuTitle,
   align,
   onClick,
   children,
@@ -47,15 +47,16 @@ const Dropdown = ({
   const ref = useModalOutside({ onClose: handleMenuClose });
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative h-full">
       <Button onClick={handleMenuBtnClick} mode="ghost" size="max">
         {label}
         <Icon name="ArrowDown" color="text" />
       </Button>
       {isMenuOpen && (
+        // TODO: useLayoutEffect 적용 고려해보기
         <Dropdown.Menu align={align}>
-          {title && <Dropdown.Header>{title}</Dropdown.Header>}
-          <ul className={`${!title && 'rounded-t-lg overflow-hidden'}`}>
+          {menuTitle && <Dropdown.Header>{menuTitle}</Dropdown.Header>}
+          <ul className={`${!menuTitle && 'rounded-t-lg overflow-hidden'}`}>
             {children}
           </ul>
         </Dropdown.Menu>
@@ -115,9 +116,9 @@ const getItemStyle = (
   isDefault: boolean,
 ) => {
   const itemDefaultStyle =
-    'h-[45px] px-3 items-center bg-neutralWeak border-b border-b-border last:border-b-0 last:rounded-b-lg hover:bg-white cursor-pointer';
+    'h-[45px] px-5 items-center bg-neutralWeak border-b border-b-border last:border-b-0 last:rounded-b-lg hover:bg-white cursor-pointer';
   const itemFlexStyle = 'flex justify-between';
-  const itemGridStyle = 'grid grid-cols-[20px_1fr_auto] gap-2';
+  const itemGridStyle = 'grid grid-cols-[20px_1fr_auto] gap-3';
   const fontBold = !hasIcon && isSelected ? 'font-semibold' : '';
 
   return `${itemDefaultStyle} ${

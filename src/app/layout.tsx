@@ -4,6 +4,7 @@ import { Nanum_Gothic_Coding } from 'next/font/google';
 import AuthSessionContext from '@/context/AuthSessionContext';
 import Header from '@/components/Common/Header';
 import { ReactNode } from 'react';
+import SWRContext from '@/context/SWRContext';
 
 const nanum = Nanum_Gothic_Coding({
   subsets: ['latin'],
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="w-full min-w-max max-w-screen-xl overflow-auto mx-auto bg-neutral text-text">
         <AuthSessionContext>
           <Header />
-          {children}
+          <SWRContext>{children}</SWRContext>
         </AuthSessionContext>
       </body>
     </html>

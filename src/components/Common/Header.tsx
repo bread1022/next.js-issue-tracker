@@ -11,7 +11,7 @@ export default function Header() {
   const user = session?.user;
 
   return (
-    <header className="px-8 py-3 flex justify-between">
+    <header className="h-20 px-8 py-3 flex justify-between">
       <Logo />
       <div className="group flex gap-3 items-center">
         <div className="hidden group-hover:block">

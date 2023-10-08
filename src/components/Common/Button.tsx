@@ -61,10 +61,10 @@ const getButtonStyle = ({
   active = true,
 }: CommonButtonProps) => {
   const buttonSizes = {
-    sm: 'w-max py-1 px-2 text-xs gap-1',
-    md: 'w-32 py-2 px-3 text-sm gap-2',
-    lg: 'w-max py-3 px-4 text-sm gap-4',
-    max: 'min-w-[80px] w-max py-2 px-2 text-sm gap-2',
+    sm: 'h-10 w-max py-1 px-2 text-xs gap-1',
+    md: 'h-10 w-32 py-2 px-3 text-sm gap-2',
+    lg: 'h-full w-max py-3 px-4 text-sm gap-4',
+    max: 'h-full min-w-[80px] w-max py-2 px-2 text-sm gap-2',
   };
 
   const buttonmode = {
@@ -75,7 +75,7 @@ const getButtonStyle = ({
   };
 
   const buttonDefault =
-    'h-full flex justify-center items-center rounded-md hover:opacity-60';
+    'flex justify-center items-center rounded-md hover:opacity-60';
 
   return `${buttonDefault} ${buttonSizes[size]} ${buttonmode[mode]} ${
     active || 'opacity-80'

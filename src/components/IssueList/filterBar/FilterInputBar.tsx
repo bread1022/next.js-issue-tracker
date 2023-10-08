@@ -18,7 +18,11 @@ const FilterInputBar = ({}: FilterInputBarProps) => {
   return (
     <div className={`flex items-center rounded-mds text-sm`}>
       <div className="h-[40px] rounded-l-md border border-border border-e-transparent">
-        <Dropdown label="필터" title="이슈 필터" onClick={handleFilterBarBtn}>
+        <Dropdown
+          label="필터"
+          menuTitle="이슈 필터"
+          onClick={handleFilterBarBtn}
+        >
           {[
             '열린 이슈',
             '내가 작성한 이슈',

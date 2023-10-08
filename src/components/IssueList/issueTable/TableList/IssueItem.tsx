@@ -1,11 +1,10 @@
+import { IssueType } from '@/app/model/issue';
 import Avatar from '@/components/Common/Avatar';
 import CheckBox from '@/components/Common/CheckBox';
 import LabelTag from '@/components/Common/LabelTag';
 import Icon from '@/components/ui/Icon';
-import getElapsedTime from '@/utils/getElapsedTime';
+import getElapsedTime from '@/utils/date';
 import Link from 'next/link';
-
-import { IssueType } from '@/service/issues';
 
 interface issueItemProps {
   item: IssueType;
@@ -45,15 +44,13 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
           </span>
         </div>
       </div>
-      <div className="w-72 grid grid-cols-3">
+      <div className="w-64 grid grid-cols-3">
         <ul className="group flex px-3 col-start-1">
-          {assignees.map(({ id, userImage, userId }, index) => {
-            return (
-              <li key={id} className={getAssigneeStyle(index)}>
-                <Avatar src={userImage} alt={userId} size="sm" />
-              </li>
-            );
-          })}
+          {assignees.map(({ id, userImage, userId }, index) => (
+            <li key={id} className={getAssigneeStyle(index)}>
+              <Avatar src={userImage} alt={userId} size="sm" />
+            </li>
+          ))}
         </ul>
         <div className="px-3 col-start-3">
           <Avatar src={author.userImage} alt={author.userId} size="sm" />
@@ -64,7 +61,9 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
 };
 
 const getAssigneeStyle = (index: number) => {
-  return `cursor-pointer -translate-x-${index} transition-transform group-hover:translate-x-0`;
+  return `cursor-pointer -translate-x-${
+    index * 2
+  } transition-transform group-hover:translate-x-0`;
 };
 
 export default IssueItem;

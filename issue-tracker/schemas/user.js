@@ -19,8 +19,8 @@ export default {
       type: 'string',
     },
     {
-      title: 'AvatarUrl',
-      name: 'avatarUrl',
+      title: 'UserImage',
+      name: 'userImage',
       type: 'string',
     },
   ],
