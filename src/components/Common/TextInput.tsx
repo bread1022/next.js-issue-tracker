@@ -14,20 +14,14 @@ const TextInput = ({ id, placeholder, value, ...rest }: TextInputProps) => {
 
   return (
     <label htmlFor={id} className="relative">
-      <span
-        className={`absolute px-2 transform ${
-          isFocus || value.length > 0 ? scaleSmall : scaleLarge
-        }`}
-      >
+      <span className={getLabelStyle(isFocus, value.length)}>
         {placeholder}
       </span>
       <input
         ref={ref}
         id={id}
         type="text"
-        className={`w-full h-14 pt-4 px-4 rounded-md border outline-none ${
-          isFocus ? 'bg-white border-primary' : 'bg-neutralText border-border'
-        }`}
+        className={getInputStyle(isFocus)}
         value={value}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -37,7 +31,22 @@ const TextInput = ({ id, placeholder, value, ...rest }: TextInputProps) => {
   );
 };
 
-const scaleSmall = 'translate-y-1 scale-75 text-text';
-const scaleLarge = 'translate-y-4 scale-100 text-textLight';
+const getLabelStyle = (isFocus: boolean, length: number) => {
+  const scaleSmall = 'translate-y-1 scale-75 text-text';
+  const scaleLarge = 'translate-y-4 scale-100 text-textLight';
+
+  return `absolute px-2 transform ${
+    isFocus || length > 0 ? scaleSmall : scaleLarge
+  }`;
+};
+
+const getInputStyle = (isFocus: boolean) => {
+  const focusStyle = 'bg-white border-primary';
+  const blurStyle = 'bg-neutralText border-border';
+
+  return `w-full h-14 pt-4 px-4 rounded-md border outline-none ${
+    isFocus ? focusStyle : blurStyle
+  }`;
+};
 
 export default TextInput;

@@ -21,17 +21,9 @@ const TextArea = ({ id, placeholder, value, ...rest }: TextAreaProps) => {
   useAutoSizeTextArea({ ref: ref.current, value });
 
   return (
-    <div
-      className={`relative rounded-md border ${
-        isFocus ? 'bg-white border-primary' : 'bg-neutralText border-border'
-      }`}
-    >
+    <div className={getTextAreaStyle(isFocus)}>
       <label htmlFor={id} className="block">
-        <span
-          className={`absolute px-2 transform ${
-            isFocus || length > 0 ? scaleSmall : sacleLarge
-          }`}
-        >
+        <span className={getPlaceholderStyle(isFocus, length)}>
           {placeholder}
         </span>
         <textarea
@@ -49,12 +41,7 @@ const TextArea = ({ id, placeholder, value, ...rest }: TextAreaProps) => {
           띄어쓰기 포함 {length} 자
         </span>
       )}
-      <label
-        htmlFor="files"
-        className={`h-10 px-3 flex items-center gap-2 cursor-pointer border-t border-dashed ${
-          isFocus ? 'border-primary' : 'border-border'
-        }`}
-      >
+      <label htmlFor="files" className={getFileBorderStyle(isFocus)}>
         <Icon name="Clip" />
         <span className="text-xs">파일 첨부하기</span>
         <input
@@ -69,7 +56,24 @@ const TextArea = ({ id, placeholder, value, ...rest }: TextAreaProps) => {
   );
 };
 
-const scaleSmall = 'translate-y-1 -translate-x-4 scale-75 text-text';
-const sacleLarge = 'translate-y-4 scale-100 text-textLight';
+const getTextAreaStyle = (isFocus: boolean) => {
+  return `relative rounded-md border ${
+    isFocus ? 'bg-white border-primary' : 'bg-neutralText border-border'
+  }`;
+};
+
+const getPlaceholderStyle = (isFocus: boolean, length: number) => {
+  const scaleSmall = 'translate-y-1 -translate-x-4 scale-75 text-text';
+  const sacleLarge = 'translate-y-4 scale-100 text-textLight';
+  return `absolute px-2 transform ${
+    isFocus || length > 0 ? scaleSmall : sacleLarge
+  } transition-all duration-300`;
+};
+
+const getFileBorderStyle = (isFocus: boolean) => {
+  return `h-10 px-3 flex items-center gap-2 cursor-pointer border-t border-dashed ${
+    isFocus ? 'border-primary' : 'border-border'
+  }`;
+};
 
 export default TextArea;

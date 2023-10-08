@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
         session.user = {
           name: user.name,
           email: user.email,
-          avatarUrl: user.image,
+          userImage: user.image,
         };
       }
       return session;
@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
         userId,
         name,
         email,
-        avatarUrl: image || '',
+        userImage: image || '',
       });
       return true;
     },

@@ -18,7 +18,7 @@ export default function Header() {
           <SignInOutButton session={session} />
         </div>
         <div className="group-hover cursor-pointer">
-          {user && <Avatar src={user.avatarUrl} alt={user.name} />}
+          {user && <Avatar src={user.userImage} alt={user.name} />}
         </div>
       </div>
     </header>

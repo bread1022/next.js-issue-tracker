@@ -47,24 +47,24 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
       </div>
       <div className="w-72 grid grid-cols-3">
         <ul className="group flex px-3 col-start-1">
-          {assignees.map(({ id, avatarUrl, userId }, index) => {
-            const translateX = `-translate-x-${index}`;
+          {assignees.map(({ id, userImage, userId }, index) => {
             return (
-              <li
-                key={id}
-                className={`cursor-pointer ${translateX} transition-transform group-hover:translate-x-0`}
-              >
-                <Avatar src={avatarUrl} alt={userId} size="sm" />
+              <li key={id} className={getAssigneeStyle(index)}>
+                <Avatar src={userImage} alt={userId} size="sm" />
               </li>
             );
           })}
         </ul>
         <div className="px-3 col-start-3">
-          <Avatar src={author.avatarUrl} alt={author.userId} size="sm" />
+          <Avatar src={author.userImage} alt={author.userId} size="sm" />
         </div>
       </div>
     </li>
   );
+};
+
+const getAssigneeStyle = (index: number) => {
+  return `cursor-pointer -translate-x-${index} transition-transform group-hover:translate-x-0`;
 };
 
 export default IssueItem;

@@ -48,7 +48,7 @@ const Dropdown = ({
 
   return (
     <div ref={ref} className="relative">
-      <Button onClick={handleMenuBtnClick} color="ghost" size="max">
+      <Button onClick={handleMenuBtnClick} mode="ghost" size="max">
         {label}
         <Icon name="ArrowDown" color="text" />
       </Button>
@@ -65,19 +65,16 @@ const Dropdown = ({
 };
 
 Dropdown.Menu = ({ align = 'left', children }: DropdownMenuProps) => {
+  return <section className={getDropdownMenuStyle(align)}>{children}</section>;
+};
+
+const getDropdownMenuStyle = (align: 'left' | 'center' | 'right') => {
   const alignStyle = {
     left: 'left-0',
     center: 'left-1/2 transform -translate-x-1/2',
     right: 'right-3',
   }[align];
-
-  return (
-    <section
-      className={`absolute ${alignStyle} z-10 w-60 rounded-lg border border-border text-sm`}
-    >
-      {children}
-    </section>
-  );
+  return `absolute ${alignStyle} z-10 w-60 rounded-lg border border-border text-sm`;
 };
 
 Dropdown.Header = ({ children }: { children: ReactNode }) => {
@@ -96,16 +93,13 @@ Dropdown.Item = ({
   children,
 }: DropdownItemProps) => {
   const isSelected = selectedItem.includes(item);
-  const fontBold = !hasIcon && isSelected ? 'font-semibold' : '';
   const isDefault = children === undefined;
 
   const handleSelect = () => onSelect(item);
 
   return (
     <li
-      className={`${itemDefaultStyle} ${
-        isDefault ? itemFlexStyle : itemGridStyle
-      } ${fontBold}`}
+      className={getItemStyle(hasIcon, isSelected, isDefault)}
       onClick={handleSelect}
     >
       {children}
@@ -115,9 +109,20 @@ Dropdown.Item = ({
   );
 };
 
-const itemDefaultStyle =
-  'h-[45px] px-3 items-center bg-neutralWeak border-b border-b-border last:border-b-0 last:rounded-b-lg hover:bg-white cursor-pointer';
-const itemFlexStyle = 'flex justify-between';
-const itemGridStyle = 'grid grid-cols-[20px_1fr_auto] gap-2';
+const getItemStyle = (
+  hasIcon: boolean,
+  isSelected: boolean,
+  isDefault: boolean,
+) => {
+  const itemDefaultStyle =
+    'h-[45px] px-3 items-center bg-neutralWeak border-b border-b-border last:border-b-0 last:rounded-b-lg hover:bg-white cursor-pointer';
+  const itemFlexStyle = 'flex justify-between';
+  const itemGridStyle = 'grid grid-cols-[20px_1fr_auto] gap-2';
+  const fontBold = !hasIcon && isSelected ? 'font-semibold' : '';
+
+  return `${itemDefaultStyle} ${
+    isDefault ? itemFlexStyle : itemGridStyle
+  } ${fontBold}`;
+};
 
 export default Dropdown;

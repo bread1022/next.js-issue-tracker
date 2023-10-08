@@ -7,7 +7,7 @@ interface SubmitBtnProps {
 
 const SubmitBtn = ({ active, onClick }: SubmitBtnProps) => {
   return (
-    <Button type="submit" color="primary" active={active} onClick={onClick}>
+    <Button type="submit" mode="primary" active={active} onClick={onClick}>
       완료
     </Button>
   );

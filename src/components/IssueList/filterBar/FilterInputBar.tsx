@@ -3,6 +3,7 @@
 import useFocus from '@/hook/useFocus';
 import Icon from '@/components/ui/Icon';
 import Dropdown from '@/components/Common/Dropdown';
+import { get } from 'http';
 
 interface FilterInputBarProps {}
 
@@ -46,13 +47,20 @@ const FilterInputBar = ({}: FilterInputBarProps) => {
           id="filterbar"
           type="text"
           placeholder={'initial filter status'}
-          className={`block w-80 h-[40px] pl-9 pr-3 rounded-r-md overflow-hidden outline-none border  ${
-            isFocus ? 'bg-white border-primary' : 'bg-neutralText border-border'
-          } placeholder:text-textLight`}
+          className={getInputStyle(isFocus)}
         />
       </label>
     </div>
   );
+};
+
+const getInputStyle = (isFocus: boolean) => {
+  const focusStyle = 'bg-white border-primary';
+  const blurStyle = 'bg-neutralText border-border';
+
+  return `block w-80 h-[40px] pl-9 pr-3 rounded-r-md overflow-hidden outline-none border  ${
+    isFocus ? focusStyle : blurStyle
+  } placeholder:text-textLight`;
 };
 
 export default FilterInputBar;

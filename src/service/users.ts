@@ -5,7 +5,7 @@ export interface OAuthUser {
   userId: string;
   name: string;
   email: string;
-  avatarUrl?: string;
+  userImage?: string;
 }
 
 export async function addUser({
@@ -13,7 +13,7 @@ export async function addUser({
   userId,
   name,
   email,
-  avatarUrl,
+  userImage,
 }: OAuthUser) {
   return client.createIfNotExists({
     _id: id,
@@ -21,6 +21,6 @@ export async function addUser({
     userId,
     name,
     email,
-    avatarUrl,
+    userImage,
   });
 }

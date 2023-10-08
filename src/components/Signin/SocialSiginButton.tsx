@@ -19,11 +19,10 @@ const SocialSiginButton = ({
     <>
       {Object.values(providers).map(({ name, id }) => {
         const Icon = icons[name as keyof typeof icons];
-
         return (
           <Button
             key={name}
-            color="black"
+            mode="black"
             size="lg"
             onClick={() => signIn(id, { callbackUrl })}
           >
