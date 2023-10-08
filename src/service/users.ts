@@ -24,3 +24,12 @@ export async function addUser({
     userImage,
   });
 }
+
+export async function getUsers() {
+  return client.fetch(`*[_type == "user"] | order(userId desc) {
+    "id": _id,
+    userId,
+    name,
+    userImage,
+  }`);
+}
