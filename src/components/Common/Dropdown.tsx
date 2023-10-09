@@ -1,8 +1,9 @@
-import { ReactNode, useState } from 'react';
+import { HTMLAttributes, ReactNode, forwardRef, useRef, useState } from 'react';
 import CheckCircle from './CheckCircle';
 import Button from './Button';
 import Icon from '../ui/Icon';
 import useModalOutside from '@/hook/useClickOutside';
+import useCalculateMenuPosition from '@/hook/useCalculateMenuPosition';
 
 interface DropdownMenuBtnProps {
   label: string;
@@ -10,12 +11,11 @@ interface DropdownMenuBtnProps {
   children: ReactNode;
 }
 
-interface DropdownMenuProps {
-  align?: 'left' | 'center' | 'right';
+interface DropdownMenuProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 }
 
-interface DropdownProps extends DropdownMenuBtnProps, DropdownMenuProps {
+interface DropdownProps extends DropdownMenuBtnProps {
   menuTitle?: string;
 }
 
@@ -28,13 +28,7 @@ interface DropdownItemProps {
   children?: ReactNode;
 }
 
-const Dropdown = ({
-  label,
-  menuTitle,
-  align,
-  onClick,
-  children,
-}: DropdownProps) => {
+const Dropdown = ({ label, menuTitle, onClick, children }: DropdownProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuBtnClick = () => {
@@ -45,17 +39,23 @@ const Dropdown = ({
   const handleMenuToggle = () => setIsMenuOpen((prev) => !prev);
   const handleMenuClose = () => setIsMenuOpen(false);
 
-  const ref = useModalOutside({ onClose: handleMenuClose });
+  const containerRef = useModalOutside({ onClose: handleMenuClose });
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const menuPosition = useCalculateMenuPosition({
+    container: containerRef,
+    menu: menuRef,
+    isOpen: isMenuOpen,
+  });
 
   return (
-    <div ref={ref} className="relative h-full">
+    <div ref={containerRef} className="relative h-full">
       <Button onClick={handleMenuBtnClick} mode="ghost" size="max">
         {label}
         <Icon name="ArrowDown" color="text" />
       </Button>
       {isMenuOpen && (
-        // TODO: useLayoutEffect 적용 고려해보기
-        <Dropdown.Menu align={align}>
+        <Dropdown.Menu ref={menuRef} style={menuPosition}>
           {menuTitle && <Dropdown.Header>{menuTitle}</Dropdown.Header>}
           <ul className={`${!menuTitle && 'rounded-t-lg overflow-hidden'}`}>
             {children}
@@ -66,18 +66,19 @@ const Dropdown = ({
   );
 };
 
-Dropdown.Menu = ({ align = 'left', children }: DropdownMenuProps) => {
-  return <section className={getDropdownMenuStyle(align)}>{children}</section>;
-};
-
-const getDropdownMenuStyle = (align: 'left' | 'center' | 'right') => {
-  const alignStyle = {
-    left: 'left-0',
-    center: 'left-1/2 transform -translate-x-1/2',
-    right: 'right-3',
-  }[align];
-  return `absolute ${alignStyle} z-10 w-60 rounded-lg border border-border text-sm`;
-};
+Dropdown.Menu = forwardRef<HTMLDivElement, DropdownMenuProps>(
+  ({ children, ...rest }, ref) => {
+    return (
+      <section
+        ref={ref}
+        {...rest}
+        className="absolute z-10 w-60 rounded-lg border border-border text-sm"
+      >
+        {children}
+      </section>
+    );
+  },
+);
 
 Dropdown.Header = ({ children }: { children: ReactNode }) => {
   return (

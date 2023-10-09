@@ -17,7 +17,7 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
   const statusIcon = isOpen ? 'OpenIssue' : 'CloseIssue';
 
   return (
-    <li className="h-24 grid grid-cols-[40px_1fr_auto] items-center text-sm bg-neutralWeak border-b border-border last:border-b-0 last:rounded-b-lg">
+    <li className="h-24 grid grid-cols-[40px_1fr_auto] items-center text-sm bg-neutralWeak border-b border-border last:border-b-0 last:rounded-b-lg hover:bg-white">
       <CheckBox id={id} checked={checked} onClick={onCheck} />
       <div className="mx-3 flex flex-col gap-2">
         <div className="flex items-center gap-2">
