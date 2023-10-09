@@ -7,7 +7,7 @@ interface AvatarProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
-const avatarSize = {
+export const avatarSize = {
   sm: 'w-5 h-5',
   md: 'w-9 h-9',
   lg: 'w-14 h-14',

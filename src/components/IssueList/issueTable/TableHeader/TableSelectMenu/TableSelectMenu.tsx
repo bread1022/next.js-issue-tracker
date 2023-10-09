@@ -5,6 +5,7 @@ import Avatar from '@/components/Common/Avatar';
 import { useState } from 'react';
 import fetcher from '@/lib/fetcher';
 import { ISSUE_SELECT_MENU } from './constant';
+import Skeletone from '@/components/Common/Skeletone';
 
 interface TableSelectMenuProps {
   selectedItem: string[];
@@ -29,23 +30,27 @@ const TableSelectMenu = ({ selectedItem, onClick }: TableSelectMenuProps) => {
           menuTitle={menuTitle}
           onClick={() => handleSelectMenuBtnClick(endpoint)}
         >
-          {items.map(
-            ({ id, userId, userImage, labelName, backgroundColor }) => (
-              <Dropdown.Item
-                key={id}
-                item={userId || labelName}
-                value={id}
-                selectedItem={selectedItem}
-                onSelect={handleSelectItemClick}
-              >
-                <Avatar
-                  src={userImage}
-                  alt={userId}
-                  backgroundColor={backgroundColor}
-                  size="sm"
-                />
-              </Dropdown.Item>
-            ),
+          {items.length > 0 ? (
+            items.map(
+              ({ id, userId, userImage, labelName, backgroundColor }) => (
+                <Dropdown.Item
+                  key={id}
+                  item={userId || labelName}
+                  value={id}
+                  selectedItem={selectedItem}
+                  onSelect={handleSelectItemClick}
+                >
+                  <Avatar
+                    src={userImage}
+                    alt={userId}
+                    backgroundColor={backgroundColor}
+                    size="sm"
+                  />
+                </Dropdown.Item>
+              ),
+            )
+          ) : (
+            <Skeletone type="menuItem" />
           )}
         </Dropdown>
       ))}

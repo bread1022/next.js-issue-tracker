@@ -4,7 +4,9 @@ import useSWR from 'swr';
 import { IssueType } from '@/app/model/issue';
 import { useState } from 'react';
 import TableHeader from './TableHeader';
-import IssueItem from './IssueItem';
+import IssueItem from './IssueItem/IssueItem';
+import Skeletone from '@/components/Common/Skeletone';
+import IssueEmptyItem from './IssueItem/IssueEmptyItem';
 
 // TODO: checkBox 상태관리는 여기서
 const IssueTable = () => {
@@ -28,7 +30,7 @@ const IssueTable = () => {
     }
   };
 
-  // TODO: 테이블 리스트 스켈레톤 ? 아니면 로딩중 표시하기
+  // TODO: 페이지 네이션 !!!
   return (
     <div className="rounded-lg border border-border">
       <TableHeader
@@ -39,8 +41,8 @@ const IssueTable = () => {
       />
       <ul>
         {isLoading ? (
-          <p>로딩중</p>
-        ) : (
+          <Skeletone type="list" />
+        ) : !!issues?.length ? (
           issues &&
           issues.map((issue) => (
             <IssueItem
@@ -50,6 +52,8 @@ const IssueTable = () => {
               onCheck={handleCheck}
             />
           ))
+        ) : (
+          <IssueEmptyItem />
         )}
       </ul>
     </div>

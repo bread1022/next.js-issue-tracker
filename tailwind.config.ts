@@ -26,6 +26,15 @@ const config: Config = {
         text: '#52525b',
         textDark: '#38383e',
       },
+      keyframes: {
+        loading: {
+          '0%': { transform: 'translateX(-10%)' },
+          '50%, 100%': { transform: ' translateX(120%)' },
+        },
+      },
+      animation: {
+        loading: 'loading 1.5s infinite linear;',
+      },
     },
   },
   plugins: [],
