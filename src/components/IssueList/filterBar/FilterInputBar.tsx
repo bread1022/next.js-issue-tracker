@@ -3,41 +3,31 @@
 import useFocus from '@/hook/useFocus';
 import Icon from '@/components/ui/Icon';
 import Dropdown from '@/components/Common/Dropdown';
-import { get } from 'http';
+import { FILTERBAR_MENU } from './constant';
 
 interface FilterInputBarProps {}
 
 const FilterInputBar = ({}: FilterInputBarProps) => {
   const { isFocus, onFocus, onBlur } = useFocus();
 
-  // TODO: 필터 버튼 클릭시, Constants 목록 가져오기
-  const handleFilterBarBtn = () => console.log('필터버튼 클릭');
-
   const handleSelectFilter = () => console.log('필터 선택');
 
   return (
     <div className={`flex items-center rounded-mds text-sm`}>
       <div className="h-[40px] rounded-l-md border border-border border-e-transparent">
-        <Dropdown
-          label="필터"
-          menuTitle="이슈 필터"
-          onClick={handleFilterBarBtn}
-        >
-          {[
-            '열린 이슈',
-            '내가 작성한 이슈',
-            '나에게 할당된 이슈',
-            '내가 댓글을 남긴 이슈',
-            '닫힌 이슈',
-          ].map((filter, idx) => (
-            <Dropdown.Item
-              key={idx}
-              item={filter}
-              selectedItem={[]}
-              onSelect={handleSelectFilter}
-            />
-          ))}
-        </Dropdown>
+        {FILTERBAR_MENU.map(({ label, menuTitle, items }) => (
+          <Dropdown key={label} label={label} menuTitle={menuTitle}>
+            {items.map((item) => (
+              <Dropdown.Item
+                key={item.label}
+                item={item.label}
+                value={item.value}
+                selectedItem={[]}
+                onSelect={handleSelectFilter}
+              />
+            ))}
+          </Dropdown>
+        ))}
       </div>
       <label htmlFor="filterbar" className="relative block w-full">
         <Icon

@@ -26,7 +26,7 @@ export async function addUser({
 }
 
 export async function getUsers() {
-  return client.fetch(`*[_type == "user"] | order(userId desc) {
+  return client.fetch(`*[_type == "user"] | order(lower(userId) asc) {
     "id": _id,
     userId,
     name,

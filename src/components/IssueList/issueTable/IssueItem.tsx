@@ -17,7 +17,7 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
   const statusIcon = isOpen ? 'OpenIssue' : 'CloseIssue';
 
   return (
-    <li className="h-24 grid grid-cols-[25px_1fr_auto] items-center text-sm border-b border-border last:border-b-0">
+    <li className="h-24 grid grid-cols-[40px_1fr_auto] items-center text-sm bg-neutralWeak border-b border-border last:border-b-0 last:rounded-b-lg">
       <CheckBox id={id} checked={checked} onClick={onCheck} />
       <div className="mx-3 flex flex-col gap-2">
         <div className="flex items-center gap-2">
@@ -25,16 +25,17 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
           <Link href={`/issues/${id}`} className="font-semibold">
             {title}
           </Link>
-          <div className="flex gap-1">
+          <ul className="flex gap-1">
             {labels.map(({ id, labelName, backgroundColor, fontColor }) => (
-              <LabelTag
-                key={id}
-                labelName={labelName}
-                backgroundColor={backgroundColor}
-                fontColor={fontColor}
-              />
+              <li key={id}>
+                <LabelTag
+                  labelName={labelName}
+                  backgroundColor={backgroundColor}
+                  fontColor={fontColor}
+                />
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
         <div className="flex gap-2">
           <span>#{id}</span>

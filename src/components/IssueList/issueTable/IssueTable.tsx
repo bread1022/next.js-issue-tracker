@@ -1,13 +1,13 @@
 'use client';
 
 import useSWR from 'swr';
-import IssueItem from './IssueItem';
 import { IssueType } from '@/app/model/issue';
 import { useState } from 'react';
-import TableHeader from '../TableHeader';
+import TableHeader from './TableHeader';
+import IssueItem from './IssueItem';
 
 // TODO: checkBox 상태관리는 여기서
-export default function TableList() {
+const IssueTable = () => {
   const { data: issues, isLoading } = useSWR<IssueType[]>('/api/issues');
 
   const [openStatus, setOpenStatus] = useState(true);
@@ -28,8 +28,9 @@ export default function TableList() {
     }
   };
 
+  // TODO: 테이블 리스트 스켈레톤 ? 아니면 로딩중 표시하기
   return (
-    <>
+    <div className="rounded-lg border border-border">
       <TableHeader
         isOpen={openStatus}
         onStatusBtnClick={handleStatusBtn}
@@ -51,6 +52,8 @@ export default function TableList() {
           ))
         )}
       </ul>
-    </>
+    </div>
   );
-}
+};
+
+export default IssueTable;

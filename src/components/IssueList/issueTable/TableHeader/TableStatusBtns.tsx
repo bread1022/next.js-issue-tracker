@@ -7,9 +7,12 @@ interface TableStatusBtnsProps {
 }
 
 const TableStatusBtns = ({ isOpen, onClick }: TableStatusBtnsProps) => {
-  // const { openCount, closeCount } = getIssuesCount();
-  const { openCount, closeCount } = { openCount: 1, closeCount: 2 };
+  // const { openCount, closeCount } = countInfo();
+  // TODO: count정보를 프로받기에는 드릴링이 있음. serveice로 분리해야할듯
+  const { openCount, closeCount } = { openCount: 0, closeCount: 0 };
+
   const handleOpenClick = () => !isOpen && onClick('open');
+
   const handleCloseClick = () => isOpen && onClick('close');
 
   return (

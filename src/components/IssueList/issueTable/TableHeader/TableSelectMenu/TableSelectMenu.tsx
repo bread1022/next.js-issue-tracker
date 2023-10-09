@@ -3,8 +3,8 @@
 import Dropdown from '@/components/Common/Dropdown';
 import Avatar from '@/components/Common/Avatar';
 import { useState } from 'react';
-import { ISSUE_SELECT_MENU } from './constants';
 import fetcher from '@/lib/fetcher';
+import { ISSUE_SELECT_MENU } from './constant';
 
 interface TableSelectMenuProps {
   selectedItem: string[];
@@ -13,7 +13,7 @@ interface TableSelectMenuProps {
 
 const TableSelectMenu = ({ selectedItem, onClick }: TableSelectMenuProps) => {
   const [items, setItems] = useState([]);
-
+  //TODO: fetcher 함수 이렇게 써도 되는 건지 확인
   const handleSelectMenuBtnClick = (endpoint: string) => {
     fetcher(endpoint).then(setItems);
   };
@@ -34,6 +34,7 @@ const TableSelectMenu = ({ selectedItem, onClick }: TableSelectMenuProps) => {
               <Dropdown.Item
                 key={id}
                 item={userId || labelName}
+                value={id}
                 selectedItem={selectedItem}
                 onSelect={handleSelectItemClick}
               >

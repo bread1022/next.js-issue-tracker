@@ -6,7 +6,7 @@ import useModalOutside from '@/hook/useClickOutside';
 
 interface DropdownMenuBtnProps {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
   children: ReactNode;
 }
 
@@ -21,7 +21,8 @@ interface DropdownProps extends DropdownMenuBtnProps, DropdownMenuProps {
 
 interface DropdownItemProps {
   item: string;
-  selectedItem: string[]; // TODO 타입 설정 구체화
+  value: string;
+  selectedItem?: string[]; // TODO 타입 설정 구체화
   hasIcon?: boolean;
   onSelect: (item: string) => void;
   children?: ReactNode;
@@ -37,7 +38,7 @@ const Dropdown = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuBtnClick = () => {
-    onClick();
+    onClick && onClick();
     handleMenuToggle();
   };
 
@@ -88,15 +89,16 @@ Dropdown.Header = ({ children }: { children: ReactNode }) => {
 
 Dropdown.Item = ({
   item,
-  selectedItem,
+  value,
+  selectedItem = [],
   hasIcon = true,
   onSelect,
   children,
 }: DropdownItemProps) => {
-  const isSelected = selectedItem.includes(item);
+  const isSelected = selectedItem.includes(value);
   const isDefault = children === undefined;
 
-  const handleSelect = () => onSelect(item);
+  const handleSelect = () => onSelect(value);
 
   return (
     <li
