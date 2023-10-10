@@ -14,7 +14,7 @@ const TextInput = ({ id, placeholder, value, ...rest }: TextInputProps) => {
 
   return (
     <label htmlFor={id} className="relative">
-      <span className={getLabelStyle(isFocus, value.length)}>
+      <span className={getPlaceholderStyle(isFocus, value.length)}>
         {placeholder}
       </span>
       <input
@@ -31,13 +31,13 @@ const TextInput = ({ id, placeholder, value, ...rest }: TextInputProps) => {
   );
 };
 
-const getLabelStyle = (isFocus: boolean, length: number) => {
+const getPlaceholderStyle = (isFocus: boolean, length: number) => {
   const scaleSmall = 'translate-y-1 scale-75 text-text';
   const scaleLarge = 'translate-y-4 scale-100 text-textLight';
 
   return `absolute px-2 transform ${
     isFocus || length > 0 ? scaleSmall : scaleLarge
-  }`;
+  } transition-all duration-300`;
 };
 
 const getInputStyle = (isFocus: boolean) => {

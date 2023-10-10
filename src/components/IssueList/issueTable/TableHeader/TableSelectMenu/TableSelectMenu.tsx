@@ -19,10 +19,13 @@ const TableSelectMenu = ({ selectedItem, onClick }: TableSelectMenuProps) => {
     fetcher(endpoint).then(setItems);
   };
 
-  const handleSelectItemClick = (item: string) => onClick(item);
+  const handleSelectItemClick = (item: string) => {
+    // TODO: Dropdown label에 따라 선택된 아이템 저장해야됨 (Dropdown label & item value 값)
+    onClick(item);
+  };
 
   return (
-    <div className="w-64 grid grid-cols-3">
+    <div className="w-64 grid grid-cols-3 gap-2">
       {ISSUE_SELECT_MENU.map(({ label, menuTitle, endpoint }) => (
         <Dropdown
           key={label}

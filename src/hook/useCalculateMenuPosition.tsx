@@ -15,24 +15,23 @@ const useCalculateMenuPosition = ({
 }: useCalculateMenuPositionProps) => {
   const [menuPosition, setMenuPosition] = useState({ right: 0 });
 
-  const calculateMenuPosition = () => {
-    if (container.current && menu.current) {
-      const { left: containerLeft } = container.current.getBoundingClientRect();
-      const { width: menuWidth } = menu.current.getBoundingClientRect();
-
-      if (containerLeft + menuWidth > window.innerWidth) {
-        setMenuPosition({ right: MENU_PADDING_RIGHT });
-      } else {
-        setMenuPosition({ right: 0 });
-      }
-    }
-  };
-
   useLayoutEffect(() => {
-    if (isOpen) {
-      calculateMenuPosition();
-    }
-  }, [isOpen]);
+    const calculateMenuPosition = () => {
+      if (container.current && menu.current) {
+        const { left: containerLeft } =
+          container.current.getBoundingClientRect();
+        const { width: menuWidth } = menu.current.getBoundingClientRect();
+
+        if (containerLeft + menuWidth > window.innerWidth) {
+          setMenuPosition({ right: MENU_PADDING_RIGHT });
+        } else {
+          setMenuPosition({ right: 0 });
+        }
+      }
+    };
+
+    if (isOpen) calculateMenuPosition();
+  }, [isOpen, container, menu]);
 
   return menuPosition.right ? menuPosition : { right: 'auto' };
 };

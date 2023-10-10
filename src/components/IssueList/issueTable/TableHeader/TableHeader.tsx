@@ -26,7 +26,7 @@ const TableHeader = ({
   const handleSelectStatus = (item: string) => console.log(item);
 
   return (
-    <div className="h-16 grid grid-cols-[40px_1fr_auto] border-b border-border">
+    <div className="h-16 grid grid-cols-[40px_3fr_1fr] border-b border-border">
       <CheckBox id={'all'} checked={checked} onClick={handleAllCheck} />
       {checkedCount > 0 ? (
         <StatusSelectMenu

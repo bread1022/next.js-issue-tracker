@@ -42,7 +42,7 @@ Skeletone.Text = ({ size = 'sm' }: SizeProps) => {
 Skeletone.ListItem = () => {
   return (
     <li
-      className={`relative h-24 min-w-[965px] grid grid-cols-[40px_1fr_auto] items-center ${listStyle}`}
+      className={`relative h-24 min-w-[965px] grid grid-cols-[40px_3fr_1fr] items-center ${listStyle}`}
     >
       <div className="m-auto">
         <Icon name="UnCheckBox" color="border" />
@@ -54,7 +54,7 @@ Skeletone.ListItem = () => {
           <Skeletone.Text size="lg" />
         </div>
       </div>
-      <div className="w-64 grid grid-cols-3">
+      <div className="w-64 grid grid-cols-3 gap-2">
         <div className="px-3 col-start-3 mx-auto">
           <Skeletone.Avatar />
         </div>

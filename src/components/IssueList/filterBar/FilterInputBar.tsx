@@ -13,8 +13,8 @@ const FilterInputBar = ({}: FilterInputBarProps) => {
   const handleSelectFilter = () => console.log('필터 선택');
 
   return (
-    <div className={`flex items-center rounded-mds text-sm`}>
-      <div className="h-[40px] rounded-l-md border border-border border-e-transparent">
+    <div className={`h-[40px] flex items-center rounded-mds text-sm`}>
+      <div className="h-full rounded-l-md border border-border border-e-transparent">
         {FILTERBAR_MENU.map(({ label, menuTitle, items }) => (
           <Dropdown key={label} label={label} menuTitle={menuTitle}>
             {items.map((item) => (

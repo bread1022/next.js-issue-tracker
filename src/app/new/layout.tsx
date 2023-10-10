@@ -6,8 +6,8 @@ interface NewPagelayoutProps {
 
 const NewPagelayout = ({ children }: NewPagelayoutProps) => {
   return (
-    <section className="px-4">
-      <h1 className="h-12 min-w-max my-3 text-2xl leading-[48px]">
+    <section className="p-5">
+      <h1 className="h-12 min-w-max px-2 mb-5 text-2xl border-b border-border">
         새로운 이슈 작성
       </h1>
       {children}

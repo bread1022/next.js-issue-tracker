@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import Avatar from './Avatar';
 import SignInOutButton from '../Signin/SignInOutButton';
 import Logo from './Logo';
+import Link from 'next/link';
 
 export default function Header() {
   const { data: session } = useSession();
@@ -12,7 +13,9 @@ export default function Header() {
 
   return (
     <header className="h-20 px-8 py-3 flex justify-between">
-      <Logo />
+      <Link href={'/issues'}>
+        <Logo />
+      </Link>
       <div className="group flex gap-3 items-center">
         <div className="hidden group-hover:block">
           <SignInOutButton session={session} />

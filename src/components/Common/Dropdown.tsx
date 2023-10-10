@@ -17,6 +17,7 @@ interface DropdownMenuProps extends HTMLAttributes<HTMLDivElement> {
 
 interface DropdownProps extends DropdownMenuBtnProps {
   menuTitle?: string;
+  size?: 'sm' | 'lg';
 }
 
 interface DropdownItemProps {
@@ -28,11 +29,17 @@ interface DropdownItemProps {
   children?: ReactNode;
 }
 
-const Dropdown = ({ label, menuTitle, onClick, children }: DropdownProps) => {
+const Dropdown = ({
+  label,
+  menuTitle,
+  size = 'sm',
+  onClick,
+  children,
+}: DropdownProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuBtnClick = () => {
-    onClick && onClick();
+    onClick && onClick(); // TODO: item 메뉴를 클릭하면 바로, button 아래에 <SelectedUsers /> <SelectedLabels/> 표시
     handleMenuToggle();
   };
 
@@ -49,11 +56,18 @@ const Dropdown = ({ label, menuTitle, onClick, children }: DropdownProps) => {
   });
 
   return (
-    <div ref={containerRef} className="relative h-full">
-      <Button onClick={handleMenuBtnClick} mode="ghost" size="max">
-        {label}
-        <Icon name="ArrowDown" color="text" />
-      </Button>
+    <div ref={containerRef} className="relative h-[inherit]">
+      <div className={getDropdownSize(size)}>
+        <Button
+          onClick={handleMenuBtnClick}
+          mode="ghost"
+          justify={getButtonIconJustify(size)}
+          size="lg"
+        >
+          {label}
+          <Icon name="ArrowDown" color="text" />
+        </Button>
+      </div>
       {isMenuOpen && (
         <Dropdown.Menu ref={menuRef} style={menuPosition}>
           {menuTitle && <Dropdown.Header>{menuTitle}</Dropdown.Header>}
@@ -72,7 +86,7 @@ Dropdown.Menu = forwardRef<HTMLDivElement, DropdownMenuProps>(
       <section
         ref={ref}
         {...rest}
-        className="absolute z-10 w-60 rounded-lg border border-border text-sm"
+        className="absolute z-10 w-60 rounded-lg bg-neutralWeak border border-border text-sm overflow-hidden"
       >
         {children}
       </section>
@@ -113,13 +127,25 @@ Dropdown.Item = ({
   );
 };
 
+const getDropdownSize = (size: 'sm' | 'lg') => {
+  const dropdownSizes = {
+    sm: 'h-full w-20',
+    lg: 'h-16 w-52',
+  };
+  return dropdownSizes[size];
+};
+
+const getButtonIconJustify = (size: 'sm' | 'lg') => {
+  return size === 'sm' ? 'center' : 'between';
+};
+
 const getItemStyle = (
   hasIcon: boolean,
   isSelected: boolean,
   isDefault: boolean,
 ) => {
   const itemDefaultStyle =
-    'h-[45px] px-5 items-center bg-neutralWeak border-b border-b-border last:border-b-0 last:rounded-b-lg hover:bg-white cursor-pointer';
+    'h-[45px] px-5 items-center border-b border-b-border last:border-b-0 last:rounded-b-lg hover:bg-white cursor-pointer';
   const itemFlexStyle = 'flex justify-between';
   const itemGridStyle = 'grid grid-cols-[20px_1fr_auto] gap-3';
   const fontBold = !hasIcon && isSelected ? 'font-semibold' : '';

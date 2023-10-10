@@ -14,7 +14,7 @@ const LabelTag = ({ labelName, backgroundColor, fontColor }: LabelTagProps) => {
 
 const getLabelStyle = (fontColor: 'white' | 'black') => {
   const textColor = fontColor === 'white' ? 'text-white' : 'text-black';
-  return `rounded-full py-1 px-2 text-xs ${textColor} max-w-[100px] truncate`;
+  return `rounded-full py-1 px-3 text-xs ${textColor} w-max max-w-[100px] truncate`;
 };
 
 export default LabelTag;
