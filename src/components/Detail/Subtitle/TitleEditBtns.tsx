@@ -1,25 +1,27 @@
 import Button from '@/components/Common/Button';
 import Icon from '@/components/ui/Icon';
 
-interface SubTitleBtnsProps {
+interface TitleEditBtnsProps {
   isEdit: boolean;
   isOpened: boolean;
+  active: boolean;
   onCancel: () => void;
-  onEditClick: () => void;
-  onEditComplete: () => void;
-  onIssueOpen: () => void;
-  onIssueClose: () => void;
+  onEdit: () => void;
+  onSubmit: () => void;
+  onOpen: () => void;
+  onClose: () => void;
 }
 
-const SubTitleBtns = ({
+const TitleEditBtns = ({
   isEdit,
   isOpened,
+  active,
   onCancel,
-  onEditClick,
-  onEditComplete,
-  onIssueOpen,
-  onIssueClose,
-}: SubTitleBtnsProps) => {
+  onEdit,
+  onSubmit,
+  onOpen,
+  onClose,
+}: TitleEditBtnsProps) => {
   return (
     <>
       {isEdit ? (
@@ -28,25 +30,25 @@ const SubTitleBtns = ({
           편집취소
         </Button>
       ) : (
-        <Button mode="primaryGhost" onClick={onEditClick}>
+        <Button mode="primaryGhost" onClick={onEdit}>
           <Icon name="Edit" color="primary" />
           제목편집
         </Button>
       )}
       {!isEdit &&
         (isOpened ? (
-          <Button mode="primaryGhost" onClick={onIssueClose}>
+          <Button mode="primaryGhost" onClick={onClose}>
             <Icon name="CloseIssue" color="primary" />
             이슈닫기
           </Button>
         ) : (
-          <Button mode="primaryGhost" onClick={onIssueOpen}>
+          <Button mode="primaryGhost" onClick={onOpen}>
             <Icon name="OpenIssue" color="primary" />
             이슈열기
           </Button>
         ))}
       {isEdit && (
-        <Button type="submit" mode="primary" onClick={onEditComplete}>
+        <Button active={active} type="submit" mode="primary" onClick={onSubmit}>
           <Icon name="Edit" color="white" />
           편집완료
         </Button>
@@ -55,4 +57,4 @@ const SubTitleBtns = ({
   );
 };
 
-export default SubTitleBtns;
+export default TitleEditBtns;

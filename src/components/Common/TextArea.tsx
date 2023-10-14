@@ -1,5 +1,5 @@
 import useFocus from '@/hook/useFocus';
-import { useRef, TextareaHTMLAttributes, ChangeEvent } from 'react';
+import { useRef, TextareaHTMLAttributes } from 'react';
 import Icon from '../ui/Icon';
 import useAutoSizeTextArea from '@/hook/useAutoSizeTextArea';
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -7,7 +7,6 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   placeholder: string;
   value: string;
   half?: boolean;
-  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 const TextArea = ({
@@ -20,7 +19,6 @@ const TextArea = ({
   const ref = useRef<HTMLTextAreaElement>(null);
   const { isFocus, onFocus, onBlur } = useFocus();
   const length = value.length;
-  console.log(length);
 
   // TODO : 파일 첨부해서 바로 화면에 보여주기
   const handleFileInput = () => console.log('파일 첨부하기');

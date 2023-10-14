@@ -40,7 +40,7 @@ const IssueForm = ({}: IssueFormProps) => {
 
   const handleFormSubmit = () => {
     // TODO: POST /api/issues
-    console.log('완료');
+    console.log('완료', value, text);
   };
 
   return (

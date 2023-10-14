@@ -25,7 +25,7 @@ interface LinkButton
 const Button = ({
   size,
   mode,
-  active,
+  active = true,
   justify,
   onClick,
   children,
@@ -35,6 +35,7 @@ const Button = ({
     <button
       className={getButtonStyle({ size, mode, active, justify })}
       onClick={onClick}
+      disabled={!active}
       {...rest}
     >
       {children}

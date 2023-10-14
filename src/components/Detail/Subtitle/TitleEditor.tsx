@@ -1,5 +1,5 @@
 import useFocus from '@/hook/useFocus';
-import { HTMLAttributes, forwardRef, useState, ChangeEvent } from 'react';
+import { HTMLAttributes, forwardRef } from 'react';
 
 interface TitleEditorProps extends HTMLAttributes<HTMLInputElement> {
   id: string;
@@ -9,12 +9,7 @@ interface TitleEditorProps extends HTMLAttributes<HTMLInputElement> {
 
 const TitleEditor = forwardRef<HTMLInputElement, TitleEditorProps>(
   ({ id, title, isEdit, ...rest }, ref) => {
-    const [value, setValue] = useState(title);
     const { isFocus, onFocus, onBlur } = useFocus();
-
-    const handleTitleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-      setValue(target.value);
-    };
 
     return (
       <>
@@ -26,10 +21,9 @@ const TitleEditor = forwardRef<HTMLInputElement, TitleEditorProps>(
               id="issue-title"
               type="text"
               className={getTitleStyle(isFocus)}
-              value={value}
+              value={title}
               onFocus={onFocus}
               onBlur={onBlur}
-              onChange={handleTitleChange}
               autoFocus
               {...rest}
             />

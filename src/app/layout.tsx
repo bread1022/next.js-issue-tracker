@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko" className={nanum.className}>
-      <body className="w-full min-w-max max-w-screen-xl overflow-auto mx-auto bg-neutral text-text">
+      <body className="w-full min-w-[1000px] max-w-screen-xl overflow-auto mx-auto bg-neutral text-text">
         <AuthSessionContext>
           <Header />
           <SWRContext>{children}</SWRContext>
