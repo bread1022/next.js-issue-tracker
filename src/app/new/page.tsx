@@ -12,10 +12,8 @@ export default async function NewPage() {
 
   return (
     <>
-      <main className="grid grid-cols-[80px_minmax(650px,_1fr)_auto] gap-3">
-        <Avatar src={user.userImage} alt={user.name} size="lg" />
-        <IssueForm />
-      </main>
+      <Avatar src={user.userImage} alt={user.name} size="lg" />
+      <IssueForm />
     </>
   );
 }

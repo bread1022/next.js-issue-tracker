@@ -60,7 +60,7 @@ const IssueForm = ({}: IssueFormProps) => {
         />
       </form>
       <SideBar selectedItem={selectedItem} onSelect={handleSelectMenuItem} />
-      <div className="col-start-2 flex place-content-end">
+      <div className="col-start-2 justify-self-end">
         <CancleBtn onClick={handleFormReset} />
       </div>
       <div className="h-10 col-start-3">

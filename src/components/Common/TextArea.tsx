@@ -2,18 +2,25 @@ import useFocus from '@/hook/useFocus';
 import { useRef, TextareaHTMLAttributes, ChangeEvent } from 'react';
 import Icon from '../ui/Icon';
 import useAutoSizeTextArea from '@/hook/useAutoSizeTextArea';
-
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   id: string;
   placeholder: string;
   value: string;
+  half?: boolean;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const TextArea = ({ id, placeholder, value, ...rest }: TextAreaProps) => {
+const TextArea = ({
+  id,
+  placeholder,
+  value,
+  half = false,
+  ...rest
+}: TextAreaProps) => {
   const ref = useRef<HTMLTextAreaElement>(null);
   const { isFocus, onFocus, onBlur } = useFocus();
   const length = value.length;
+  console.log(length);
 
   // TODO : 파일 첨부해서 바로 화면에 보여주기
   const handleFileInput = () => console.log('파일 첨부하기');
@@ -21,18 +28,21 @@ const TextArea = ({ id, placeholder, value, ...rest }: TextAreaProps) => {
   useAutoSizeTextArea({ ref: ref.current, value });
 
   return (
-    <div className={getTextAreaStyle(isFocus)}>
+    <div className={getTextAreaStyle(isFocus, half)}>
       <label htmlFor={id} className="block">
-        <span className={getPlaceholderStyle(isFocus, length)}>
-          {placeholder}
-        </span>
+        {half || (
+          <span className={getPlaceholderStyle(isFocus, length)}>
+            {placeholder}
+          </span>
+        )}
         <textarea
           ref={ref}
           id={id}
-          className={`w-full min-h-[15rem] max-h-96 mt-7 px-4 bg-transparent outline-none resize-none`}
+          className={getTextAreaHeight(half)}
           value={value}
           onFocus={onFocus}
           onBlur={onBlur}
+          placeholder={half ? placeholder : ''}
           {...rest}
         />
       </label>
@@ -41,7 +51,7 @@ const TextArea = ({ id, placeholder, value, ...rest }: TextAreaProps) => {
           띄어쓰기 포함 {length} 자
         </span>
       )}
-      <label htmlFor="files" className={getFileBorderStyle(isFocus)}>
+      <label htmlFor="files" className={getFileBorderStyle(isFocus, half)}>
         <Icon name="Clip" />
         <span className="text-xs">파일 첨부하기</span>
         <input
@@ -56,10 +66,12 @@ const TextArea = ({ id, placeholder, value, ...rest }: TextAreaProps) => {
   );
 };
 
-const getTextAreaStyle = (isFocus: boolean) => {
-  return `relative rounded-md border ${
-    isFocus ? 'bg-white border-primary' : 'bg-neutralText border-border'
-  }`;
+const getTextAreaStyle = (isFocus: boolean, half: boolean) => {
+  return half
+    ? 'relative bg-white rounded-b-lg'
+    : `relative rounded-lg border ${
+        isFocus ? 'bg-white border-primary' : 'bg-neutralText border-border'
+      }`;
 };
 
 const getPlaceholderStyle = (isFocus: boolean, length: number) => {
@@ -70,9 +82,15 @@ const getPlaceholderStyle = (isFocus: boolean, length: number) => {
   } transition-all duration-300`;
 };
 
-const getFileBorderStyle = (isFocus: boolean) => {
+const getTextAreaHeight = (half: boolean) => {
+  return `w-full bg-transparent outline-none resize-none ${
+    half ? 'min-h-[5rem] max-h-12 p-3' : 'min-h-[15rem] max-h-96 mt-7 px-4'
+  }`;
+};
+
+const getFileBorderStyle = (isFocus: boolean, half: boolean) => {
   return `h-10 px-3 flex items-center gap-2 cursor-pointer border-t border-dashed ${
-    isFocus ? 'border-primary' : 'border-border'
+    isFocus ? half || 'border-primary' : 'border-border'
   }`;
 };
 

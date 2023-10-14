@@ -25,10 +25,47 @@ const issueFields = `
   "createdAt": _createdAt,
 `;
 
-/**
-{
-  "openCount": count(*[_type == "issue" && isOpen == true]),
-  "closeCount": count(*[_type == "issue" && isOpen == false]),
-  "labelCount": count(*[_type == "label"]),
+type IssueById = {
+  id: string;
+  username?: string;
+};
+
+export async function getIssueById({ id, username }: IssueById) {
+  return client
+    .fetch(
+      `*[_type == "issue" && _id == "${id}"][0]{
+  "id": _id,
+  "title": title,
+  "isOpen": isOpen,
+  "authorId": author->userId,
+  "authorImage": author->userImage,
+  "mainComment": contents,
+  "labels": labels[]->{labelName, backgroundColor, fontColor},
+  "assignees": assignees[]->{userId, "userImage": userImage},
+  "comments" : commentsBy[]{comment, "authorId": author->userId, "authorImage": author->userImage, "createdAt": _createdAt, "updatedAt": _updatedAt, "isMine": author->name == "${username}"} | order(_createdAt asc),
+  "createdAt": _createdAt,
+  "updatedAt": _updatedAt,
+  "isMine": "${username}" in assignees[]->name || author->name == "${username}"
+}`,
+    )
+    .then((data) => {
+      const { authorId, authorImage, mainComment, comments, ...rest } = data;
+      const newComments = [
+        {
+          authorId,
+          authorImage,
+          comment: mainComment,
+          createdAt: rest.createdAt,
+          updatedAt: rest.updatedAt,
+          isMine: rest.isMine,
+        },
+        ...(comments || []),
+      ];
+      return {
+        ...rest,
+        authorId,
+        comments: newComments,
+        commentsCount: newComments.length,
+      };
+    });
 }
- */

@@ -13,3 +13,22 @@ export interface IssueType {
   author: SimpleUser;
   createdAt: string;
 }
+
+export interface CommentType {
+  authorId: string;
+  authorImage: string;
+  comment: string;
+  createdAt: string;
+  isMine: boolean;
+}
+
+export interface DetailIssueType {
+  id: number;
+  title: string;
+  isOpen: boolean;
+  authorId: string;
+  comments: CommentType[];
+  assignees: SimpleUser[];
+  labels: SimpleLabel[];
+  updatedAt: string;
+}

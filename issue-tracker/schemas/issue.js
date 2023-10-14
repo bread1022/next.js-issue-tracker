@@ -57,6 +57,16 @@ export default {
               name: 'comment',
               type: 'text',
             },
+            {
+              title: 'Created At',
+              name: 'createdAt',
+              type: 'datetime',
+            },
+            {
+              title: 'Updated At',
+              name: 'updatedAt',
+              type: 'datetime',
+            },
           ],
         },
       ],

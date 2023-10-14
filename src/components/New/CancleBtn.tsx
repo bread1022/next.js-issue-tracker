@@ -7,7 +7,7 @@ interface CancleBtnProps {
 
 export default function CancleBtn({ onClick }: CancleBtnProps) {
   return (
-    <Button onClick={onClick}>
+    <Button mode="ghost" onClick={onClick}>
       <Icon name="Close" />
       작성취소
     </Button>

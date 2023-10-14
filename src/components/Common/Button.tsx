@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, LinkHTMLAttributes, ReactNode } from 'react';
 
 interface CommonButtonProps {
   size?: 'sm' | 'md' | 'lg' | 'max';
-  mode?: 'ghost' | 'primary' | 'default' | 'black';
+  mode?: 'ghost' | 'primary' | 'default' | 'black' | 'primaryGhost';
   active?: boolean;
   justify?: 'center' | 'between';
 }
@@ -69,7 +69,7 @@ const getButtonStyle = ({
   justify = 'center',
 }: CommonButtonProps) => {
   const buttonSizes = {
-    sm: 'h-10 w-max py-1 px-2 text-xs gap-1',
+    sm: 'h-10 w-max py-1 text-[0.75rem] gap-1',
     md: 'h-10 w-32 py-2 px-3 text-sm gap-2',
     lg: 'h-full w-full max-w-xs py-3 text-sm gap-2',
     max: 'h-full min-w-[80px] w-max py-2 px-2 text-sm gap-2',
@@ -78,6 +78,7 @@ const getButtonStyle = ({
   const buttonmode = {
     ghost: '',
     primary: 'bg-primary text-white',
+    primaryGhost: 'border border-primary text-primary',
     default: 'border border-border',
     black: 'bg-black text-white',
   };
@@ -87,11 +88,11 @@ const getButtonStyle = ({
     between: 'justify-between',
   };
 
-  const buttonDefault = 'flex items-center rounded-md hover:opacity-60';
+  const buttonDefault = 'flex items-center rounded-md';
 
   return `${buttonDefault} ${buttonJustify[justify]} ${buttonSizes[size]} ${
     buttonmode[mode]
-  } ${active || 'opacity-80'}`;
+  } ${active ? 'hover:opacity-70 hover:font-semibold' : 'opacity-50'}`;
 };
 
 export default Button;

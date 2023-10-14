@@ -3,7 +3,7 @@ import * as icons from './icons/index';
 
 export const colors = {
   primary: '#2563eb',
-  secondary: '#1d4ed8',
+  secondary: '#173FAD',
   indigo: '#172554',
   white: '#fff',
   neutral: '#f4f4f5',

@@ -16,7 +16,7 @@ const SignInOutButton = ({ session }: SignInOutButtonProps) => {
     : () => signIn();
 
   return (
-    <Button size="sm" onClick={handleOnClick}>
+    <Button size="md" onClick={handleOnClick}>
       {buttonLabel}
     </Button>
   );
