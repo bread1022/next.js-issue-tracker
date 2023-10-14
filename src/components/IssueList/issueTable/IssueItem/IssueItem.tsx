@@ -26,8 +26,8 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
             {title}
           </Link>
           <ul className="flex gap-1">
-            {labels.map(({ id, labelName, backgroundColor, fontColor }) => (
-              <li key={id}>
+            {labels.map(({ labelName, backgroundColor, fontColor }) => (
+              <li key={labelName}>
                 <LabelTag
                   labelName={labelName}
                   backgroundColor={backgroundColor}
@@ -47,8 +47,8 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
       </div>
       <div className="w-64 grid grid-cols-3 gap-2">
         <ul className="group flex px-3 col-start-1">
-          {assignees.map(({ id, userImage, userId }, index) => (
-            <li key={id} className={getAssigneeStyle(index)}>
+          {assignees.map(({ userImage, userId }, index) => (
+            <li key={userImage} className={getAssigneeStyle(index)}>
               <Avatar src={userImage} alt={userId} size="sm" />
             </li>
           ))}

@@ -8,14 +8,13 @@ import Icon from '../../ui/Icon';
 import Button from '../../Common/Button';
 import Comment from './Comment';
 
-interface CommentsAreaProps {
+interface CommentsContainerProps {
   id: string;
 }
 
-const CommentsArea = ({ id }: CommentsAreaProps) => {
-  //?? 댓글 목록 가져오고, POST 하면 데이터 즉각 바뀌니까 SWR로 하는게 좋을 것같다.
+const CommentsContainer = ({ id }: CommentsContainerProps) => {
   const { data, error, isLoading } = useSWR(`/api/issues/${id}/comments`);
-  const CommentsArea: CommentType[] = data?.CommentsArea;
+  const comments: CommentType[] = data?.comments;
 
   const [value, setValue] = useState('');
 
@@ -29,15 +28,14 @@ const CommentsArea = ({ id }: CommentsAreaProps) => {
 
   return (
     <div className="grid gap-4">
-      <div>
-        <Comment
-          authorId="authorId"
-          authorImage="https://avatars.githubusercontent.com/u/107349637?v=4"
-          comment="comment"
-          createdAt="createdAt"
-          isMine={true}
-        />
-      </div>
+      <ul>
+        {comments &&
+          comments.map((comment) => (
+            <li key={comment.createdAt}>
+              <Comment {...comment} />
+            </li>
+          ))}
+      </ul>
       <TextArea
         id="issue-comment"
         placeholder="코맨트를 입력하세요."
@@ -59,4 +57,4 @@ const CommentsArea = ({ id }: CommentsAreaProps) => {
   );
 };
 
-export default CommentsArea;
+export default CommentsContainer;
