@@ -31,7 +31,7 @@ const CommentsContainer = ({ id }: CommentsContainerProps) => {
       <ul>
         {comments &&
           comments.map((comment) => (
-            <li key={comment.createdAt}>
+            <li key={comment.comment} className="pb-4">
               <Comment {...comment} />
             </li>
           ))}

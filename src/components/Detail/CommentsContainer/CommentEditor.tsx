@@ -1,5 +1,6 @@
 import { HTMLAttributes } from 'react';
 import TextArea from '../../Common/TextArea';
+import MarkDownViewer from '@/components/Common/MarkdownViewer';
 
 interface CommentEditorProps extends HTMLAttributes<HTMLTextAreaElement> {
   isEdit: boolean;
@@ -20,7 +21,9 @@ const CommentEditor = ({ isEdit, comment, ...rest }: CommentEditorProps) => {
           />
         </>
       ) : (
-        <div className="rounded-b-lg p-3 bg-white">{comment}</div>
+        <div className="rounded-b-lg p-3 bg-white">
+          <MarkDownViewer content={comment} />
+        </div>
       )}
     </>
   );

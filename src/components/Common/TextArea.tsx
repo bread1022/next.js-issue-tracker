@@ -1,5 +1,5 @@
 import useFocus from '@/hook/useFocus';
-import { useRef, TextareaHTMLAttributes } from 'react';
+import { useRef, TextareaHTMLAttributes, useState } from 'react';
 import Icon from '../ui/Icon';
 import useAutoSizeTextArea from '@/hook/useAutoSizeTextArea';
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -16,12 +16,23 @@ const TextArea = ({
   half = false,
   ...rest
 }: TextAreaProps) => {
-  const ref = useRef<HTMLTextAreaElement>(null);
   const { isFocus, onFocus, onBlur } = useFocus();
+  const ref = useRef<HTMLTextAreaElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [fileUrl, setFileUrl] = useState<File[]>([]);
   const length = value.length;
 
-  // TODO : 파일 첨부해서 바로 화면에 보여주기
-  const handleFileInput = () => console.log('파일 첨부하기');
+  const handleFileInput = () => {
+    const file = fileRef.current?.files;
+    if (file) {
+      //** 사용자가 파일을 첨부하면, url로 변경해서 ![filename](url) 형식으로 textarea에 마지막 커서 뒤에 위치시킨다.
+      console.log(file);
+      const fileArr = Array.from(file);
+      const url = fileArr.map((file) => {
+        return `![${file.name}](url)`;
+      });
+    }
+  };
 
   useAutoSizeTextArea({ ref: ref.current, value });
 
@@ -53,11 +64,13 @@ const TextArea = ({
         <Icon name="Clip" />
         <span className="text-xs">파일 첨부하기</span>
         <input
+          ref={fileRef}
           id="files"
           type="file"
           className="hidden"
           accept="image/jpg, image/png, image/jpeg, image/gif"
           onChange={handleFileInput}
+          multiple
         />
       </label>
     </div>
