@@ -7,15 +7,17 @@ interface SubmitBtnProps {
 
 const SubmitBtn = ({ active, onClick }: SubmitBtnProps) => {
   return (
-    <Button
-      type="submit"
-      mode="primary"
-      size="lg"
-      active={active}
-      onClick={onClick}
-    >
-      완료
-    </Button>
+    <div className="h-10 col-start-3">
+      <Button
+        type="submit"
+        mode="primary"
+        size="lg"
+        active={active}
+        onClick={onClick}
+      >
+        완료
+      </Button>
+    </div>
   );
 };
 

@@ -19,6 +19,7 @@ export interface CommentType {
   authorImage: string;
   comment: string;
   createdAt: string;
+  updatedAt?: string;
   isMine: boolean;
 }
 

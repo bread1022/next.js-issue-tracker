@@ -2,46 +2,80 @@
 
 import SideBar from '@/components/New/SideBar';
 import { SideBarItem } from '@/components/New/SideBar';
-import { useState } from 'react';
+import { useCallback } from 'react';
+import DeleteBtn from './DeleteBtn';
+import useSWR from 'swr';
+import { User } from '@/app/model/user';
+import { Label } from '@/app/model/label';
+import Skeletone from '@/components/Common/Skeletone';
 
 interface DetailSideBarProps {
   id: string;
 }
 
 const DetailSideBar = ({ id }: DetailSideBarProps) => {
-  // TODO: id에 해당하는 issue의 assignees, labels GET가져오고, 선택사항이 변경되면 PATCH
-  const [assignees, setAssignees] = useState<SideBarItem[]>([]);
-  const [labels, setLabels] = useState<SideBarItem[]>([]);
+  const { data: assignee, isLoading: assigneeLoading } = useSWR(
+    `/api/issues/${id}/assignees`,
+  );
+  const { data: labels, isLoading: labelLoading } = useSWR(
+    `/api/issues/${id}/labels`,
+  );
 
-  //TODO: 아이템클릭시, 해당 value에 해당 MenuItem POST (새이슈작성과 중복됨)
+  const assignees = assignee?.assignees;
+  const isMine = assignee?.isMine;
+
+  const getSideBarItem = useCallback(
+    (value: string, items: User[] | Label[]) => {
+      if (!items) return [];
+      switch (value) {
+        case 'assignees':
+          return (items as User[]).map((item) => ({
+            menuIcon: item.userImage || 'default이미지',
+            menuItem: item.userId,
+            selected: true,
+          }));
+        case 'labels':
+          return (items as Label[]).map((item) => ({
+            menuIcon: item.backgroundColor,
+            menuItem: item.labelName,
+            menuColor: item.fontColor,
+            selected: true,
+          }));
+        default:
+          return [];
+      }
+    },
+    [],
+  );
+
+  const selectedAssignee = getSideBarItem('assignees', assignees);
+  const selectedLabel = getSideBarItem('labels', labels);
+
   const handleSelectItems = (value: string, item: SideBarItem) => {
-    if (value === 'assignees') {
-      const isExist = assignees.find(
-        (assignee) => assignee.menuItem === item.menuItem,
-      );
-      if (isExist) {
-        setAssignees(
-          assignees.filter((assignee) => assignee.menuItem !== item.menuItem),
-        );
-      } else {
-        setAssignees([...assignees, item]);
-      }
-    } else if (value === 'labels') {
-      const isExist = labels.find((label) => label.menuItem === item.menuItem);
-      if (isExist) {
-        setLabels(labels.filter((label) => label.menuItem !== item.menuItem));
-      } else {
-        setLabels([...labels, item]);
-      }
-    }
+    // TODO: isMine이면, PATCH /api/issues/:id/:value, body: { [value]: [item.menuItem] }
+    console.log('사이드바 옵션 변경');
+  };
+
+  const handleDeleteItem = () => {
+    //TODO: isMine이면, DELETE /api/issues/:id
+    console.log('이슈 삭제');
   };
 
   return (
-    <SideBar
-      assignees={assignees}
-      labels={labels}
-      onSelect={handleSelectItems}
-    />
+    <div>
+      {assigneeLoading || labelLoading ? (
+        <Skeletone type="sideBar" />
+      ) : (
+        <>
+          <SideBar
+            assignees={selectedAssignee}
+            labels={selectedLabel}
+            onSelect={handleSelectItems}
+          />
+          {isMine && <DeleteBtn onDelete={handleDeleteItem} />}
+        </>
+      )}
+    </div>
   );
 };
 

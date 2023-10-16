@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@/lib/authOptions';
-import { getCommentsOfIssue } from '@/service/issues';
+import { getAssigneesOfIssue } from '@/service/issues';
 
 type Context = {
   params: {
@@ -19,5 +19,5 @@ export async function GET(request: Request, { params: { id } }: Context) {
 
   const username = user.name;
 
-  return getCommentsOfIssue({ id, username }).then(NextResponse.json);
+  return getAssigneesOfIssue({ id, username }).then(NextResponse.json);
 }

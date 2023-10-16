@@ -16,7 +16,7 @@ const SubText = ({
   commentsCount,
 }: SubTextProps) => {
   return (
-    <div className="flex items-center gap-5">
+    <div className="px-1 flex items-center gap-5">
       <StatusLabel isOpen={isOpen} />
       <span>
         이 이슈가 {getElapsedTime(createdAt)}에 {authorId}님에 의해

@@ -7,7 +7,7 @@ interface SelectedUsersProps {
 
 const SelectedUsers = ({ users }: SelectedUsersProps) => {
   return (
-    <ul className="max-h-28">
+    <ul>
       {users.map(({ menuItem, menuIcon }) => (
         <li key={menuItem} className="w-full flex gap-3 py-1">
           <Avatar src={menuIcon} alt={menuItem} size="sm" />

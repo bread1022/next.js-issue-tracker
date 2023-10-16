@@ -1,18 +1,9 @@
 import { client } from './sanity';
 
-export async function getIssues() {
+export async function getIssueList() {
   return client.fetch(
     `*[_type == "issue"] | order(_createdAt desc){${issueFields}}`,
   );
-}
-
-export async function getIssueCount() {
-  return client.fetch(`{
-    "openCount": count(*[_type == "issue" && isOpen == true]),
-    "closeCount": count(*[_type == "issue" && isOpen == false]),
-    "labelCount": count(*[_type == "label"]),
-  }
-  `);
 }
 
 const issueFields = `
@@ -24,6 +15,15 @@ const issueFields = `
   "assignees": assignees[]->{userId, "userImage": userImage},
   "createdAt": _createdAt,
 `;
+
+export async function getIssueCount() {
+  return client.fetch(`{
+    "openCount": count(*[_type == "issue" && isOpen == true]),
+    "closeCount": count(*[_type == "issue" && isOpen == false]),
+    "labelCount": count(*[_type == "label"]),
+  }
+  `);
+}
 
 type IssueById = {
   id: string;
@@ -43,7 +43,7 @@ export async function getIssueById({ id, username }: IssueById) {
   "mainComment": contents,
   "labels": labels[]->{labelName, backgroundColor, fontColor},
   "assignees": assignees[]->{userId, "userImage": userImage},
-  "comments" : commentsBy[]{comment, "authorId": author->userId, "authorImage": author->userImage, "createdAt": _createdAt, "updatedAt": _updatedAt, "isMine": author->name == "${username}"} | order(_createdAt asc),
+  "comments" : commentsBy[]{comment, "authorId": author->userId, "authorImage": author->userImage, "createdAt": createdAt, "updatedAt": updatedAt, "isMine": author->name == "${username}"} | order(_createdAt asc),
   "createdAt": _createdAt,
   "updatedAt": _updatedAt,
   "isMine": "${username}" in assignees[]->name || author->name == "${username}"
@@ -76,4 +76,21 @@ export async function getIssueById({ id, username }: IssueById) {
         commentsCount: newComments.length,
       };
     });
+}
+
+export async function getCommentsOfIssue({ id, username }: IssueById) {
+  return getIssueById({ id, username }).then((issue) => issue.comments || []);
+}
+
+export async function getAssigneesOfIssue({ id, username }: IssueById) {
+  return getIssueById({ id, username }).then((issue) => {
+    return {
+      assignees: issue.assignees,
+      isMine: issue.isMine,
+    };
+  });
+}
+
+export async function getLabelsOfIssue({ id, username }: IssueById) {
+  return getIssueById({ id, username }).then((issue) => issue.labels);
 }

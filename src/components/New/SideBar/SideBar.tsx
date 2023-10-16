@@ -41,7 +41,7 @@ const SideBar = ({ assignees, labels, onSelect }: SideBarProps) => {
   };
 
   return (
-    <div className="max-w-[274px] px-8 py-7 bg-neutralWeak border border-border rounded-lg">
+    <div className="w-[274px] h-max min-h-[381px] p-7 bg-neutralWeak border border-border rounded-lg">
       {SIDEBAR_SELECT_MENU.map(({ label, value, endpoint }) => (
         <SideBarDropdown
           key={label}

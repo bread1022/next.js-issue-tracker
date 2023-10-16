@@ -1,11 +1,13 @@
 'use client';
 
-import { ChangeEvent, memo, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import TitleEditor from './TitleEditor';
 import TitleEditBtns from './TitleEditBtns';
 import SubText from './SubText';
+import useSWR from 'swr';
+import Skeletone from '@/components/Common/Skeletone';
 
-interface SubTitleProps {
+type SubTitle = {
   id: string;
   title: string;
   isOpen: boolean;
@@ -13,21 +15,18 @@ interface SubTitleProps {
   authorId: string;
   commentsCount: number;
   isMine: boolean;
+};
+
+interface SubTitleProps {
+  id: string;
 }
 
-const SubTitle = ({
-  id,
-  title,
-  isOpen,
-  createdAt,
-  authorId,
-  commentsCount,
-  isMine,
-}: SubTitleProps) => {
+const SubTitle = ({ id }: SubTitleProps) => {
+  const { data: issue, isLoading } = useSWR<SubTitle>(`/api/issues/${id}`);
+
   const [isEdit, setIsEdit] = useState(false);
-  const [currentIsOpen, setCurrentIsOpen] = useState(isOpen);
-  const [value, setValue] = useState(title);
-  const [editedValue, setEditedValue] = useState(title);
+  const [value, setValue] = useState(issue?.title);
+  const [editedValue, setEditedValue] = useState(issue?.title);
 
   const handleEdit = ({ target }: ChangeEvent<HTMLInputElement>) =>
     setEditedValue(target.value);
@@ -47,43 +46,53 @@ const SubTitle = ({
 
   const handleIssueOpen = useCallback(() => {
     // TODO : POST (/issues/:id, isOpen = true)
-    toggleIssue();
+    console.log('open');
   }, []);
 
   const handleIssueClose = useCallback(() => {
     // TODO : POST (/issues/:id, isOpen = false)
-    toggleIssue();
+    console.log('close');
   }, []);
-
-  const toggleIssue = () => setCurrentIsOpen((prev) => !prev);
 
   return (
     <div className="h-full flex flex-col gap-3 mx-8 py-5 border-b border-border">
-      <div className="h-10 grid grid-cols-[1fr_auto_auto] gap-3">
-        <TitleEditor
-          isEdit={isEdit}
-          id={id}
-          title={editedValue}
-          onChange={handleEdit}
-        />
-        {isMine && (
-          <TitleEditBtns
-            isEdit={isEdit}
-            isOpened={currentIsOpen}
-            active={editedValue.length > 0 && editedValue !== value}
-            onCancel={handleCancel}
-            onEdit={handleEditClick}
-            onSubmit={handleSubmit}
-            onOpen={handleIssueOpen}
-            onClose={handleIssueClose}
+      {isLoading && <Skeletone type="title" />}
+      {!isLoading && issue && (
+        <>
+          <div className="h-10 grid grid-cols-[1fr_auto_auto] gap-3">
+            <TitleEditor
+              isEdit={isEdit}
+              id={id}
+              title={editedValue || issue.title}
+              onChange={handleEdit}
+            />
+            {issue?.isMine && (
+              <TitleEditBtns
+                isEdit={isEdit}
+                isOpened={issue?.isOpen}
+                active={
+                  !!editedValue &&
+                  editedValue.length > 0 &&
+                  editedValue !== value
+                }
+                onCancel={handleCancel}
+                onEdit={handleEditClick}
+                onSubmit={handleSubmit}
+                onOpen={handleIssueOpen}
+                onClose={handleIssueClose}
+              />
+            )}
+          </div>
+          <SubText
+            isOpen={issue.isOpen}
+            createdAt={issue?.createdAt}
+            authorId={issue?.authorId}
+            commentsCount={issue?.commentsCount}
           />
-        )}
-      </div>
-      <SubText
-        {...{ isOpen: currentIsOpen, createdAt, authorId, commentsCount }}
-      />
+        </>
+      )}
     </div>
   );
 };
 
-export default memo(SubTitle);
+export default SubTitle;

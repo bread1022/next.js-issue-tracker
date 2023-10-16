@@ -17,6 +17,7 @@ const config: Config = {
         primary: '#2563eb',
         secondary: '#173FAD',
         indigo: '#172554',
+        red: '#CD1039',
         white: '#fff',
         neutralWeak: '#fafafa',
         neutral: '#f4f4f5',

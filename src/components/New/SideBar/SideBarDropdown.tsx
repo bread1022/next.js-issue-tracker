@@ -56,7 +56,7 @@ const SideBarDropdown = ({
   };
 
   return (
-    <div ref={containerRef} className="h-[inherit] w-full">
+    <div ref={containerRef} className="w-full">
       <Dropdown.Button label={label} onClick={handleMenuBtnClick} />
       {isMenuOpen && (
         <Dropdown.Menu ref={menuRef} style={menuPosition}>
@@ -76,11 +76,11 @@ const SideBarDropdown = ({
           )}
         </Dropdown.Menu>
       )}
-      {value === 'assignees' ? (
-        <SelectedUsers users={assignees} />
-      ) : (
-        <SelectedLabels labels={labels} />
-      )}
+      <div className="h-[81px] overflow-y-auto">
+        {value === 'assignees'
+          ? assignees && <SelectedUsers users={assignees} />
+          : labels && <SelectedLabels labels={labels} />}
+      </div>
     </div>
   );
 };

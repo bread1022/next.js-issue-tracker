@@ -9,9 +9,7 @@ import SideBar from '../SideBar';
 import { MenuItemValue } from '../SideBar/constant';
 import { SideBarItem } from '../SideBar/SideBarDropdown';
 
-interface IssueFormProps {}
-
-const IssueForm = ({}: IssueFormProps) => {
+const IssueForm = () => {
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
   const [assignees, setAssignees] = useState<SideBarItem[]>([]);
@@ -54,7 +52,7 @@ const IssueForm = ({}: IssueFormProps) => {
   };
 
   const handleFormSubmit = () => {
-    // TODO: POST /api/issues
+    // TODO: POST /api/issues - 해당 id 이슈로 이동
     console.log('완료', title, comment);
   };
 
@@ -79,12 +77,8 @@ const IssueForm = ({}: IssueFormProps) => {
         labels={labels}
         onSelect={handleSelectMenuItem}
       />
-      <div className="col-start-2 justify-self-end">
-        <CancleBtn onClick={handleFormReset} />
-      </div>
-      <div className="h-10 col-start-3">
-        <SubmitBtn active={isSubmitReady} onClick={handleFormSubmit} />
-      </div>
+      <CancleBtn onClick={handleFormReset} />
+      <SubmitBtn active={isSubmitReady} onClick={handleFormSubmit} />
     </>
   );
 };

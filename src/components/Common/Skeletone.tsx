@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { avatarSize } from './Avatar';
 import Icon from '../ui/Icon';
 
@@ -7,7 +7,14 @@ type Size = 'sm' | 'md' | 'lg';
 type SizeProps = Pick<SkeletoneProps, 'size'>;
 
 interface SkeletoneProps {
-  type: 'list' | 'text' | 'avatar' | 'menuItem';
+  type:
+    | 'list'
+    | 'text'
+    | 'avatar'
+    | 'menuItem'
+    | 'title'
+    | 'sideBar'
+    | 'comment';
   size?: Size;
   children?: ReactNode;
 }
@@ -21,6 +28,9 @@ const Skeletone = ({ type, size = 'sm', children }: SkeletoneProps) => {
     menuItem: SKELETONE_COUNT.map((_, index) => (
       <Skeletone.MenuItem key={index} />
     )),
+    title: <Skeletone.Title />,
+    sideBar: <Skeletone.SideBar />,
+    comment: <Skeletone.Comment />,
   };
   return <>{children ? children : skeletoneTypes[type]}</>;
 };
@@ -71,6 +81,46 @@ Skeletone.MenuItem = () => {
       <Skeletone.Avatar />
       <Skeletone.Text size="md" />
     </li>
+  );
+};
+
+Skeletone.Title = () => {
+  return (
+    <div className="flex flex-col gap-3">
+      <div
+        className={`relative h-8 w-52 bg-gray-200 overflow-hidden ${skeletoneAnimaion}`}
+      />
+      <div className="flex gap-3">
+        <Skeletone.Text size="lg" />
+        <Skeletone.Text size="lg" />
+      </div>
+    </div>
+  );
+};
+
+Skeletone.SideBar = () => {
+  return (
+    <div className="w-[274px] h-max min-h-[381px] p-7 bg-neutralWeak border border-border rounded-lg">
+      <div className="flex flex-col gap-40">
+        <Skeletone.Text size="lg" />
+        <Skeletone.Text size="lg" />
+      </div>
+    </div>
+  );
+};
+
+Skeletone.Comment = () => {
+  return (
+    <div className="h-full rounded-lg border border-border">
+      <div className="h-16 flex items-center gap-3 p-3">
+        <Skeletone.Avatar />
+        <Skeletone.Text size="sm" />
+      </div>
+      <div className="h-16 px-3 flex items-center gap-3 bg-white rounded-b-lg">
+        <Skeletone.Text size="lg" />
+        <Skeletone.Text size="md" />
+      </div>
+    </div>
   );
 };
 

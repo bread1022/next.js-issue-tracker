@@ -3,7 +3,7 @@ import { HTMLAttributes, forwardRef } from 'react';
 
 interface TitleEditorProps extends HTMLAttributes<HTMLInputElement> {
   id: string;
-  title: string;
+  title?: string;
   isEdit: boolean;
 }
 

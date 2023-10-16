@@ -5,6 +5,7 @@ export const colors = {
   primary: '#2563eb',
   secondary: '#173FAD',
   indigo: '#172554',
+  red: '#CD1039',
   white: '#fff',
   neutral: '#f4f4f5',
   neutralText: '#e4e4e7',

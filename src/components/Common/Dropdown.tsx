@@ -64,7 +64,7 @@ const Dropdown = ({
   });
 
   return (
-    <div ref={containerRef} className="h-[inherit]">
+    <div ref={containerRef} className="relative h-[inherit]">
       <Dropdown.Button size={size} label={label} onClick={handleMenuBtnClick} />
       {isMenuOpen && (
         <Dropdown.Menu ref={menuRef} style={menuPosition}>

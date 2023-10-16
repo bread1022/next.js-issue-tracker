@@ -4,17 +4,18 @@ import useSWR from 'swr';
 import { CommentType } from '@/app/model/issue';
 import TextArea from '../../Common/TextArea';
 import { ChangeEvent, useState } from 'react';
-import Icon from '../../ui/Icon';
-import Button from '../../Common/Button';
 import Comment from './Comment';
+import SubmitCommentBtn from './SubmitCommentBtn';
+import Skeletone from '@/components/Common/Skeletone';
 
 interface CommentsContainerProps {
   id: string;
 }
 
 const CommentsContainer = ({ id }: CommentsContainerProps) => {
-  const { data, error, isLoading } = useSWR(`/api/issues/${id}/comments`);
-  const comments: CommentType[] = data?.comments;
+  const { data: comments, isLoading } = useSWR<CommentType[]>(
+    `/api/issues/${id}/comments`,
+  );
 
   const [value, setValue] = useState('');
 
@@ -29,12 +30,16 @@ const CommentsContainer = ({ id }: CommentsContainerProps) => {
   return (
     <div className="grid gap-4">
       <ul>
-        {comments &&
+        {isLoading ? (
+          <Skeletone type="comment" />
+        ) : (
+          comments &&
           comments.map((comment) => (
             <li key={comment.comment} className="pb-4">
               <Comment {...comment} />
             </li>
-          ))}
+          ))
+        )}
       </ul>
       <TextArea
         id="issue-comment"
@@ -42,17 +47,10 @@ const CommentsContainer = ({ id }: CommentsContainerProps) => {
         value={value}
         onChange={handleNewComment}
       />
-      <div className="justify-self-end">
-        <Button
-          active={value.length > 0}
-          mode="primary"
-          type="submit"
-          onClick={handleNewCommentSubmit}
-        >
-          <Icon name="Plus" color="white" />
-          코맨트 작성
-        </Button>
-      </div>
+      <SubmitCommentBtn
+        active={value.length > 0}
+        onSubmit={handleNewCommentSubmit}
+      />
     </div>
   );
 };
