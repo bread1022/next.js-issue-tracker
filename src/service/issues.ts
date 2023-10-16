@@ -39,6 +39,7 @@ export async function getIssueById({ id, username }: IssueById) {
   "isOpen": isOpen,
   "authorId": author->userId,
   "authorImage": author->userImage,
+  "authorName": author->name,
   "mainComment": contents,
   "labels": labels[]->{labelName, backgroundColor, fontColor},
   "assignees": assignees[]->{userId, "userImage": userImage},
@@ -49,7 +50,14 @@ export async function getIssueById({ id, username }: IssueById) {
 }`,
     )
     .then((data) => {
-      const { authorId, authorImage, mainComment, comments, ...rest } = data;
+      const {
+        authorId,
+        authorImage,
+        authorName,
+        mainComment,
+        comments,
+        ...rest
+      } = data;
       const newComments = [
         {
           authorId,
@@ -57,7 +65,7 @@ export async function getIssueById({ id, username }: IssueById) {
           comment: mainComment,
           createdAt: rest.createdAt,
           updatedAt: rest.updatedAt,
-          isMine: rest.isMine,
+          isMine: authorName === username,
         },
         ...(comments || []),
       ];

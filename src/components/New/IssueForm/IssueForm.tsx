@@ -5,42 +5,57 @@ import TextInput from '@/components/Common/TextInput';
 import CancleBtn from '../CancleBtn';
 import { ChangeEvent, useState } from 'react';
 import SubmitBtn from '../SubmitBtn';
-import SideBar from './SideBar/SideBar';
+import SideBar from '../SideBar';
+import { MenuItemValue } from '../SideBar/constant';
+import { SideBarItem } from '../SideBar/SideBarDropdown';
 
 interface IssueFormProps {}
 
 const IssueForm = ({}: IssueFormProps) => {
-  const [value, setValue] = useState('');
-  const [text, setText] = useState('');
-  const [selectedItem, setSelectedItem] = useState<string[]>([]);
+  const [title, setTitle] = useState('');
+  const [comment, setComment] = useState('');
+  const [assignees, setAssignees] = useState<SideBarItem[]>([]);
+  const [labels, setLabels] = useState<SideBarItem[]>([]);
 
-  const isSubmitReady = value.length > 0 && text.length > 0;
+  const isSubmitReady = title.length > 0 && comment.length > 0;
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setTitle(e.target.value);
 
-  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-  };
+  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
+    setComment(e.target.value);
 
-  const handleSelectMenuItem = (item: string) => {
-    setSelectedItem((prev) => {
-      if (prev.includes(item)) {
-        return prev.filter((value) => value !== item);
+  //TODO: 아이템클릭시, 해당 value에 해당 MenuItem POST
+  const handleSelectMenuItem = (value: MenuItemValue, item: SideBarItem) => {
+    if (value === 'assignees') {
+      const isExist = assignees.find(
+        (assignee) => assignee.menuItem === item.menuItem,
+      );
+      if (isExist) {
+        setAssignees(
+          assignees.filter((assignee) => assignee.menuItem !== item.menuItem),
+        );
+      } else {
+        setAssignees([...assignees, item]);
       }
-      return [...prev, item];
-    });
+    } else if (value === 'labels') {
+      const isExist = labels.find((label) => label.menuItem === item.menuItem);
+      if (isExist) {
+        setLabels(labels.filter((label) => label.menuItem !== item.menuItem));
+      } else {
+        setLabels([...labels, item]);
+      }
+    }
   };
 
   const handleFormReset = () => {
-    setValue('');
-    setText('');
+    setTitle('');
+    setComment('');
   };
 
   const handleFormSubmit = () => {
     // TODO: POST /api/issues
-    console.log('완료', value, text);
+    console.log('완료', title, comment);
   };
 
   return (
@@ -49,17 +64,21 @@ const IssueForm = ({}: IssueFormProps) => {
         <TextInput
           id="title"
           placeholder="제목"
-          value={value}
+          value={title}
           onChange={handleInputChange}
         />
         <TextArea
           id="contents"
           placeholder="코멘트를 입력하세요"
-          value={text}
+          value={comment}
           onChange={handleTextAreaChange}
         />
       </form>
-      <SideBar selectedItem={selectedItem} onSelect={handleSelectMenuItem} />
+      <SideBar
+        assignees={assignees}
+        labels={labels}
+        onSelect={handleSelectMenuItem}
+      />
       <div className="col-start-2 justify-self-end">
         <CancleBtn onClick={handleFormReset} />
       </div>

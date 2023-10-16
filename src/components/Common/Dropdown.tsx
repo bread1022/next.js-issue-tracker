@@ -4,11 +4,15 @@ import Button from './Button';
 import Icon from '../ui/Icon';
 import useModalOutside from '@/hook/useClickOutside';
 import useCalculateMenuPosition from '@/hook/useCalculateMenuPosition';
+import Avatar from './Avatar';
+import { MenuItemValue } from '../New/SideBar/constant';
+import { SideBarItem } from '../New/SideBar';
 
 interface DropdownMenuBtnProps {
+  size?: 'sm' | 'lg';
   label: string;
   onClick?: () => void;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 interface DropdownMenuProps extends HTMLAttributes<HTMLDivElement> {
@@ -17,7 +21,6 @@ interface DropdownMenuProps extends HTMLAttributes<HTMLDivElement> {
 
 interface DropdownProps extends DropdownMenuBtnProps {
   menuTitle?: string;
-  size?: 'sm' | 'lg';
 }
 
 interface DropdownItemProps {
@@ -25,8 +28,13 @@ interface DropdownItemProps {
   value: string;
   selectedItem?: string[]; // TODO 타입 설정 구체화
   hasIcon?: boolean;
-  onSelect: (item: string) => void;
+  onSelect: (value: string) => void;
   children?: ReactNode;
+}
+
+interface DropdownSidebarItemProps extends SideBarItem {
+  value: MenuItemValue;
+  onSelect: (value: MenuItemValue, item: string) => void;
 }
 
 const Dropdown = ({
@@ -39,7 +47,7 @@ const Dropdown = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuBtnClick = () => {
-    onClick && onClick(); // TODO: item 메뉴를 클릭하면 바로, button 아래에 <SelectedUsers /> <SelectedLabels/> 표시
+    onClick && onClick();
     handleMenuToggle();
   };
 
@@ -56,18 +64,8 @@ const Dropdown = ({
   });
 
   return (
-    <div ref={containerRef} className="relative h-[inherit]">
-      <div className={getDropdownSize(size)}>
-        <Button
-          onClick={handleMenuBtnClick}
-          mode="ghost"
-          justify={getButtonIconJustify(size)}
-          size="lg"
-        >
-          {label}
-          <Icon name="ArrowDown" color="text" />
-        </Button>
-      </div>
+    <div ref={containerRef} className="h-[inherit]">
+      <Dropdown.Button size={size} label={label} onClick={handleMenuBtnClick} />
       {isMenuOpen && (
         <Dropdown.Menu ref={menuRef} style={menuPosition}>
           {menuTitle && <Dropdown.Header>{menuTitle}</Dropdown.Header>}
@@ -76,6 +74,22 @@ const Dropdown = ({
           </ul>
         </Dropdown.Menu>
       )}
+    </div>
+  );
+};
+
+Dropdown.Button = ({ size = 'lg', label, onClick }: DropdownMenuBtnProps) => {
+  return (
+    <div className={`${getDropdownSize(size)}`}>
+      <Button
+        onClick={onClick}
+        mode="ghost"
+        justify={getButtonIconJustify(size)}
+        size="lg"
+      >
+        {label}
+        <Icon name="ArrowDown" color="text" />
+      </Button>
     </div>
   );
 };
@@ -127,7 +141,33 @@ Dropdown.Item = ({
   );
 };
 
-const getDropdownSize = (size: 'sm' | 'lg') => {
+Dropdown.SidebarItem = ({
+  value,
+  menuIcon,
+  menuItem,
+  menuColor,
+  selected,
+  onSelect,
+}: DropdownSidebarItemProps) => {
+  return (
+    <li
+      className={getItemStyle(true, selected, false)}
+      onClick={() => onSelect(value, menuItem)}
+    >
+      <Avatar
+        key={menuItem}
+        src={menuColor ? undefined : menuIcon}
+        alt={menuItem}
+        backgroundColor={menuColor && menuIcon}
+        size="sm"
+      />
+      <span className="grow">{menuItem}</span>
+      <CheckCircle checked={selected} />
+    </li>
+  );
+};
+
+export const getDropdownSize = (size: 'sm' | 'lg') => {
   const dropdownSizes = {
     sm: 'h-full w-20',
     lg: 'h-16 w-52',
@@ -135,7 +175,7 @@ const getDropdownSize = (size: 'sm' | 'lg') => {
   return dropdownSizes[size];
 };
 
-const getButtonIconJustify = (size: 'sm' | 'lg') => {
+export const getButtonIconJustify = (size: 'sm' | 'lg') => {
   return size === 'sm' ? 'center' : 'between';
 };
 

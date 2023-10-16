@@ -21,6 +21,7 @@ const IssueTable = () => {
   const [checkState, setCheckState] = useState(false);
   const handleCheck = () => console.log('아이템 체크');
 
+  //TODO: 항목별로 따로 관리해야되지!!!
   const [selectedItem, setSelectedItem] = useState<string[]>([]);
   const handleSelectOption = (item: string) => {
     if (selectedItem.includes(item)) {
