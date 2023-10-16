@@ -1,6 +1,6 @@
 import useFocus from '@/hook/useFocus';
 import { useRef, TextareaHTMLAttributes, useState } from 'react';
-import Icon from '../ui/Icon';
+import Icon from '../../ui/Icon';
 import useAutoSizeTextArea from '@/hook/useAutoSizeTextArea';
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   id: string;

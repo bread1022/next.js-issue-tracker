@@ -1,9 +1,9 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import Avatar from './Avatar';
-import SignInOutButton from '../Signin/SignInOutButton';
-import Logo from './Logo';
+import Avatar from '../Avatar';
+import SignInOutButton from '../../Signin/SignInOutButton';
+import Logo from '../Logo';
 import Link from 'next/link';
 
 export default function Header() {

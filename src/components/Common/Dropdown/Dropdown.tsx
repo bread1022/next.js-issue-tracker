@@ -1,12 +1,12 @@
 import { HTMLAttributes, ReactNode, forwardRef, useRef, useState } from 'react';
-import CheckCircle from './CheckCircle';
-import Button from './Button';
-import Icon from '../ui/Icon';
+import CheckCircle from '../CheckCircle';
+import Button from '../Button';
+import Icon from '../../ui/Icon';
 import useModalOutside from '@/hook/useClickOutside';
 import useCalculateMenuPosition from '@/hook/useCalculateMenuPosition';
-import Avatar from './Avatar';
-import { MenuItemValue } from '../New/SideBar/constant';
-import { SideBarItem } from '../New/SideBar';
+import Avatar from '../Avatar';
+import { MenuItemValue } from '../../New/SideBar/constant';
+import { SideBarItem } from '../../New/SideBar';
 
 interface DropdownMenuBtnProps {
   size?: 'sm' | 'lg';

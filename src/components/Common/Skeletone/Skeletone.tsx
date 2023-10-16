@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { avatarSize } from './Avatar';
-import Icon from '../ui/Icon';
+import { avatarSize } from '../Avatar';
+import Icon from '../../ui/Icon';
 
 type Size = 'sm' | 'md' | 'lg';
 
@@ -112,7 +112,7 @@ Skeletone.SideBar = () => {
 Skeletone.Comment = () => {
   return (
     <div className="h-full rounded-lg border border-border">
-      <div className="h-16 flex items-center gap-3 p-3">
+      <div className="h-16 bg-neutral border-b border-border flex items-center gap-3 p-3">
         <Skeletone.Avatar />
         <Skeletone.Text size="sm" />
       </div>

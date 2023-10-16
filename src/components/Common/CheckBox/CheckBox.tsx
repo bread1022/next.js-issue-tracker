@@ -1,4 +1,4 @@
-import Icon from '../ui/Icon';
+import Icon from '../../ui/Icon';
 
 interface CheckBoxProps {
   id: 'all' | number;

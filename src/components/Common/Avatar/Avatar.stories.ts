@@ -9,7 +9,7 @@ const meta = {
     layout: 'centered',
   },
   argTypes: {
-    src: { control: 'text' },
+    size: { control: 'radio', options: ['sm', 'md', 'lg'] },
   },
 } satisfies Meta<typeof Avatar>;
 
