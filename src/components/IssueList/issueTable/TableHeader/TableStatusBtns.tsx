@@ -1,15 +1,23 @@
 import Button from '@/components/Common/Button';
 import Icon from '@/components/ui/Icon';
 
+export interface IssueCountType {
+  openCount: number;
+  closeCount: number;
+}
+
 interface TableStatusBtnsProps {
+  issueCount: IssueCountType;
   isOpen: boolean;
   onClick: (type: 'open' | 'close') => void;
 }
 
-const TableStatusBtns = ({ isOpen, onClick }: TableStatusBtnsProps) => {
-  // const { openCount, closeCount } = countInfo();
-  // TODO: count정보를 프로받기에는 드릴링이 있음. serveice로 분리해야할듯
-  const { openCount, closeCount } = { openCount: 0, closeCount: 0 };
+const TableStatusBtns = ({
+  issueCount,
+  isOpen,
+  onClick,
+}: TableStatusBtnsProps) => {
+  const { openCount, closeCount } = issueCount;
 
   const handleOpenClick = () => !isOpen && onClick('open');
 

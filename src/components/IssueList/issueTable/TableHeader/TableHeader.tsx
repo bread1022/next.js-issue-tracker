@@ -1,10 +1,11 @@
 import CheckBox from '@/components/Common/CheckBox';
 import TableSelectMenu from './TableSelectMenu/TableSelectMenu';
-import TableStatusBtns from './TableStatusBtns';
+import TableStatusBtns, { IssueCountType } from './TableStatusBtns';
 import { useState } from 'react';
 import StatusSelectMenu from './StatusSelectMenu/StatusSelectMenu';
 
 interface TableHeaderProps {
+  issueCount: IssueCountType;
   isOpen: boolean;
   selectedItem: string[];
   onStatusBtnClick: (type: 'open' | 'close') => void;
@@ -12,6 +13,7 @@ interface TableHeaderProps {
 }
 
 const TableHeader = ({
+  issueCount,
   isOpen,
   onStatusBtnClick,
   selectedItem,
@@ -35,7 +37,11 @@ const TableHeader = ({
         />
       ) : (
         <>
-          <TableStatusBtns isOpen={isOpen} onClick={onStatusBtnClick} />
+          <TableStatusBtns
+            issueCount={issueCount}
+            isOpen={isOpen}
+            onClick={onStatusBtnClick}
+          />
           <TableSelectMenu
             selectedItem={selectedItem}
             onClick={onSelectedOption}

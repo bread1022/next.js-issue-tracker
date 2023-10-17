@@ -7,9 +7,14 @@ import TableHeader from './TableHeader';
 import IssueItem from './IssueItem/IssueItem';
 import Skeletone from '@/components/Common/Skeletone';
 import IssueEmptyItem from './IssueItem/IssueEmptyItem';
+import { IssueCountType } from './TableHeader/TableStatusBtns';
+
+interface IssueTableProps {
+  issueCount: IssueCountType;
+}
 
 // TODO: checkBox 상태관리는 여기서
-const IssueTable = () => {
+const IssueTable = ({ issueCount }: IssueTableProps) => {
   const { data: issues, isLoading } = useSWR<IssueType[]>('/api/issues');
 
   const [openStatus, setOpenStatus] = useState(true);
@@ -35,6 +40,7 @@ const IssueTable = () => {
   return (
     <div className="rounded-lg border border-border">
       <TableHeader
+        issueCount={issueCount}
         isOpen={openStatus}
         onStatusBtnClick={handleStatusBtn}
         selectedItem={selectedItem}

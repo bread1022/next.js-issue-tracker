@@ -18,9 +18,11 @@ const issueFields = `
 
 export async function getIssueCount() {
   return client.fetch(`{
-    "openCount": count(*[_type == "issue" && isOpen == true]),
-    "closeCount": count(*[_type == "issue" && isOpen == false]),
-    "labelCount": count(*[_type == "label"]),
+    "label": count(*[_type == "label"]),
+    "issue" : {
+      "openCount": count(*[_type == "issue" && isOpen == true]),
+      "closeCount": count(*[_type == "issue" && isOpen == false]),
+    }
   }
   `);
 }

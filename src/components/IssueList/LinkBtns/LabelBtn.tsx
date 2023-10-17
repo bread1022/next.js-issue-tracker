@@ -2,7 +2,7 @@ import Button from '../../Common/Button';
 import Icon from '../../ui/Icon';
 
 interface LabelBtnProps {
-  count?: number;
+  count: number;
 }
 
 const LabelBtn = ({ count }: LabelBtnProps) => {

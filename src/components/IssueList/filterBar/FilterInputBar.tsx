@@ -1,5 +1,3 @@
-'use client';
-
 import useFocus from '@/hook/useFocus';
 import Icon from '@/components/ui/Icon';
 import Dropdown from '@/components/Common/Dropdown';
