@@ -2,13 +2,27 @@ import useFocus from '@/hook/useFocus';
 import Icon from '@/components/ui/Icon';
 import Dropdown from '@/components/Common/Dropdown';
 import { FILTERBAR_MENU } from './constant';
+import {
+  FilterType,
+  getPlaceholder,
+  getSelectedFilterBarItem,
+} from '@/service/filter';
+import { FilterState } from '@/context/IssueFilterContext';
 
-interface FilterInputBarProps {}
+interface FilterInputBarProps {
+  filterState: FilterState;
+  onSelect: (value: FilterType) => void;
+}
 
-const FilterInputBar = ({}: FilterInputBarProps) => {
+const FilterInputBar = ({ filterState, onSelect }: FilterInputBarProps) => {
   const { isFocus, onFocus, onBlur } = useFocus();
 
-  const handleSelectFilter = () => console.log('필터 선택');
+  const handleFilterSelect = (value: string) => onSelect(value as FilterType);
+
+  const currentPlaceholder = getPlaceholder(filterState);
+
+  const isSelected = (value: FilterType) =>
+    getSelectedFilterBarItem(filterState, value);
 
   return (
     <div className={`h-[40px] flex items-center rounded-mds text-sm`}>
@@ -20,8 +34,8 @@ const FilterInputBar = ({}: FilterInputBarProps) => {
                 key={item.label}
                 item={item.label}
                 value={item.value}
-                selectedItem={[]}
-                onSelect={handleSelectFilter}
+                isSelected={isSelected(item.value)}
+                onSelect={handleFilterSelect}
               />
             ))}
           </Dropdown>
@@ -38,7 +52,7 @@ const FilterInputBar = ({}: FilterInputBarProps) => {
           onBlur={onBlur}
           id="filterbar"
           type="text"
-          placeholder={'initial filter status'}
+          placeholder={currentPlaceholder}
           className={getInputStyle(isFocus)}
         />
       </label>
@@ -50,7 +64,7 @@ const getInputStyle = (isFocus: boolean) => {
   const focusStyle = 'bg-white border-primary';
   const blurStyle = 'bg-neutralText border-border';
 
-  return `block w-80 h-[40px] pl-9 pr-3 rounded-r-md overflow-hidden outline-none border  ${
+  return `block min-w-[30rem] w-full h-[40px] pl-9 pr-3 rounded-r-md overflow-hidden outline-none border  ${
     isFocus ? focusStyle : blurStyle
   } placeholder:text-textLight`;
 };

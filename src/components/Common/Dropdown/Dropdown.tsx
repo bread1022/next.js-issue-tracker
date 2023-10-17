@@ -26,7 +26,7 @@ interface DropdownProps extends DropdownMenuBtnProps {
 interface DropdownItemProps {
   item: string;
   value: string;
-  selectedItem?: string[]; // TODO 타입 설정 구체화
+  isSelected?: boolean;
   hasIcon?: boolean;
   onSelect: (value: string) => void;
   children?: ReactNode;
@@ -119,12 +119,11 @@ Dropdown.Header = ({ children }: { children: ReactNode }) => {
 Dropdown.Item = ({
   item,
   value,
-  selectedItem = [],
+  isSelected = false,
   hasIcon = true,
   onSelect,
   children,
 }: DropdownItemProps) => {
-  const isSelected = selectedItem.includes(value);
   const isDefault = children === undefined;
 
   const handleSelect = () => onSelect(value);

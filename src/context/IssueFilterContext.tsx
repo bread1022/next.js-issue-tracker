@@ -23,6 +23,14 @@ enum FilterActionType {
   FILTER_COMMENT_BY_ME = 'FILTER_COMMENT_BY_ME', // 무조건 me (username)
 }
 
+export interface FilterState {
+  isOpen: boolean | null;
+  author: string | null;
+  labels: string[];
+  assignee: string | null;
+  comment: string | null;
+}
+
 interface Action {
   type: FilterActionType;
   payload:
@@ -35,32 +43,27 @@ interface Action {
     | {};
 }
 
-interface FilterState {
-  isOpen: boolean;
-  author: string | null;
-  labels: string[];
-  assignee: string | null;
-  comment: string | null;
-}
-
 const reducer = (state: FilterState, action: Action): FilterState => {
-  const { author, labels, assignee, comment } = state;
+  const { isOpen, author, labels, assignee, comment } = state;
   const { type, payload } = action;
 
   switch (type) {
-    case FilterActionType.RESET_FILTER:
+    case FilterActionType.RESET_FILTER: {
       return initialState;
-    case FilterActionType.FILTER_OPEN:
+    }
+    case FilterActionType.FILTER_OPEN: {
       return {
         ...state,
-        isOpen: true,
+        isOpen: isOpen === true ? null : true,
       };
-    case FilterActionType.FILTER_CLOSE:
+    }
+    case FilterActionType.FILTER_CLOSE: {
       return {
         ...state,
-        isOpen: false,
+        isOpen: isOpen === false ? null : false,
       };
-    case FilterActionType.FILTER_AUTHOR:
+    }
+    case FilterActionType.FILTER_AUTHOR: {
       if ('username' in payload) {
         const updateState = {
           ...state,
@@ -69,7 +72,8 @@ const reducer = (state: FilterState, action: Action): FilterState => {
         return updateState;
       }
       return state;
-    case FilterActionType.FILTER_LABEL:
+    }
+    case FilterActionType.FILTER_LABEL: {
       if ('label' in payload) {
         const updateState = {
           ...state,
@@ -80,7 +84,8 @@ const reducer = (state: FilterState, action: Action): FilterState => {
         return updateState;
       }
       return state;
-    case FilterActionType.FILTER_ASSIGNEE:
+    }
+    case FilterActionType.FILTER_ASSIGNEE: {
       if ('username' in payload) {
         const updateState = {
           ...state,
@@ -89,7 +94,8 @@ const reducer = (state: FilterState, action: Action): FilterState => {
         return updateState;
       }
       return state;
-    case FilterActionType.FILTER_COMMENT_BY_ME:
+    }
+    case FilterActionType.FILTER_COMMENT_BY_ME: {
       if ('username' in payload) {
         const updateState = {
           ...state,
@@ -98,6 +104,7 @@ const reducer = (state: FilterState, action: Action): FilterState => {
         return updateState;
       }
       return state;
+    }
     default:
       return state;
   }
@@ -113,7 +120,6 @@ export const initialState: FilterState = {
 
 const IssueFilterContext = createContext({
   filterState: initialState,
-  isInitial: true,
 });
 
 const IssueFilterDispatchContext = createContext({
@@ -128,16 +134,6 @@ const IssueFilterDispatchContext = createContext({
 
 const IssueFilterProvider = ({ children }: IssueFilterContextProps) => {
   const [filterState, dispatch] = useReducer(reducer, initialState);
-
-  const isInitial = useMemo(() => {
-    return (
-      filterState.isOpen === true &&
-      filterState.author === null &&
-      filterState.labels.length === 0 &&
-      filterState.assignee === null &&
-      filterState.comment === null
-    );
-  }, []);
 
   const onResetFilter = useCallback(
     () => dispatch({ type: FilterActionType.RESET_FILTER, payload: {} }),
@@ -156,13 +152,19 @@ const IssueFilterProvider = ({ children }: IssueFilterContextProps) => {
 
   const onFilterByAuthor = useCallback(
     (author: string) =>
-      dispatch({ type: FilterActionType.FILTER_AUTHOR, payload: { author } }),
+      dispatch({
+        type: FilterActionType.FILTER_AUTHOR,
+        payload: { username: author },
+      }),
     [],
   );
 
   const onFilterByLabels = useCallback(
     (label: string) =>
-      dispatch({ type: FilterActionType.FILTER_LABEL, payload: { label } }),
+      dispatch({
+        type: FilterActionType.FILTER_LABEL,
+        payload: { label: label },
+      }),
     [],
   );
 
@@ -170,7 +172,7 @@ const IssueFilterProvider = ({ children }: IssueFilterContextProps) => {
     (assignee: string) =>
       dispatch({
         type: FilterActionType.FILTER_ASSIGNEE,
-        payload: { assignee },
+        payload: { username: assignee },
       }),
     [],
   );
@@ -179,7 +181,7 @@ const IssueFilterProvider = ({ children }: IssueFilterContextProps) => {
     (comment: string) =>
       dispatch({
         type: FilterActionType.FILTER_COMMENT_BY_ME,
-        payload: { comment },
+        payload: { username: comment },
       }),
     [],
   );
@@ -197,7 +199,7 @@ const IssueFilterProvider = ({ children }: IssueFilterContextProps) => {
   }, []);
 
   return (
-    <IssueFilterContext.Provider value={{ filterState, isInitial }}>
+    <IssueFilterContext.Provider value={{ filterState }}>
       <IssueFilterDispatchContext.Provider value={filterDispatch}>
         {children}
       </IssueFilterDispatchContext.Provider>
@@ -206,8 +208,8 @@ const IssueFilterProvider = ({ children }: IssueFilterContextProps) => {
 };
 
 export const useIssueFilterState = () => {
-  const { filterState, isInitial } = useContext(IssueFilterContext);
-  return { filterState, isInitial };
+  const { filterState } = useContext(IssueFilterContext);
+  return filterState;
 };
 
 export const useIssueFilterDispatch = () => {
