@@ -55,7 +55,7 @@ const SubTitle = ({ id }: SubTitleProps) => {
   }, []);
 
   return (
-    <div className="h-full flex flex-col gap-3 mx-8 py-5 border-b border-border">
+    <div className="h-full flex flex-col gap-3 py-5 border-b border-border">
       {isLoading && <Skeletone type="title" />}
       {!isLoading && issue && (
         <>

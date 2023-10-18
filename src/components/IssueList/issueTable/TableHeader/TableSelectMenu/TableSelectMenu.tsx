@@ -1,60 +1,102 @@
-'use client';
-
 import Dropdown from '@/components/Common/Dropdown';
 import Avatar from '@/components/Common/Avatar';
 import { useState } from 'react';
-import fetcher from '@/lib/fetcher';
 import { ISSUE_SELECT_MENU } from './constant';
 import Skeletone from '@/components/Common/Skeletone';
+import useSWR from 'swr';
+import {
+  useIssueFilterDispatch,
+  useIssueFilterState,
+} from '@/context/IssueFilterContext';
+import { getSelectedMenuItems } from '@/service/filter';
+import { User } from '@/app/model/user';
+import { Label } from '@/app/model/label';
 
-interface TableSelectMenuProps {
-  selectedItem: string[];
-  onClick: (title: string) => void;
+interface TableSelectMenuItemProps {
+  item: string;
+  userImage?: string;
+  backgroundColor?: string;
 }
 
-const TableSelectMenu = ({ selectedItem, onClick }: TableSelectMenuProps) => {
-  const [items, setItems] = useState([]);
-  //TODO: fetcher 함수 이렇게 써도 되는 건지 확인
-  const handleSelectMenuBtnClick = (endpoint: string) => {
-    fetcher(endpoint).then(setItems);
+const TableSelectMenu = () => {
+  const [endpoint, setEndpoint] = useState('user');
+  const { data: item, isLoading } = useSWR(`/api/${endpoint}`);
+
+  const filterState = useIssueFilterState();
+  const { onFilterByAuthor, onFilterByLabels, onFilterByAssignee } =
+    useIssueFilterDispatch();
+
+  const formatMenuItems = (endpoint: string) => {
+    if (!item) return;
+    switch (endpoint) {
+      case 'user':
+        return item.map(({ userId, userImage }: User) => ({
+          item: userId,
+          userImage: userImage,
+        }));
+      case 'label':
+        return item.map(({ labelName, backgroundColor }: Label) => ({
+          item: labelName,
+          backgroundColor: backgroundColor,
+        }));
+      default: {
+        throw new Error('Invalid menu item value');
+      }
+    }
   };
 
-  const handleSelectItemClick = (item: string) => {
-    // TODO: Dropdown label에 따라 선택된 아이템 저장해야됨 (Dropdown label & item value 값)
-    onClick(item);
+  const items = formatMenuItems(endpoint);
+
+  const handleMenuBtnClick = (endpoint: string) => setEndpoint(endpoint);
+
+  const handleItemClick = (value: string, item: string) => {
+    const filterAction: Record<string, (item: string) => void> = {
+      author: onFilterByAuthor,
+      labels: onFilterByLabels,
+      assignee: onFilterByAssignee,
+    };
+    return filterAction[value](item);
   };
 
   return (
     <div className="w-64 grid grid-cols-3 gap-2">
-      {ISSUE_SELECT_MENU.map(({ label, menuTitle, endpoint }) => (
+      {ISSUE_SELECT_MENU.map(({ label, value, menuTitle, endpoint }) => (
         <Dropdown
           key={label}
           label={label}
           menuTitle={menuTitle}
-          onClick={() => handleSelectMenuBtnClick(endpoint)}
+          onClick={() => handleMenuBtnClick(endpoint)}
         >
-          {items.length > 0 ? (
+          {isLoading ? (
+            <Skeletone type="menuItem" />
+          ) : (
+            items?.length === 0 && (
+              <Dropdown.Empty>항목이 없습니다.</Dropdown.Empty>
+            )
+          )}
+          {items?.length > 0 &&
             items.map(
-              ({ id, userId, userImage, labelName, backgroundColor }) => (
+              ({
+                item,
+                userImage,
+                backgroundColor,
+              }: TableSelectMenuItemProps) => (
                 <Dropdown.Item
-                  key={id}
-                  item={userId || labelName}
-                  value={id}
-                  selectedItem={selectedItem}
-                  onSelect={handleSelectItemClick}
+                  key={item}
+                  value={value}
+                  item={item}
+                  isSelected={getSelectedMenuItems(filterState, value, item)}
+                  onSelect={handleItemClick}
                 >
                   <Avatar
                     src={userImage}
-                    alt={userId}
+                    alt={item}
                     backgroundColor={backgroundColor}
                     size="sm"
                   />
                 </Dropdown.Item>
               ),
-            )
-          ) : (
-            <Skeletone type="menuItem" />
-          )}
+            )}
         </Dropdown>
       ))}
     </div>

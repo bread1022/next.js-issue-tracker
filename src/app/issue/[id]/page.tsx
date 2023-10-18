@@ -14,7 +14,7 @@ export default async function IssueDetailPage({
   return (
     <>
       <SubTitle id={id} />
-      <div className="my-4 mx-8 grid grid-cols-[1fr_auto] gap-4">
+      <div className="my-4 grid grid-cols-[1fr_auto] gap-4">
         <CommentsContainer id={id} />
         <DetailSideBar id={id} />
       </div>

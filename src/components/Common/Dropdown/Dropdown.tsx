@@ -28,7 +28,7 @@ interface DropdownItemProps {
   value: string;
   isSelected?: boolean;
   hasIcon?: boolean;
-  onSelect: (value: string) => void;
+  onSelect: (value: string, item: string) => void;
   children?: ReactNode;
 }
 
@@ -48,13 +48,13 @@ const Dropdown = ({
 
   const handleMenuBtnClick = () => {
     onClick && onClick();
-    handleMenuToggle();
+    toggleMenu();
   };
 
-  const handleMenuToggle = () => setIsMenuOpen((prev) => !prev);
-  const handleMenuClose = () => setIsMenuOpen(false);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  const menuClose = () => setIsMenuOpen(false);
 
-  const containerRef = useModalOutside({ onClose: handleMenuClose });
+  const containerRef = useModalOutside({ onClose: menuClose });
   const menuRef = useRef<HTMLDivElement>(null);
 
   const menuPosition = useCalculateMenuPosition({
@@ -126,7 +126,7 @@ Dropdown.Item = ({
 }: DropdownItemProps) => {
   const isDefault = children === undefined;
 
-  const handleSelect = () => onSelect(value);
+  const handleSelect = () => onSelect(value, item);
 
   return (
     <li
@@ -136,6 +136,14 @@ Dropdown.Item = ({
       {children}
       <span className="grow">{item}</span>
       {hasIcon && <CheckCircle checked={isSelected} />}
+    </li>
+  );
+};
+
+Dropdown.Empty = ({ children }: { children: ReactNode }) => {
+  return (
+    <li className="h-[45px] leading-[45px] text-center">
+      <span>{children}</span>
     </li>
   );
 };

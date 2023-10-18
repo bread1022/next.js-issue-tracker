@@ -1,23 +1,13 @@
-import LabelBtn from './LinkBtns/LabelBtn';
-import NewIssueBtn from './LinkBtns/NewIssueBtn';
-import FilterBar from './FilterBar';
 import IssueTable from './IssueTable';
-import { getIssueCount } from '@/service/issues';
+import TableHeader from './IssueTable/TableHeader';
+import { IssueCountType } from './IssueTable/TableHeader/TableStatusBtns';
 
-const IssueList = async () => {
-  const countInfo = await getIssueCount();
-
+const IssueList = async (props: IssueCountType) => {
   return (
-    <>
-      <div className="flex justify-between">
-        <FilterBar />
-        <div className="h-full flex gap-3">
-          <LabelBtn count={countInfo.label} />
-          <NewIssueBtn />
-        </div>
-      </div>
-      <IssueTable issueCount={countInfo.issue} />
-    </>
+    <div className="rounded-lg border border-border">
+      <TableHeader issueCount={props} />
+      <IssueTable />
+    </div>
   );
 };
 

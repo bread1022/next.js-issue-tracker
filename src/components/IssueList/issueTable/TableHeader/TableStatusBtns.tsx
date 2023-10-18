@@ -1,27 +1,28 @@
 import Button from '@/components/Common/Button';
 import Icon from '@/components/ui/Icon';
+import {
+  useIssueFilterDispatch,
+  useIssueFilterState,
+} from '@/context/IssueFilterContext';
 
 export interface IssueCountType {
   openCount: number;
   closeCount: number;
 }
 
-interface TableStatusBtnsProps {
-  issueCount: IssueCountType;
-  isOpen: boolean;
-  onClick: (type: 'open' | 'close') => void;
-}
+const TableStatusBtns = ({ openCount, closeCount }: IssueCountType) => {
+  const { isOpen } = useIssueFilterState();
+  const { onFilterOpen, onFilterClose } = useIssueFilterDispatch();
 
-const TableStatusBtns = ({
-  issueCount,
-  isOpen,
-  onClick,
-}: TableStatusBtnsProps) => {
-  const { openCount, closeCount } = issueCount;
+  const handleOpenClick = () => {
+    if (isOpen) return;
+    onFilterOpen();
+  };
 
-  const handleOpenClick = () => !isOpen && onClick('open');
-
-  const handleCloseClick = () => isOpen && onClick('close');
+  const handleCloseClick = () => {
+    if (isOpen === false) return;
+    onFilterClose();
+  };
 
   return (
     <div className="flex">
@@ -33,7 +34,7 @@ const TableStatusBtns = ({
       </Button>
       <Button mode="ghost" size="max" onClick={handleCloseClick}>
         <Icon name="CloseIssue" />
-        <p className={`${!isOpen && 'font-semibold'}`}>
+        <p className={`${isOpen === false && 'font-semibold'}`}>
           닫힌 이슈 ({closeCount})
         </p>
       </Button>

@@ -22,7 +22,7 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
       <div className="mx-3 flex flex-col gap-2">
         <div className="flex items-center gap-2">
           {<Icon name={statusIcon} color="primary" />}
-          <Link href={`/issues/${id}`} className="font-semibold">
+          <Link href={`/issue/${id}`} className="font-semibold">
             {title}
           </Link>
           <ul className="flex gap-1">

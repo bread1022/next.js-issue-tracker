@@ -10,7 +10,7 @@ const NewPagelayout = ({ children }: NewPagelayoutProps) => {
       <h1 className="h-12 min-w-max px-2 mb-5 text-2xl border-b border-border">
         새로운 이슈 작성
       </h1>
-      <main className="grid grid-cols-[80px_minmax(650px,_1fr)_auto] gap-3">
+      <main className="grid grid-cols-[80px_minmax(450px,_1fr)_auto] gap-3">
         {children}
       </main>
     </section>

@@ -1,24 +1,16 @@
+'use client';
+
 import CheckBox from '@/components/Common/CheckBox';
 import TableSelectMenu from './TableSelectMenu/TableSelectMenu';
 import TableStatusBtns, { IssueCountType } from './TableStatusBtns';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import StatusSelectMenu from './StatusSelectMenu/StatusSelectMenu';
 
 interface TableHeaderProps {
   issueCount: IssueCountType;
-  isOpen: boolean;
-  selectedItem: string[];
-  onStatusBtnClick: (type: 'open' | 'close') => void;
-  onSelectedOption: (item: string) => void;
 }
 
-const TableHeader = ({
-  issueCount,
-  isOpen,
-  onStatusBtnClick,
-  selectedItem,
-  onSelectedOption,
-}: TableHeaderProps) => {
+const TableHeader = ({ issueCount }: TableHeaderProps) => {
   const [checked, setChecked] = useState(false);
 
   const handleAllCheck = () => console.log('체크박스 전체 체크');
@@ -37,19 +29,12 @@ const TableHeader = ({
         />
       ) : (
         <>
-          <TableStatusBtns
-            issueCount={issueCount}
-            isOpen={isOpen}
-            onClick={onStatusBtnClick}
-          />
-          <TableSelectMenu
-            selectedItem={selectedItem}
-            onClick={onSelectedOption}
-          />
+          <TableStatusBtns {...issueCount} />
+          <TableSelectMenu />
         </>
       )}
     </div>
   );
 };
 
-export default TableHeader;
+export default memo(TableHeader);

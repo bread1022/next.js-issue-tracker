@@ -37,6 +37,9 @@ const SideBar = ({ assignees, labels, onSelect }: SideBarProps) => {
           menuColor: item.fontColor,
           selected: labels.some((label) => label.menuItem === item.labelName),
         }));
+      default: {
+        throw new Error('Invalid menu item value');
+      }
     }
   };
 

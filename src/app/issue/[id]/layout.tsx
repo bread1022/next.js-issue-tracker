@@ -5,7 +5,7 @@ interface IssueDetaillayoutProps {
 }
 
 const IssueDetaillayout = ({ children }: IssueDetaillayoutProps) => {
-  return <section>{children}</section>;
+  return <section className="p-5">{children}</section>;
 };
 
 export default IssueDetaillayout;
