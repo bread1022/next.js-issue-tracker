@@ -3,7 +3,7 @@ import Icon from '@/components/ui/Icon';
 import Dropdown from '@/components/Common/Dropdown';
 import { FILTERBAR_MENU } from './constant';
 import {
-  FilterType,
+  FilterTypeWithoutLabels,
   getPlaceholder,
   getSelectedFilterBarItem,
 } from '@/service/filter';
@@ -11,17 +11,18 @@ import { FilterState } from '@/context/IssueFilterContext';
 
 interface FilterInputBarProps {
   filterState: FilterState;
-  onSelect: (value: FilterType) => void;
+  onSelect: (value: FilterTypeWithoutLabels) => void;
 }
 
 const FilterInputBar = ({ filterState, onSelect }: FilterInputBarProps) => {
   const { isFocus, onFocus, onBlur } = useFocus();
 
-  const handleFilterSelect = (value: string) => onSelect(value as FilterType);
+  const handleFilterSelect = (value: string) =>
+    onSelect(value as FilterTypeWithoutLabels);
 
   const currentPlaceholder = getPlaceholder(filterState);
 
-  const isSelected = (value: FilterType) =>
+  const isSelected = (value: FilterTypeWithoutLabels) =>
     getSelectedFilterBarItem(filterState, value);
 
   return (

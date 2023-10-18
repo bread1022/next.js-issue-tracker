@@ -1,19 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TextInput from './TextInput';
 
-const meta = {
+const meta: Meta<typeof TextInput> = {
   title: 'Common/TextInput',
   component: TextInput,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-  argTypes: {
-    id: { control: 'text' },
-    placeholder: { control: 'text' },
-    value: { control: 'text' },
-  },
-} satisfies Meta<typeof TextInput>;
+};
 
 export default meta;
 

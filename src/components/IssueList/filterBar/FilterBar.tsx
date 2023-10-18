@@ -20,7 +20,7 @@ const FilterBar = () => {
 
   const isFiltered = isFilterSet(filterState);
 
-  const handleFilterSelect = (value: FilterType) => {
+  const handleFilterSelect = (value: Exclude<FilterType, 'labels'>) => {
     const filterActions = {
       open: onFilterOpen,
       close: onFilterClose,

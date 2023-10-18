@@ -1,6 +1,4 @@
-import { Label } from '@/app/model/label';
-import { User } from '@/app/model/user';
-import { SelectMenuItemValue } from '@/components/IssueList/IssueTable/TableHeader/TableSelectMenu/constant';
+import { SelectMenuItemValue } from '@/components/IssueList/TableHeader/TableSelectMenu/constant';
 import { FilterState } from '@/context/IssueFilterContext';
 
 export type FilterType =
@@ -10,6 +8,8 @@ export type FilterType =
   | 'assignee'
   | 'comment'
   | 'labels';
+
+export type FilterTypeWithoutLabels = Exclude<FilterType, 'labels'>;
 
 export const getPlaceholder = (state: FilterState) => {
   const { isOpen, author, labels, assignee, comment } = state;
@@ -48,10 +48,10 @@ export const isFilterSet = (state: FilterState) => {
 
 export const getSelectedFilterBarItem = (
   state: FilterState,
-  value: Exclude<FilterType, 'labels'>,
+  value: FilterTypeWithoutLabels,
 ) => {
   const { isOpen, author, assignee, comment } = state;
-  const filterMap: Record<Exclude<FilterType, 'labels'>, () => boolean> = {
+  const filterMap: Record<FilterTypeWithoutLabels, () => boolean> = {
     open: () => isOpen === true,
     close: () => isOpen === false,
     author: () => author === 'me',

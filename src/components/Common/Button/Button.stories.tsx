@@ -1,24 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Button from './Button';
 
-const meta = {
+const meta: Meta<typeof Button> = {
   title: 'Common/Button',
   component: Button,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-  argTypes: {
-    size: { control: 'radio', options: ['sm', 'md', 'lg', 'max'] },
-    mode: {
-      control: 'radio',
-      options: ['default', 'primary', 'ghost', 'primaryGhost', 'black'],
-    },
-    active: { control: 'boolean' },
-    justify: { control: 'radio', options: ['center', 'between'] },
-    children: { control: 'text' },
-  },
-} satisfies Meta<typeof Button>;
+};
 
 export default meta;
 

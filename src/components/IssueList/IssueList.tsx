@@ -1,6 +1,6 @@
 import IssueTable from './IssueTable';
-import TableHeader from './IssueTable/TableHeader';
-import { IssueCountType } from './IssueTable/TableHeader/TableStatusBtns';
+import TableHeader from './TableHeader';
+import { IssueCountType } from './TableHeader/TableStatusBtns';
 
 const IssueList = async (props: IssueCountType) => {
   return (

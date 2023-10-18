@@ -1,17 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import CheckCircle from './CheckCircle';
 
-const meta = {
+const meta: Meta<typeof CheckCircle> = {
   title: 'Common/CheckCircle',
   component: CheckCircle,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-  argTypes: {
-    checked: { control: 'boolean' },
-  },
-} satisfies Meta<typeof CheckCircle>;
+};
 
 export default meta;
 

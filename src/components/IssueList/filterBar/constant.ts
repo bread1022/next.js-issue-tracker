@@ -1,11 +1,11 @@
-import { FilterType } from '@/service/filter';
+import { FilterTypeWithoutLabels } from '@/service/filter';
 
 interface FilterBarMenu {
   label: string;
   menuTitle: string;
   items: {
     label: string;
-    value: FilterType;
+    value: FilterTypeWithoutLabels;
   }[];
 }
 

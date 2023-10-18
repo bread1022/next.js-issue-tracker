@@ -1,20 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TextArea from './TextArea';
 
-const meta = {
+const meta: Meta<typeof TextArea> = {
   title: 'Common/TextArea',
   component: TextArea,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-  argTypes: {
-    id: { control: 'text' },
-    placeholder: { control: 'text' },
-    value: { control: 'text' },
-    half: { control: 'boolean' },
-  },
-} satisfies Meta<typeof TextArea>;
+};
 
 export default meta;
 

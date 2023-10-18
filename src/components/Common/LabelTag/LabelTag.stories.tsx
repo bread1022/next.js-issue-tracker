@@ -1,19 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import LabelTag from './LabelTag';
 
-const meta = {
+const meta: Meta<typeof LabelTag> = {
   title: 'Common/LabelTag',
   component: LabelTag,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-  argTypes: {
-    labelName: { control: 'text' },
-    backgroundColor: { control: 'color' },
-    fontColor: { control: 'radio', options: ['white', 'black'] },
-  },
-} satisfies Meta<typeof LabelTag>;
+};
 
 export default meta;
 

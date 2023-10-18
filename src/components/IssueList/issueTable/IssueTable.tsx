@@ -16,7 +16,6 @@ const IssueTable = () => {
   const { data: issues, isLoading } = useSWR<IssueType[]>(
     `/api/issues?${query}`,
   );
-  console.log('테이블');
 
   // TODO: 페이지 네이션 !!!
   return (
