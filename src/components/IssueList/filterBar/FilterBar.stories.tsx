@@ -24,6 +24,5 @@ export const FilterInputBar: Story = {
   ...Template,
   args: {
     filterstate: {},
-    onSelect: () => {},
   },
 };

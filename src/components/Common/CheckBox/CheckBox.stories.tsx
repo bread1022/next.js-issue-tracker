@@ -23,14 +23,14 @@ export const AllChecked: Story = {
 
 export const CheckedDefault: Story = {
   args: {
-    id: 1,
+    id: '153435',
     checked: true,
   },
 };
 
 export const UnChecked: Story = {
   args: {
-    id: 1,
+    id: '468735',
     checked: false,
   },
 };

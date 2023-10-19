@@ -4,10 +4,8 @@ import CommentEditor from './CommentEditor';
 import CommentHeader from './CommentHeader';
 import EditBtns from './EditBtns';
 
-interface CommentProps extends CommentType {}
-
 //TODO 마크업 표시 기능, 현재 코멘트에 대한 내용 편집 PATCH 기능
-const Comment = (props: CommentProps) => {
+const Comment = (props: CommentType) => {
   const { comment } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [value, setValue] = useState(comment);

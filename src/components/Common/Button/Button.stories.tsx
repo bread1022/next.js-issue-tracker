@@ -1,18 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Button from './Button';
+import Icon from '@/components/ui/Icon';
 
 const meta: Meta<typeof Button> = {
   title: 'Common/Button',
   component: Button,
   tags: ['autodocs'],
-  parameters: {
-    layout: 'centered',
-  },
 };
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+
+const Template: Story = {
+  render: (args) => (
+    <Button {...args}>
+      <Icon name="GitHub" color="white" />
+      {args.children}
+    </Button>
+  ),
+};
 
 export const GhostBtn: Story = {
   args: {
@@ -55,12 +62,12 @@ export const PrimaryGhostBtn: Story = {
 };
 
 export const GitHubBtn: Story = {
+  ...Template,
   args: {
-    size: 'max',
+    size: 'lg',
     mode: 'black',
     active: true,
     justify: 'center',
-    children: 'GitHub으로 이동',
-    //TODO: 아이콘 컴포넌트 조합하는 방법
+    children: 'GitHub 계정으로 로그인',
   },
 };

@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation';
 interface IssueDetailProps {
   id: string;
 }
-
+//** 전체 데이터 받아온 다음에, 뿌린다면 사용할 컴포넌트 */
 const IssueDetail = ({ id }: IssueDetailProps) => {
   const { data: issue, isLoading, error } = useSWR(`/api/issues/${id}`);
 

@@ -24,7 +24,7 @@ const CommentHeader = ({
   onEmojiBtn,
 }: CommentHeaderProps) => {
   return (
-    <div className="h-16 flex justify-between items-center p-3 border-b border-border">
+    <div className="h-16 flex justify-between items-center p-3 rounded-t-lg bg-neutralWeak border-b border-border">
       <div className="flex items-center gap-3">
         <Avatar src={authorImage} alt={authorId} />
         <span>{authorId}</span>
