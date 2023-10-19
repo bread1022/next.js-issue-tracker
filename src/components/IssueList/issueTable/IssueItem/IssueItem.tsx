@@ -9,7 +9,7 @@ import Link from 'next/link';
 interface issueItemProps {
   item: IssueType;
   checked: boolean;
-  onCheck: (id: number) => void;
+  onCheck: (id: string) => void;
 }
 
 const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {

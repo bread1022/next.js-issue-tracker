@@ -7,15 +7,29 @@ import Skeletone from '@/components/Common/Skeletone';
 import IssueEmptyItem from './IssueItem/IssueEmptyItem';
 import { useIssueFilterState } from '@/context/IssueFilterContext';
 import { createQuery } from '@/service/filter';
+import {
+  useIssueCheckDispatch,
+  useIssueCheckState,
+} from '@/context/IssueCheckContext';
+import { useEffect } from 'react';
 
-// TODO: checkBox 상태관리는 여기서
 const IssueTable = () => {
   const filterState = useIssueFilterState();
+  const { checkedAll, checkeditems } = useIssueCheckState();
+  const { onCheckAllIn, onCheck } = useIssueCheckDispatch();
   const query = createQuery(filterState);
 
   const { data: issues, isLoading } = useSWR<IssueType[]>(
     `/api/issues?${query}`,
   );
+
+  const handleCheckIssue = (id: string) => onCheck(id);
+
+  useEffect(() => {
+    if (!checkedAll) return;
+    const checkeditems = issues?.map((issue) => issue.id) || [];
+    onCheckAllIn(checkeditems);
+  }, [checkedAll]);
 
   // TODO: 페이지 네이션 !!!
   return (
@@ -28,8 +42,8 @@ const IssueTable = () => {
           <IssueItem
             key={issue.id}
             item={issue}
-            checked={false}
-            onCheck={() => console.log('아이템 id 선택 -> Checked')}
+            checked={checkeditems.includes(issue.id)}
+            onCheck={handleCheckIssue}
           />
         ))
       ) : (

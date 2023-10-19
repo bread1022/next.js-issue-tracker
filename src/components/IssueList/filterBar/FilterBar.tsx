@@ -1,39 +1,22 @@
 'use client';
 
-import {
-  useIssueFilterDispatch,
-  useIssueFilterState,
-} from '@/context/IssueFilterContext';
+import { useIssueFilterState } from '@/context/IssueFilterContext';
 import FilterInputBar from './FilterInputBar';
 import FilterResetBtn from './FilterResetBtn';
-import { FilterType, isFilterSet } from '@/service/filter';
 
 const FilterBar = () => {
   const filterState = useIssueFilterState();
-  const {
-    onFilterOpen,
-    onFilterClose,
-    onFilterByAuthor,
-    onFilterByAssignee,
-    onFilterByComment,
-  } = useIssueFilterDispatch();
-
-  const isFiltered = isFilterSet(filterState);
-
-  const handleFilterSelect = (value: Exclude<FilterType, 'labels'>) => {
-    const filterActions = {
-      open: onFilterOpen,
-      close: onFilterClose,
-      author: () => onFilterByAuthor('me'),
-      assignee: () => onFilterByAssignee('me'),
-      comment: () => onFilterByComment('me'),
-    };
-    return filterActions[value]();
-  };
+  const { isOpen, author, labels, assignee, comment } = filterState;
+  const isFiltered =
+    isOpen &&
+    author === null &&
+    labels.length === 0 &&
+    assignee === null &&
+    comment === null;
 
   return (
     <div className="w-max h-24 flex flex-col justify-between gap-3">
-      <FilterInputBar filterState={filterState} onSelect={handleFilterSelect} />
+      <FilterInputBar />
       {isFiltered || <FilterResetBtn />}
     </div>
   );

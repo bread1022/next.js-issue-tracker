@@ -35,18 +35,7 @@ export const createQuery = (state: FilterState) => {
   return items.filter((item) => item).join('&');
 };
 
-export const isFilterSet = (state: FilterState) => {
-  const { isOpen, author, labels, assignee, comment } = state;
-  return (
-    isOpen &&
-    author === null &&
-    labels.length === 0 &&
-    assignee === null &&
-    comment === null
-  );
-};
-
-export const getSelectedFilterBarItem = (
+export const checkSelectedItem = (
   state: FilterState,
   value: FilterTypeWithoutLabels,
 ) => {

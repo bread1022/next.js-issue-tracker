@@ -1,12 +1,15 @@
+import IssueCheckProvider from '@/context/IssueCheckContext';
 import IssueTable from './IssueTable';
 import TableHeader from './TableHeader';
 import { IssueCountType } from './TableHeader/TableStatusBtns';
 
-const IssueList = async (props: IssueCountType) => {
+const IssueList = (props: IssueCountType) => {
   return (
     <div className="rounded-lg border border-border">
-      <TableHeader issueCount={props} />
-      <IssueTable />
+      <IssueCheckProvider>
+        <TableHeader issueCount={props} />
+        <IssueTable />
+      </IssueCheckProvider>
     </div>
   );
 };

@@ -64,46 +64,38 @@ const reducer = (state: FilterState, action: Action): FilterState => {
       };
     }
     case FilterActionType.FILTER_AUTHOR: {
-      if ('username' in payload) {
-        const updateState = {
-          ...state,
-          author: author === payload.username ? null : payload.username,
-        };
-        return updateState;
-      }
-      return state;
+      if (!('username' in payload)) return state;
+      const updateState = {
+        ...state,
+        author: author === payload.username ? null : payload.username,
+      };
+      return updateState;
     }
     case FilterActionType.FILTER_LABEL: {
-      if ('label' in payload) {
-        const updateState = {
-          ...state,
-          labels: labels.includes(payload.label)
-            ? labels.filter((label) => label !== payload.label)
-            : [...labels, payload.label],
-        };
-        return updateState;
-      }
-      return state;
+      if (!('label' in payload)) return state;
+      const updateState = {
+        ...state,
+        labels: labels.includes(payload.label)
+          ? labels.filter((label) => label !== payload.label)
+          : [...labels, payload.label],
+      };
+      return updateState;
     }
     case FilterActionType.FILTER_ASSIGNEE: {
-      if ('username' in payload) {
-        const updateState = {
-          ...state,
-          assignee: assignee === payload.username ? null : payload.username,
-        };
-        return updateState;
-      }
-      return state;
+      if (!('username' in payload)) return state;
+      const updateState = {
+        ...state,
+        assignee: assignee === payload.username ? null : payload.username,
+      };
+      return updateState;
     }
     case FilterActionType.FILTER_COMMENT_BY_ME: {
-      if ('username' in payload) {
-        const updateState = {
-          ...state,
-          comment: comment === payload.username ? null : payload.username,
-        };
-        return updateState;
-      }
-      return state;
+      if (!('username' in payload)) return state;
+      const updateState = {
+        ...state,
+        comment: comment === payload.username ? null : payload.username,
+      };
+      return updateState;
     }
     default:
       return state;

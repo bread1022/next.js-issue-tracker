@@ -1,9 +1,9 @@
 import Icon from '../../ui/Icon';
 
 interface CheckBoxProps {
-  id: 'all' | number;
+  id: 'all' | string;
   checked: boolean;
-  onClick: (id: number) => void;
+  onClick: (id: string) => void;
 }
 
 const checkBoxFillIcons = {
@@ -13,9 +13,8 @@ const checkBoxFillIcons = {
 
 const CheckBox = ({ id, checked, onClick }: CheckBoxProps) => {
   const type = id === 'all' ? 'all' : 'default';
-  const itemId = id === 'all' ? 0 : id;
 
-  const handleCheckBoxClick = () => onClick(itemId);
+  const handleCheckBoxClick = () => onClick(id);
 
   return (
     <button onClick={handleCheckBoxClick} className="cursor-pointer m-auto">

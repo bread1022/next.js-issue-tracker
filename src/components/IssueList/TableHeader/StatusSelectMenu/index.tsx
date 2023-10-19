@@ -1,1 +1,1 @@
-export { default } from './StatusSelectMenu';
+export { default } from './SwitchStatusMenu';

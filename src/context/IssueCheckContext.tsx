@@ -15,6 +15,7 @@ interface IssueCheckContextProps {
 
 enum CheckActionType {
   ALL_CHECK = 'ALL_CHECK',
+  ALL_CHECK_IN = 'ALL_CHECK_IN',
   CHECK = 'CHECK',
   ALL_UNCHECK = 'ALL_UNCHECK',
   SWITCH_CHECK = 'SWITCH_CHECK',
@@ -33,7 +34,7 @@ interface Action {
 }
 
 interface CheckState {
-  isAllChecked: boolean;
+  checkedAll: boolean;
   checkeditems: string[]; // Issue Id 저장
 }
 
@@ -43,40 +44,41 @@ const reducer = (state: CheckState, action: Action): CheckState => {
 
   switch (type) {
     case CheckActionType.ALL_CHECK: {
-      if ('checkeditems' in payload)
-        return {
-          ...state,
-          isAllChecked: true,
-          checkeditems: payload.checkeditems,
-        };
-      return state;
+      return {
+        ...state,
+        checkedAll: true,
+      };
+    }
+    case CheckActionType.ALL_CHECK_IN: {
+      if (!('checkeditems' in payload)) return state;
+      return {
+        ...state,
+        checkeditems: payload.checkeditems,
+      };
     }
     case CheckActionType.CHECK: {
-      if ('id' in payload) {
-        const updateState = {
-          ...state,
-          checkeditems: checkeditems.includes(payload.id)
-            ? checkeditems.filter((id) => id !== payload.id)
-            : [...checkeditems, payload.id],
-        };
-        return {
-          ...state,
-          isAllChecked: updateState.checkeditems.length > 0,
-          checkeditems: updateState.checkeditems,
-        };
-      }
-      return state;
+      if (!('id' in payload)) return state;
+      const updateState = {
+        ...state,
+        checkeditems: checkeditems.includes(payload.id)
+          ? checkeditems.filter((id) => id !== payload.id)
+          : [...checkeditems, payload.id],
+      };
+      return {
+        ...state,
+        checkeditems: updateState.checkeditems,
+      };
     }
     case CheckActionType.ALL_UNCHECK:
       return {
         ...state,
-        isAllChecked: false,
+        checkedAll: false,
         checkeditems: [],
       };
     case CheckActionType.SWITCH_CHECK: {
       return {
         ...state,
-        isAllChecked: !state.isAllChecked,
+        checkedAll: !state.checkedAll,
         checkeditems: [],
       };
     }
@@ -86,7 +88,7 @@ const reducer = (state: CheckState, action: Action): CheckState => {
 };
 
 const initialState: CheckState = {
-  isAllChecked: false,
+  checkedAll: false,
   checkeditems: [],
 };
 
@@ -95,7 +97,8 @@ const IssueCheckContext = createContext({
 });
 
 const IssueCheckDispatchContext = createContext({
-  onCheckAll: (checkeditems: string[]) => {},
+  onCheckAll: () => {},
+  onCheckAllIn: (checkeditems: string[]) => {},
   onCheck: (id: string) => {},
   onUncheckAll: () => {},
   onSwitchCheck: () => {},
@@ -104,9 +107,16 @@ const IssueCheckDispatchContext = createContext({
 const IssueCheckProvider = ({ children }: IssueCheckContextProps) => {
   const [checkedIssuesState, dispatch] = useReducer(reducer, initialState);
 
-  const onCheckAll = useCallback((checkeditems: string[]) => {
+  const onCheckAll = useCallback(() => {
     dispatch({
       type: CheckActionType.ALL_CHECK,
+      payload: {},
+    });
+  }, []);
+
+  const onCheckAllIn = useCallback((checkeditems: string[]) => {
+    dispatch({
+      type: CheckActionType.ALL_CHECK_IN,
       payload: { checkeditems },
     });
   }, []);
@@ -135,6 +145,7 @@ const IssueCheckProvider = ({ children }: IssueCheckContextProps) => {
   const checkIssuesDispatch = useMemo(() => {
     return {
       onCheckAll,
+      onCheckAllIn,
       onCheck,
       onUncheckAll,
       onSwitchCheck,
@@ -156,10 +167,9 @@ export const useIssueCheckState = () => {
 };
 
 export const useIssueCheckDispatch = () => {
-  const { onCheckAll, onCheck, onUncheckAll, onSwitchCheck } = useContext(
-    IssueCheckDispatchContext,
-  );
-  return { onCheckAll, onCheck, onUncheckAll, onSwitchCheck };
+  const { onCheckAll, onCheckAllIn, onCheck, onUncheckAll, onSwitchCheck } =
+    useContext(IssueCheckDispatchContext);
+  return { onCheckAll, onCheckAllIn, onCheck, onUncheckAll, onSwitchCheck };
 };
 
 export default IssueCheckProvider;

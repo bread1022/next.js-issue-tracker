@@ -5,7 +5,7 @@ type SimpleUser = Omit<User, 'name'>;
 type SimpleLabel = Omit<Label, 'createdAt'>;
 
 export interface IssueType {
-  id: number;
+  id: string;
   title: string;
   isOpen: boolean;
   assignees: SimpleUser[];

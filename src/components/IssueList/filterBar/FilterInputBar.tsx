@@ -5,25 +5,52 @@ import { FILTERBAR_MENU } from './constant';
 import {
   FilterTypeWithoutLabels,
   getPlaceholder,
-  getSelectedFilterBarItem,
+  checkSelectedItem,
 } from '@/service/filter';
-import { FilterState } from '@/context/IssueFilterContext';
+import {
+  useIssueFilterDispatch,
+  useIssueFilterState,
+} from '@/context/IssueFilterContext';
+import { ChangeEvent, useEffect, useState } from 'react';
 
-interface FilterInputBarProps {
-  filterState: FilterState;
-  onSelect: (value: FilterTypeWithoutLabels) => void;
-}
-
-const FilterInputBar = ({ filterState, onSelect }: FilterInputBarProps) => {
+const FilterInputBar = () => {
   const { isFocus, onFocus, onBlur } = useFocus();
+  const filterState = useIssueFilterState();
+  const {
+    onFilterOpen,
+    onFilterClose,
+    onFilterByAuthor,
+    onFilterByAssignee,
+    onFilterByComment,
+  } = useIssueFilterDispatch();
 
-  const handleFilterSelect = (value: string) =>
-    onSelect(value as FilterTypeWithoutLabels);
+  const handleSelectedItem = (value: FilterTypeWithoutLabels) =>
+    checkSelectedItem(filterState, value);
 
-  const currentPlaceholder = getPlaceholder(filterState);
+  const handleSelectFilter = (value: string) => {
+    const filters: Record<string, () => void> = {
+      open: onFilterOpen,
+      close: onFilterClose,
+      author: () => onFilterByAuthor('me'),
+      assignee: () => onFilterByAssignee('me'),
+      comment: () => onFilterByComment('me'),
+    };
+    return filters[value]();
+  };
 
-  const isSelected = (value: FilterTypeWithoutLabels) =>
-    getSelectedFilterBarItem(filterState, value);
+  const [input, setInput] = useState('');
+
+  const handleInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    setInput(target.value);
+  };
+
+  useEffect(() => {
+    const setPlaceholder = () => {
+      const placeholder = getPlaceholder(filterState);
+      setInput(placeholder);
+    };
+    setPlaceholder();
+  }, [filterState]);
 
   return (
     <div className={`h-[40px] flex items-center rounded-mds text-sm`}>
@@ -35,8 +62,8 @@ const FilterInputBar = ({ filterState, onSelect }: FilterInputBarProps) => {
                 key={item.label}
                 item={item.label}
                 value={item.value}
-                isSelected={isSelected(item.value)}
-                onSelect={handleFilterSelect}
+                isSelected={handleSelectedItem(item.value)}
+                onSelect={handleSelectFilter}
               />
             ))}
           </Dropdown>
@@ -53,8 +80,9 @@ const FilterInputBar = ({ filterState, onSelect }: FilterInputBarProps) => {
           onBlur={onBlur}
           id="filterbar"
           type="text"
-          placeholder={currentPlaceholder}
+          value={input}
           className={getInputStyle(isFocus)}
+          onChange={handleInputChange}
         />
       </label>
     </div>
