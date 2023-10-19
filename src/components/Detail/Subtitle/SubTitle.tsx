@@ -28,21 +28,24 @@ const SubTitle = ({ id }: SubTitleProps) => {
   const [value, setValue] = useState(issue?.title);
   const [editedValue, setEditedValue] = useState(issue?.title);
 
+  const isSubmitReady =
+    !!editedValue && editedValue.length > 0 && editedValue !== value;
+
   const handleEdit = ({ target }: ChangeEvent<HTMLInputElement>) =>
     setEditedValue(target.value);
 
   const handleEditClick = useCallback(() => setIsEdit((prev) => !prev), []);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setEditedValue(value);
     setIsEdit(false);
-  };
+  }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     // TODO: POST (/issues/:id, title)
     setValue(editedValue);
     setIsEdit(false);
-  };
+  }, []);
 
   const handleIssueOpen = useCallback(() => {
     // TODO : POST (/issues/:id, isOpen = true)
@@ -55,7 +58,7 @@ const SubTitle = ({ id }: SubTitleProps) => {
   }, []);
 
   return (
-    <div className="h-full flex flex-col gap-3 py-5 border-b border-border">
+    <div className="h-full flex flex-col gap-3 px-2 py-5 border-b border-border">
       {isLoading && <Skeletone type="title" />}
       {!isLoading && issue && (
         <>
@@ -70,11 +73,7 @@ const SubTitle = ({ id }: SubTitleProps) => {
               <TitleEditBtns
                 isEdit={isEdit}
                 isOpened={issue?.isOpen}
-                active={
-                  !!editedValue &&
-                  editedValue.length > 0 &&
-                  editedValue !== value
-                }
+                active={isSubmitReady}
                 onCancel={handleCancel}
                 onEdit={handleEditClick}
                 onSubmit={handleSubmit}

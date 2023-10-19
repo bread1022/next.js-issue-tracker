@@ -1,5 +1,6 @@
 import Button from '@/components/Common/Button';
 import Icon from '@/components/ui/Icon';
+import { memo } from 'react';
 
 interface TitleEditBtnsProps {
   isEdit: boolean;
@@ -57,4 +58,4 @@ const TitleEditBtns = ({
   );
 };
 
-export default TitleEditBtns;
+export default memo(TitleEditBtns);
