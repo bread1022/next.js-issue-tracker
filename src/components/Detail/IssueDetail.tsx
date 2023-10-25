@@ -20,7 +20,7 @@ const IssueDetail = ({ id }: IssueDetailProps) => {
     <>
       {isLoading ? <Skeletone type="title" /> : <SubTitle issue={data} />}
       <div className="my-4 grid grid-cols-[1fr_auto] gap-4">
-        <CommentsArea comments={data?.comments} isLoading={isLoading} />
+        <CommentsArea {...data} isLoading={isLoading} />
         <DetailSideBar {...data} isLoading={isLoading} />
       </div>
     </>

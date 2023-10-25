@@ -79,3 +79,25 @@ export async function getIssueById({ id, username }: IssueById) {
       };
     });
 }
+
+export async function addIssue(
+  issueId: string,
+  userId: string,
+  comment: string,
+) {
+  return client
+    .patch(issueId)
+    .setIfMissing({ commentsBy: [] })
+    .append('commentsBy', [
+      {
+        _type: 'comment',
+        author: {
+          _ref: userId,
+          _type: 'reference',
+        },
+        comment: comment,
+        createdAt: new Date().toISOString(),
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}

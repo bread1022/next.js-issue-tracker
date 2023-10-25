@@ -19,7 +19,7 @@ const TableHeader = ({ issueCount }: TableHeaderProps) => {
   const isChecked = checkeditems.length > 0;
 
   const handleCheckBoxClick = () => {
-    if (checkedAll) onUncheckAll();
+    if (checkedAll || isChecked) onUncheckAll();
     else onCheckAll();
   };
 

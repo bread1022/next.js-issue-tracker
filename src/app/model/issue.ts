@@ -14,10 +14,13 @@ export interface IssueType {
   createdAt: string;
 }
 
-export interface CommentType {
+export interface SimpleComment {
   authorId: string;
   authorImage: string;
   comment: string;
+}
+
+export interface CommentType extends SimpleComment {
   createdAt: string;
   updatedAt?: string;
   isMine: boolean;

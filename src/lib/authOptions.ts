@@ -23,10 +23,19 @@ export const authOptions: NextAuthOptions = {
     signIn: '/auth/signin',
   },
   callbacks: {
-    async session({ session }) {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.userId = user.userId;
+      }
+      return token;
+    },
+    async session({ session, token }) {
       const user = session?.user;
       if (user) {
         session.user = {
+          id: token.id,
+          userId: token.userId,
           name: user.name,
           email: user.email,
           userImage: user.image,
@@ -36,7 +45,6 @@ export const authOptions: NextAuthOptions = {
     },
     async signIn({ user: { id, userId, name, email, image } }) {
       if (!email) return false;
-
       addUser({
         id,
         userId,
