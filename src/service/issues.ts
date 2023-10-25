@@ -80,7 +80,7 @@ export async function getIssueById({ id, username }: IssueById) {
     });
 }
 
-export async function addIssue(
+export async function addComment(
   issueId: string,
   userId: string,
   comment: string,
@@ -99,5 +99,19 @@ export async function addIssue(
         createdAt: new Date().toISOString(),
       },
     ])
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function editTitle(issueId: string, title: string) {
+  return client
+    .patch(issueId)
+    .set({ title: title })
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function editIsOpen(issueId: string, isOpen: boolean) {
+  return client
+    .patch(issueId)
+    .set({ isOpen: isOpen })
     .commit({ autoGenerateArrayKeys: true });
 }

@@ -21,13 +21,13 @@ const CommentsArea = ({ id, comments, isLoading }: CommentProps) => {
   const authorId = user?.user.userId;
   const authorImage = user?.user.userImage;
 
-  const { postComment } = useIssue(id);
+  const { putComment } = useIssue(id);
 
   const handleNewComment = (e: ChangeEvent<HTMLTextAreaElement>) =>
     setValue(e.target.value);
 
   const handleNewCommentSubmit = () => {
-    postComment({
+    putComment({
       authorId,
       authorImage,
       comment: value,

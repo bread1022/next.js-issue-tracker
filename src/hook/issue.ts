@@ -1,12 +1,30 @@
 import { SimpleComment } from '@/app/model/issue';
 import axios from 'axios';
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 
 const addComment = async (issueId: string, comment: string) => {
   return axios
-    .post('/api/issue', {
+    .put('/api/issue', {
       id: issueId,
       comment: comment,
+    })
+    .then((res) => res.data);
+};
+
+const editTitle = async (issueId: string, title: string) => {
+  return axios
+    .put('/api/issue', {
+      id: issueId,
+      title: title,
+    })
+    .then((res) => res.data);
+};
+
+const editIsOpen = async (issueId: string, isOpen: boolean) => {
+  return axios
+    .put('/api/issue', {
+      id: issueId,
+      isOpen: isOpen,
     })
     .then((res) => res.data);
 };
@@ -14,7 +32,7 @@ const addComment = async (issueId: string, comment: string) => {
 export default function useIssue(issueId: string) {
   const { data, isLoading, error, mutate } = useSWR(`/api/issues/${issueId}`);
 
-  const postComment = (comment: SimpleComment) => {
+  const putComment = async (comment: SimpleComment) => {
     const newComment = {
       ...data,
       comments: [
@@ -35,5 +53,33 @@ export default function useIssue(issueId: string) {
     });
   };
 
-  return { data, isLoading, error, postComment };
+  const putTitle = async (title: string) => {
+    const newTitle = {
+      ...data,
+      title: title,
+    };
+
+    return mutate(editTitle(issueId, title), {
+      optimisticData: newTitle,
+      populateCache: false,
+      revalidate: false,
+      rollbackOnError: true,
+    });
+  };
+
+  const putIsOpen = async ({ isOpen }: { isOpen: boolean }) => {
+    const newIsOpen = {
+      ...data,
+      isOpen: isOpen,
+    };
+
+    return mutate(editIsOpen(issueId, isOpen), {
+      optimisticData: newIsOpen,
+      populateCache: false,
+      revalidate: false,
+      rollbackOnError: true,
+    });
+  };
+
+  return { data, isLoading, error, putComment, putTitle, putIsOpen };
 }

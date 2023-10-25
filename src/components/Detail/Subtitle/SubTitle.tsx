@@ -2,6 +2,7 @@ import { ChangeEvent, useCallback, useState } from 'react';
 import TitleEditor from './TitleEditor';
 import TitleEditBtns from './TitleEditBtns';
 import SubText from './SubText';
+import useIssue from '@/hook/issue';
 
 type SubTitle = {
   id: string;
@@ -23,6 +24,8 @@ const SubTitle = ({ issue }: SubTitleProps) => {
   const [value, setValue] = useState(title);
   const [editedValue, setEditedValue] = useState(title);
 
+  const { putTitle, putIsOpen } = useIssue(issue.id);
+
   const isSubmitReady =
     !!editedValue && editedValue.length > 0 && editedValue !== value;
 
@@ -36,20 +39,20 @@ const SubTitle = ({ issue }: SubTitleProps) => {
     setIsEdit(false);
   }, [value]);
 
-  const handleSubmit = useCallback(() => {
-    // TODO: POST (/issues/:id, title)
+  const handleTitleEdit = useCallback(() => {
+    putTitle(editedValue);
     setValue(editedValue);
     setIsEdit(false);
   }, [editedValue]);
 
   const handleIssueOpen = useCallback(() => {
-    // TODO : POST (/issues/:id, isOpen = true)
-    console.log('open');
+    if (isOpen) return;
+    putIsOpen({ isOpen: true });
   }, []);
 
   const handleIssueClose = useCallback(() => {
-    // TODO : POST (/issues/:id, isOpen = false)
-    console.log('close');
+    if (!isOpen) return;
+    putIsOpen({ isOpen: false });
   }, []);
 
   return (
@@ -58,7 +61,7 @@ const SubTitle = ({ issue }: SubTitleProps) => {
         <TitleEditor
           isEdit={isEdit}
           id={id}
-          title={editedValue || title}
+          title={editedValue}
           onChange={handleEdit}
         />
         {issue?.isMine && (
@@ -68,7 +71,7 @@ const SubTitle = ({ issue }: SubTitleProps) => {
             active={isSubmitReady}
             onCancel={handleCancel}
             onEdit={handleEditClick}
-            onSubmit={handleSubmit}
+            onSubmit={handleTitleEdit}
             onOpen={handleIssueOpen}
             onClose={handleIssueClose}
           />
