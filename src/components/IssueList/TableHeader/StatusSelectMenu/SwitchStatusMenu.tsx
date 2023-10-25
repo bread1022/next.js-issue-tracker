@@ -12,8 +12,8 @@ const SwitchStatusMenu = ({
 }: SwitchStatusMenuProps) => {
   return (
     <>
-      <p className="px-3 text-sm">{checkedCount} 개 이슈 선택</p>
-      <div className="px-2 justify-self-end">
+      <p className="px-3 text-sm text-semibold">{checkedCount} 개 이슈 선택</p>
+      <div>
         {ISSUE_STATUS_MENU.map(({ label, menuTitle, items }) => (
           <Dropdown key={label} label={label} menuTitle={menuTitle}>
             {items.map((item) => (

@@ -79,20 +79,3 @@ export async function getIssueById({ id, username }: IssueById) {
       };
     });
 }
-
-export async function getCommentsOfIssue({ id, username }: IssueById) {
-  return getIssueById({ id, username }).then((issue) => issue.comments || []);
-}
-
-export async function getAssigneesOfIssue({ id, username }: IssueById) {
-  return getIssueById({ id, username }).then((issue) => {
-    return {
-      assignees: issue.assignees,
-      isMine: issue.isMine,
-    };
-  });
-}
-
-export async function getLabelsOfIssue({ id, username }: IssueById) {
-  return getIssueById({ id, username }).then((issue) => issue.labels);
-}

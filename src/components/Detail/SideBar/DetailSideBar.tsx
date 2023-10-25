@@ -1,29 +1,24 @@
-'use client';
-
 import SideBar from '@/components/New/SideBar';
 import { SideBarItem } from '@/components/New/SideBar';
 import { useCallback } from 'react';
 import DeleteBtn from './DeleteBtn';
-import useSWR from 'swr';
 import { User } from '@/app/model/user';
 import { Label } from '@/app/model/label';
 import Skeletone from '@/components/Common/Skeletone';
 
 interface DetailSideBarProps {
-  id: string;
+  isLoading?: boolean;
+  assignees: User[];
+  labels: Label[];
+  isMine: boolean;
 }
 
-const DetailSideBar = ({ id }: DetailSideBarProps) => {
-  const { data: assignee, isLoading: assigneeLoading } = useSWR(
-    `/api/issues/${id}/assignees`,
-  );
-  const { data: labels, isLoading: labelLoading } = useSWR(
-    `/api/issues/${id}/labels`,
-  );
-
-  const assignees = assignee?.assignees;
-  const isMine = assignee?.isMine;
-
+const DetailSideBar = ({
+  isLoading,
+  assignees,
+  labels,
+  isMine,
+}: DetailSideBarProps) => {
   const getSideBarItem = useCallback(
     (value: string, items: User[] | Label[]) => {
       if (!items) return [];
@@ -62,20 +57,20 @@ const DetailSideBar = ({ id }: DetailSideBarProps) => {
   };
 
   return (
-    <div>
-      {assigneeLoading || labelLoading ? (
+    <>
+      {isLoading ? (
         <Skeletone type="sideBar" />
       ) : (
-        <>
+        <div>
           <SideBar
             assignees={selectedAssignee}
             labels={selectedLabel}
             onSelect={handleSelectItems}
           />
           {isMine && <DeleteBtn onDelete={handleDeleteItem} />}
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

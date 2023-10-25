@@ -5,7 +5,7 @@ interface CommonButtonProps {
   size?: 'sm' | 'md' | 'lg' | 'max';
   mode?: 'ghost' | 'primary' | 'default' | 'black' | 'primaryGhost';
   active?: boolean;
-  justify?: 'center' | 'between';
+  justify?: 'center' | 'between' | 'end';
 }
 
 interface ButtonProps
@@ -87,6 +87,7 @@ const getButtonStyle = ({
   const buttonJustify = {
     center: 'justify-center',
     between: 'justify-between',
+    end: 'justify-end',
   };
 
   const buttonDefault = 'flex items-center rounded-md';

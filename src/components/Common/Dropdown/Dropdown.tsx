@@ -9,7 +9,7 @@ import { MenuItemValue } from '../../New/SideBar/constant';
 import { SideBarItem } from '../../New/SideBar';
 
 interface DropdownMenuBtnProps {
-  size?: 'sm' | 'lg';
+  size?: 'sm' | 'md' | 'lg';
   label: string;
   onClick?: () => void;
   children?: ReactNode;
@@ -174,16 +174,27 @@ Dropdown.SidebarItem = ({
   );
 };
 
-export const getDropdownSize = (size: 'sm' | 'lg') => {
+export const getDropdownSize = (size: 'sm' | 'md' | 'lg') => {
   const dropdownSizes = {
-    sm: 'h-full w-20',
+    sm: 'h-full w-full',
+    md: 'h-full w-24',
     lg: 'h-16 w-52',
   };
   return dropdownSizes[size];
 };
 
-export const getButtonIconJustify = (size: 'sm' | 'lg') => {
-  return size === 'sm' ? 'center' : 'between';
+type ButtonIconJustify = Record<
+  'sm' | 'md' | 'lg',
+  'end' | 'center' | 'between'
+>;
+
+export const getButtonIconJustify = (size: 'sm' | 'md' | 'lg') => {
+  const buttonIconJustify: ButtonIconJustify = {
+    sm: 'end',
+    md: 'center',
+    lg: 'between',
+  };
+  return buttonIconJustify[size];
 };
 
 const getItemStyle = (

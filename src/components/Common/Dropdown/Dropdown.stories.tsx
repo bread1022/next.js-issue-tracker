@@ -55,29 +55,27 @@ export const UserDropdown: Story = {
           value="assignee"
           isSelected={false}
           hasIcon
-          children={
-            <Avatar
-              src="https://image.ajunews.com/content/image/2023/04/27/20230427170222403012.jpg"
-              alt="소희"
-              size="sm"
-            />
-          }
           onSelect={() => {}}
-        />
+        >
+          <Avatar
+            src="https://image.ajunews.com/content/image/2023/04/27/20230427170222403012.jpg"
+            alt="소희"
+            size="sm"
+          />
+        </Dropdown.Item>
         <Dropdown.Item
           item="bogummy"
           value="assignee"
           isSelected
           hasIcon
-          children={
-            <Avatar
-              src="https://img.sportsworldi.com/content/image/2023/04/11/20230411524403.jpg"
-              alt="보검"
-              size="sm"
-            />
-          }
           onSelect={() => {}}
-        />
+        >
+          <Avatar
+            src="https://img.sportsworldi.com/content/image/2023/04/11/20230411524403.jpg"
+            alt="보검"
+            size="sm"
+          />
+        </Dropdown.Item>
       </>
     ),
   },
@@ -96,17 +94,19 @@ export const LabelDropdown: Story = {
           value="assignee"
           isSelected={false}
           hasIcon
-          children={<Avatar alt="bug" size="sm" backgroundColor="#5050FF" />}
           onSelect={() => {}}
-        />
+        >
+          <Avatar alt="bug" size="sm" backgroundColor="#5050FF" />
+        </Dropdown.Item>
         <Dropdown.Item
           item="feat"
           value="assignee"
           isSelected
           hasIcon
-          children={<Avatar alt="feat" size="sm" backgroundColor="#FF5050" />}
           onSelect={() => {}}
-        />
+        >
+          <Avatar alt="feat" size="sm" backgroundColor="#FF5050" />
+        </Dropdown.Item>
       </>
     ),
   },

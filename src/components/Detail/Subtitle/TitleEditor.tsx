@@ -30,7 +30,7 @@ const TitleEditor = forwardRef<HTMLInputElement, TitleEditorProps>(
           </label>
         ) : (
           <div className="flex gap-5 text-2xl items-center truncate">
-            <h3 className="grow text-textDark">{title}</h3>
+            <h3 className="text-textDark">{title}</h3>
             <span className="truncate">#{id}</span>
           </div>
         )}

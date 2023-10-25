@@ -150,7 +150,7 @@ const IssueCheckProvider = ({ children }: IssueCheckContextProps) => {
       onUncheckAll,
       onSwitchCheck,
     };
-  }, []);
+  }, [onCheckAll, onCheckAllIn, onCheck, onUncheckAll, onSwitchCheck]);
 
   return (
     <IssueCheckContext.Provider value={{ checkedIssuesState }}>

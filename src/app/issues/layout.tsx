@@ -8,7 +8,7 @@ interface IssueListPageLayoutProps {
 const IssueListPageLayout = ({ children }: IssueListPageLayoutProps) => {
   return (
     <IssueFilterProvider>
-      <section className="p-5">{children}</section>;
+      <section className="px-5">{children}</section>
     </IssueFilterProvider>
   );
 };

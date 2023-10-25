@@ -56,7 +56,7 @@ const FilterInputBar = () => {
     <div className={`h-[40px] flex items-center rounded-mds text-sm`}>
       <div className="h-full rounded-l-md border border-border border-e-transparent">
         {FILTERBAR_MENU.map(({ label, menuTitle, items }) => (
-          <Dropdown key={label} label={label} menuTitle={menuTitle}>
+          <Dropdown key={label} size="md" label={label} menuTitle={menuTitle}>
             {items.map((item) => (
               <Dropdown.Item
                 key={item.label}

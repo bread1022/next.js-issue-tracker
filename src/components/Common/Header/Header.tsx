@@ -12,7 +12,7 @@ export default function Header() {
   const user = session?.user;
 
   return (
-    <header className="h-20 px-8 py-3 flex justify-between">
+    <header className="h-20 px-8 my-6 flex items-center justify-between">
       <Link href={'/issues'}>
         <Logo />
       </Link>

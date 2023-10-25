@@ -1,11 +1,7 @@
-'use client';
-
 import { ChangeEvent, useCallback, useState } from 'react';
 import TitleEditor from './TitleEditor';
 import TitleEditBtns from './TitleEditBtns';
 import SubText from './SubText';
-import useSWR from 'swr';
-import Skeletone from '@/components/Common/Skeletone';
 
 type SubTitle = {
   id: string;
@@ -18,15 +14,14 @@ type SubTitle = {
 };
 
 interface SubTitleProps {
-  id: string;
+  issue: SubTitle;
 }
 
-const SubTitle = ({ id }: SubTitleProps) => {
-  const { data: issue, isLoading } = useSWR<SubTitle>(`/api/issues/${id}`);
-
+const SubTitle = ({ issue }: SubTitleProps) => {
+  const { id, title, isOpen, createdAt, authorId, commentsCount } = issue;
   const [isEdit, setIsEdit] = useState(false);
-  const [value, setValue] = useState(issue?.title);
-  const [editedValue, setEditedValue] = useState(issue?.title);
+  const [value, setValue] = useState(title);
+  const [editedValue, setEditedValue] = useState(title);
 
   const isSubmitReady =
     !!editedValue && editedValue.length > 0 && editedValue !== value;
@@ -39,13 +34,13 @@ const SubTitle = ({ id }: SubTitleProps) => {
   const handleCancel = useCallback(() => {
     setEditedValue(value);
     setIsEdit(false);
-  }, []);
+  }, [value]);
 
   const handleSubmit = useCallback(() => {
     // TODO: POST (/issues/:id, title)
     setValue(editedValue);
     setIsEdit(false);
-  }, []);
+  }, [editedValue]);
 
   const handleIssueOpen = useCallback(() => {
     // TODO : POST (/issues/:id, isOpen = true)
@@ -59,37 +54,32 @@ const SubTitle = ({ id }: SubTitleProps) => {
 
   return (
     <div className="h-full flex flex-col gap-3 px-2 py-5 border-b border-border">
-      {isLoading && <Skeletone type="title" />}
-      {!isLoading && issue && (
-        <>
-          <div className="h-10 grid grid-cols-[1fr_auto_auto] gap-3">
-            <TitleEditor
-              isEdit={isEdit}
-              id={id}
-              title={editedValue || issue.title}
-              onChange={handleEdit}
-            />
-            {issue?.isMine && (
-              <TitleEditBtns
-                isEdit={isEdit}
-                isOpened={issue?.isOpen}
-                active={isSubmitReady}
-                onCancel={handleCancel}
-                onEdit={handleEditClick}
-                onSubmit={handleSubmit}
-                onOpen={handleIssueOpen}
-                onClose={handleIssueClose}
-              />
-            )}
-          </div>
-          <SubText
-            isOpen={issue.isOpen}
-            createdAt={issue?.createdAt}
-            authorId={issue?.authorId}
-            commentsCount={issue?.commentsCount}
+      <div className="h-10 grid grid-cols-[1fr_auto_auto] gap-3">
+        <TitleEditor
+          isEdit={isEdit}
+          id={id}
+          title={editedValue || title}
+          onChange={handleEdit}
+        />
+        {issue?.isMine && (
+          <TitleEditBtns
+            isEdit={isEdit}
+            isOpened={isOpen}
+            active={isSubmitReady}
+            onCancel={handleCancel}
+            onEdit={handleEditClick}
+            onSubmit={handleSubmit}
+            onOpen={handleIssueOpen}
+            onClose={handleIssueClose}
           />
-        </>
-      )}
+        )}
+      </div>
+      <SubText
+        isOpen={isOpen}
+        createdAt={createdAt}
+        authorId={authorId}
+        commentsCount={commentsCount}
+      />
     </div>
   );
 };

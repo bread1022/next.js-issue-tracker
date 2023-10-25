@@ -29,7 +29,7 @@ const IssueTable = () => {
     if (!checkedAll) return;
     const checkeditems = issues?.map((issue) => issue.id) || [];
     onCheckAllIn(checkeditems);
-  }, [checkedAll]);
+  }, [checkedAll, issues, onCheckAllIn]);
 
   // TODO: 페이지 네이션 !!!
   return (

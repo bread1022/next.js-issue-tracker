@@ -32,7 +32,7 @@ const TableHeader = ({ issueCount }: TableHeaderProps) => {
   };
 
   return (
-    <div className="h-16 grid grid-cols-[40px_3fr_1fr] items-center border-b border-border">
+    <div className="h-16 pr-5 grid grid-cols-[40px_3fr_minmax(300px,_1fr)] items-center border-b border-border">
       <CheckBox id={'all'} checked={isChecked} onClick={handleCheckBoxClick} />
       {isChecked ? (
         <SwitchStatusMenu

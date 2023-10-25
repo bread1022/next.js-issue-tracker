@@ -1,22 +1,17 @@
-'use client';
-
-import useSWR from 'swr';
-import { CommentType } from '@/app/model/issue';
 import TextArea from '../../Common/TextArea';
 import { ChangeEvent, useState } from 'react';
-import Comment from './Comment';
-import SubmitCommentBtn from './SubmitCommentBtn';
-import Skeletone from '@/components/Common/Skeletone';
 
-interface CommentsContainerProps {
-  id: string;
+import SubmitCommentBtn from './SubmitCommentBtn';
+import { CommentType } from '@/app/model/issue';
+import Skeletone from '@/components/Common/Skeletone';
+import Comment from './Comment';
+
+interface CommentProps {
+  isLoading?: boolean;
+  comments: CommentType[];
 }
 
-const CommentsContainer = ({ id }: CommentsContainerProps) => {
-  const { data: comments, isLoading } = useSWR<CommentType[]>(
-    `/api/issues/${id}/comments`,
-  );
-
+const CommentsArea = ({ isLoading, comments }: CommentProps) => {
   const [value, setValue] = useState('');
 
   const handleNewComment = (e: ChangeEvent<HTMLTextAreaElement>) =>
@@ -28,19 +23,16 @@ const CommentsContainer = ({ id }: CommentsContainerProps) => {
   };
 
   return (
-    <div className="grid gap-4">
-      <ul>
-        {isLoading ? (
-          <Skeletone type="comment" />
-        ) : (
-          comments &&
-          comments.map((comment) => (
-            <li key={comment.comment} className="pb-4">
-              <Comment {...comment} />
-            </li>
-          ))
-        )}
-      </ul>
+    <ul className="grid gap-4">
+      {isLoading ? (
+        <Skeletone type="comment" />
+      ) : (
+        comments.map((comment: CommentType) => (
+          <li key={comment.comment}>
+            <Comment {...comment} />
+          </li>
+        ))
+      )}
       <TextArea
         id="issue-comment"
         placeholder="코맨트를 입력하세요."
@@ -51,8 +43,8 @@ const CommentsContainer = ({ id }: CommentsContainerProps) => {
         active={value.length > 0}
         onSubmit={handleNewCommentSubmit}
       />
-    </div>
+    </ul>
   );
 };
 
-export default CommentsContainer;
+export default CommentsArea;

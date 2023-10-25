@@ -59,10 +59,11 @@ const TableSelectMenu = () => {
   };
 
   return (
-    <div className="w-64 grid grid-cols-3 gap-2">
+    <div className="w-full grid grid-cols-3 gap-10">
       {ISSUE_SELECT_MENU.map(({ label, value, menuTitle, endpoint }) => (
         <Dropdown
           key={label}
+          size="sm"
           label={label}
           menuTitle={menuTitle}
           onClick={() => handleMenuBtnClick(endpoint)}

@@ -86,7 +86,7 @@ Skeletone.MenuItem = () => {
 
 Skeletone.Title = () => {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="h-full flex flex-col gap-3 px-2 py-5 border-b border-border">
       <div
         className={`relative h-8 w-52 bg-gray-200 overflow-hidden ${skeletoneAnimaion}`}
       />
@@ -111,7 +111,7 @@ Skeletone.SideBar = () => {
 
 Skeletone.Comment = () => {
   return (
-    <div className="h-full rounded-lg border border-border">
+    <div className="h-max rounded-lg border border-border">
       <div className="h-16 rounded-t-lg bg-neutral border-b border-border flex items-center gap-3 p-3">
         <Skeletone.Avatar />
         <Skeletone.Text size="sm" />

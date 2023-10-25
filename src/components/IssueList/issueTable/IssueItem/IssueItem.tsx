@@ -17,7 +17,7 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
   const statusIcon = isOpen ? 'OpenIssue' : 'CloseIssue';
 
   return (
-    <li className="h-24 grid grid-cols-[40px_3fr_1fr] items-center text-sm bg-neutralWeak border-b border-border last:border-b-0 last:rounded-b-lg hover:bg-white">
+    <li className="h-24 pr-5 grid grid-cols-[40px_3fr_minmax(300px,_1fr)] items-center text-sm bg-neutralWeak border-b border-border last:border-b-0 last:rounded-b-lg hover:bg-white">
       <CheckBox id={id} checked={checked} onClick={onCheck} />
       <div className="mx-3 flex flex-col gap-2">
         <div className="flex items-center gap-2">
@@ -45,15 +45,21 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
           </span>
         </div>
       </div>
-      <div className="w-64 grid grid-cols-3 gap-2">
-        <ul className="group flex px-3 col-start-1">
+      <div className="w-full grid grid-cols-3 gap-10">
+        <ul className="group flex col-start-1 justify-center">
           {assignees.map(({ userImage, userId }, index) => (
-            <li key={userImage} className={getAssigneeStyle(index)}>
+            <li
+              key={userImage}
+              style={{
+                transform: `translateX(-${index * 10}px)`,
+              }}
+              className="cursor-pointer"
+            >
               <Avatar src={userImage} alt={userId} size="sm" />
             </li>
           ))}
         </ul>
-        <div className="px-3 col-start-3">
+        <div className="col-start-3">
           <Avatar src={author.userImage} alt={author.userId} size="sm" />
         </div>
       </div>

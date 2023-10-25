@@ -188,7 +188,15 @@ const IssueFilterProvider = ({ children }: IssueFilterContextProps) => {
       onFilterByAssignee,
       onFilterByComment,
     };
-  }, []);
+  }, [
+    onResetFilter,
+    onFilterOpen,
+    onFilterClose,
+    onFilterByAuthor,
+    onFilterByLabels,
+    onFilterByAssignee,
+    onFilterByComment,
+  ]);
 
   return (
     <IssueFilterContext.Provider value={{ filterState }}>

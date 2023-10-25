@@ -31,7 +31,7 @@ export const GhostBtn: Story = {
   },
 };
 
-export const primaryBtn: Story = {
+export const PrimaryBtn: Story = {
   args: {
     size: 'md',
     mode: 'primary',
@@ -41,7 +41,7 @@ export const primaryBtn: Story = {
   },
 };
 
-export const defaultBtn: Story = {
+export const DefaultBtn: Story = {
   args: {
     size: 'md',
     mode: 'default',

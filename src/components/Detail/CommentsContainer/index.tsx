@@ -1,1 +1,1 @@
-export { default } from './CommentsContainer';
+export { default } from './CommentsArea';
