@@ -1,12 +1,5 @@
+import { OAuthUser } from '@/app/model/user';
 import { client } from './sanity';
-
-export interface OAuthUser {
-  id: string;
-  userId: string;
-  name: string;
-  email: string;
-  userImage?: string;
-}
 
 export async function addUser({
   id,

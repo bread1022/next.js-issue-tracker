@@ -1,4 +1,21 @@
+import { FilterState } from '@/context/IssueFilterContext';
 import { client } from './sanity';
+
+export async function getFilterdIssueList({
+  isOpen,
+  author,
+  labels,
+  assignee,
+  comment,
+}: FilterState) {
+  return client.fetch(
+    `*[_type == "issue" && isOpen == ${isOpen}${
+      author ? `&& author->userId == "${author}"` : ''
+    }${labels.length > 0 ? `&& labels[]->labelName match ${labels}` : ''}${
+      assignee ? `&& "${assignee}" in assignees[]->userId` : ''
+    }] | order(_createdAt desc){${issueFields}}`,
+  );
+}
 
 export async function getIssueList() {
   return client.fetch(

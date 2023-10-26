@@ -37,14 +37,14 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-async function handleComment(id: string, userId: string, comment: string) {
+const handleComment = async (id: string, userId: string, comment: string) => {
   return addComment(id, userId, comment).then(NextResponse.json);
-}
+};
 
-async function handleTitle(id: string, title: string) {
+const handleTitle = async (id: string, title: string) => {
   return editTitle(id, title).then(NextResponse.json);
-}
+};
 
-async function handleIsOpen(id: string, isOpen: boolean) {
+const handleIsOpen = async (id: string, isOpen: boolean) => {
   return editIsOpen(id, isOpen).then(NextResponse.json);
-}
+};
