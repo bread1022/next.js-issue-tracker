@@ -195,3 +195,26 @@ export async function createIssue({
     { autoGenerateArrayKeys: true },
   );
 }
+
+export async function deleteIssue(issueId: string) {
+  return client
+    .getDocument(issueId)
+    .then((doc) => {
+      if (doc) {
+        return client.create({
+          _type: 'trash-issue',
+          title: doc.title,
+          contents: doc.contents,
+          isOpen: doc.isOpen,
+          author: doc.author,
+          assignees: doc.assignees,
+          labels: doc.labels,
+          createdAt: doc.createdAt,
+          updatedAt: doc.updatedAt,
+        });
+      }
+    })
+    .then(() => {
+      return client.delete(issueId);
+    });
+}

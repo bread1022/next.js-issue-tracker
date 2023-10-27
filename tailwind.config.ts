@@ -26,6 +26,7 @@ const config: Config = {
         textLight: '#72727e',
         text: '#52525b',
         textDark: '#38383e',
+        alert: 'rgba(0, 0, 0, 0.1)',
       },
       keyframes: {
         loading: {

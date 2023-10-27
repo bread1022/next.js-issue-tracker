@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@/lib/authOptions';
-import { getIssueById } from '@/service/issues';
+import { deleteIssue, getIssueById } from '@/service/issues';
 
 type Context = {
   params: {
@@ -20,4 +20,15 @@ export async function GET(request: Request, { params: { id } }: Context) {
   const username = user.name;
 
   return getIssueById({ id, username }).then(NextResponse.json);
+}
+
+export async function DELETE(request: Request, { params: { id } }: Context) {
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+
+  if (!user) {
+    return new Response('인증 오류 (Authentication Error)', { status: 401 });
+  }
+
+  return deleteIssue(id).then(NextResponse.json);
 }

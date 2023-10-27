@@ -1,36 +1,45 @@
 import SideBar from '@/components/New/SideBar';
 import { SideBarItem } from '@/components/New/SideBar';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import DeleteBtn from './DeleteBtn';
 import { User } from '@/app/model/user';
 import { Label } from '@/app/model/label';
 import Skeletone from '@/components/Common/Skeletone';
+import axios from 'axios';
+import Alert from '@/components/Common/Alert';
+import { AlertType } from '@/components/Common/Alert/Alert';
 
 interface DetailSideBarProps {
-  isLoading?: boolean;
+  id: string;
   assignees: User[];
   labels: Label[];
   isMine: boolean;
+  isLoading?: boolean;
 }
 
 const DetailSideBar = ({
+  id,
   isLoading,
   assignees,
   labels,
   isMine,
 }: DetailSideBarProps) => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   const getSideBarItem = useCallback(
     (value: string, items: User[] | Label[]) => {
       if (!items) return [];
       switch (value) {
         case 'assignees':
           return (items as User[]).map((item) => ({
+            id: item.id,
             menuIcon: item.userImage || 'default이미지',
             menuItem: item.userId,
             selected: true,
           }));
         case 'labels':
           return (items as Label[]).map((item) => ({
+            id: item.id,
             menuIcon: item.backgroundColor,
             menuItem: item.labelName,
             menuColor: item.fontColor,
@@ -52,8 +61,13 @@ const DetailSideBar = ({
   };
 
   const handleDeleteItem = () => {
-    //TODO: isMine이면, DELETE /api/issues/:id
-    console.log('이슈 삭제');
+    setIsAlertOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (!isMine) return;
+    axios.delete(`/api/issues/${id}`);
+    setIsAlertOpen(false);
   };
 
   return (
@@ -68,6 +82,18 @@ const DetailSideBar = ({
             onSelect={handleSelectItems}
           />
           {isMine && <DeleteBtn onDelete={handleDeleteItem} />}
+          {isAlertOpen && (
+            <Alert
+              message="삭제하시겠습니까?"
+              type={[
+                {
+                  value: AlertType.cancel,
+                  onClick: () => setIsAlertOpen(false),
+                },
+                { value: AlertType.confirm, onClick: confirmDelete },
+              ]}
+            />
+          )}
         </div>
       )}
     </>
