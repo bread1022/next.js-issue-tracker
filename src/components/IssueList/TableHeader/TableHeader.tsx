@@ -8,12 +8,15 @@ import {
   useIssueCheckState,
 } from '@/context/IssueCheckContext';
 import SwitchStatusMenu from './StatusSelectMenu';
+import axios from 'axios';
+import { useIssueFilterState } from '@/context/IssueFilterContext';
 
 interface TableHeaderProps {
   issueCount: IssueCountType;
 }
 
 const TableHeader = ({ issueCount }: TableHeaderProps) => {
+  const filterState = useIssueFilterState();
   const { checkedAll, checkeditems } = useIssueCheckState();
   const { onCheckAll, onUncheckAll, onSwitchCheck } = useIssueCheckDispatch();
   const isChecked = checkeditems.length > 0;
@@ -24,10 +27,19 @@ const TableHeader = ({ issueCount }: TableHeaderProps) => {
   };
 
   const handleSelectStatusItem = (item: string) => {
-    // TODO: 상태 변경 PATCH (checkeditems)의 상태를 스위치
     if (item === 'open') {
-      console.log('open으로 변경');
-    } else console.log('close로 변경');
+      if (filterState.isOpen) return;
+      axios.put('/api/issues', {
+        isOpen: true,
+        issues: checkeditems,
+      });
+    } else {
+      if (!filterState.isOpen) return;
+      axios.put('/api/issues', {
+        isOpen: false,
+        issues: checkeditems,
+      });
+    }
     onSwitchCheck();
   };
 

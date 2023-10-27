@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '@/lib/authOptions';
-import { getFilterdIssueList } from '@/service/issues';
+import { editAllIsOpen, getFilterdIssueList } from '@/service/issues';
 import { User } from '@/app/model/user';
 
 export async function GET(request: NextRequest) {
@@ -50,3 +50,22 @@ const getQueryParams = (searchParams: URLSearchParams, user: User) => {
         : searchParams.get('comment'),
   };
 };
+
+export async function PUT(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+
+  if (!user) {
+    return new Response('인증 오류 (Authentication Error)', { status: 401 });
+  }
+
+  const { issues, isOpen } = await request.json();
+
+  if (!issues || isOpen === undefined) {
+    return new Response('Bad request. 이슈 아이디가 없습니다.', {
+      status: 400,
+    });
+  }
+
+  return editAllIsOpen(issues, isOpen).then(NextResponse.json);
+}

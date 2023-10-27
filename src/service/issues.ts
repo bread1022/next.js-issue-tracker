@@ -1,6 +1,5 @@
 import { FilterState } from '@/context/IssueFilterContext';
 import { client } from './sanity';
-import { IssueType } from '@/app/model/issue';
 
 export async function getFilterdIssueList(filters: FilterState) {
   const query = buildFilterQuery(filters);
@@ -136,6 +135,10 @@ export async function editIsOpen(issueId: string, isOpen: boolean) {
     .patch(issueId)
     .set({ isOpen: isOpen })
     .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function editAllIsOpen(issues: string[], isOpen: boolean) {
+  return Promise.all(issues.map((issue) => editIsOpen(issue, isOpen)));
 }
 
 export async function editComment(
