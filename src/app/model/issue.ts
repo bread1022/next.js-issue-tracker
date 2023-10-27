@@ -14,12 +14,13 @@ export interface IssueType {
   createdAt: string;
 }
 
+export type Comment = Omit<SimpleComment, 'commentId'>;
 export interface SimpleComment {
+  commentId: string;
   authorId: string;
   authorImage: string;
   comment: string;
 }
-
 export interface CommentType extends SimpleComment {
   createdAt: string;
   updatedAt?: string;

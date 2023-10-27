@@ -1,4 +1,4 @@
-import { SimpleComment } from '@/app/model/issue';
+import { Comment } from '@/app/model/issue';
 import axios from 'axios';
 import useSWR, { useSWRConfig } from 'swr';
 
@@ -32,7 +32,7 @@ const editIsOpen = async (issueId: string, isOpen: boolean) => {
 export default function useIssue(issueId: string) {
   const { data, isLoading, error, mutate } = useSWR(`/api/issues/${issueId}`);
 
-  const putComment = async (comment: SimpleComment) => {
+  const putComment = async (comment: Comment) => {
     const newComment = {
       ...data,
       comments: [

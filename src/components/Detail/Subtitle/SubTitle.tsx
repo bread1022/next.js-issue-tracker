@@ -43,17 +43,17 @@ const SubTitle = ({ issue }: SubTitleProps) => {
     putTitle(editedValue);
     setValue(editedValue);
     setIsEdit(false);
-  }, [editedValue]);
+  }, [putTitle, editedValue]);
 
   const handleIssueOpen = useCallback(() => {
     if (isOpen) return;
     putIsOpen({ isOpen: true });
-  }, []);
+  }, [isOpen, putIsOpen]);
 
   const handleIssueClose = useCallback(() => {
     if (!isOpen) return;
     putIsOpen({ isOpen: false });
-  }, []);
+  }, [isOpen, putIsOpen]);
 
   return (
     <div className="h-full flex flex-col gap-3 px-2 py-5 border-b border-border">

@@ -1,5 +1,5 @@
 import TextArea from '../../Common/TextArea';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 
 import SubmitCommentBtn from './SubmitCommentBtn';
 import { CommentType } from '@/app/model/issue';
@@ -7,6 +7,7 @@ import Skeletone from '@/components/Common/Skeletone';
 import Comment from './Comment';
 import useIssue from '@/hook/issue';
 import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
 interface CommentProps {
   id: string;
@@ -35,6 +36,17 @@ const CommentsArea = ({ id, comments, isLoading }: CommentProps) => {
     setValue('');
   };
 
+  const handleEditComment = useCallback(
+    (commentId: string, comment: string) => {
+      axios.put('/api/issue/', {
+        id: id,
+        commentId: commentId,
+        comment: comment,
+      });
+    },
+    [id],
+  );
+
   return (
     <ul className="grid gap-4">
       {isLoading ? (
@@ -42,7 +54,7 @@ const CommentsArea = ({ id, comments, isLoading }: CommentProps) => {
       ) : (
         comments.map((comment: CommentType) => (
           <li key={comment.comment}>
-            <Comment {...comment} />
+            <Comment comments={comment} onSubmit={handleEditComment} />
           </li>
         ))
       )}

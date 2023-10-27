@@ -1,7 +1,12 @@
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '@/lib/authOptions';
-import { addComment, editTitle, editIsOpen } from '@/service/issues';
+import {
+  addComment,
+  editTitle,
+  editIsOpen,
+  editComment,
+} from '@/service/issues';
 
 export async function PUT(request: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -12,7 +17,7 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
-    const { id, comment, title, isOpen } = await request.json();
+    const { id, comment, commentId, title, isOpen } = await request.json();
 
     if (!id) {
       return new Response('Bad request. 이슈 아이디가 없습니다.', {
@@ -21,8 +26,13 @@ export async function PUT(request: NextRequest) {
     }
 
     let response;
+    //TODO: /api/issue/comments로 분리
     if (comment) {
-      response = await handleComment(id, user.id, comment);
+      if (commentId) {
+        response = await handleEditComment(id, user.id, commentId, comment);
+        return response;
+      }
+      response = await handleAddComment(id, user.id, comment);
     } else if (title) {
       response = await handleTitle(id, title);
     } else if (isOpen !== undefined) {
@@ -37,8 +47,21 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-const handleComment = async (id: string, userId: string, comment: string) => {
+const handleAddComment = async (
+  id: string,
+  userId: string,
+  comment: string,
+) => {
   return addComment(id, userId, comment).then(NextResponse.json);
+};
+
+const handleEditComment = async (
+  id: string,
+  userId: string,
+  commentId: string,
+  comment: string,
+) => {
+  return editComment(id, userId, commentId, comment).then(NextResponse.json);
 };
 
 const handleTitle = async (id: string, title: string) => {

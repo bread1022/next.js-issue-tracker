@@ -1,12 +1,16 @@
 import { CommentType } from '@/app/model/issue';
-import { useState, ChangeEvent, useCallback } from 'react';
+import { useState, ChangeEvent, useCallback, memo } from 'react';
 import CommentEditor from './CommentEditor';
 import CommentHeader from './CommentHeader';
 import EditBtns from './EditBtns';
+interface CommentProps {
+  comments: CommentType;
+  onSubmit: (commentId: string, comment: string) => void;
+}
 
-//TODO 마크업 표시 기능, 현재 코멘트에 대한 내용 편집 PATCH 기능
-const Comment = (props: CommentType) => {
-  const { comment } = props;
+//TODO 마크업 표시 기능
+const Comment = ({ comments, onSubmit }: CommentProps) => {
+  const { commentId, comment } = comments;
   const [isEdit, setIsEdit] = useState(false);
   const [value, setValue] = useState(comment);
   const [editedValue, setEditedValue] = useState(comment);
@@ -20,7 +24,7 @@ const Comment = (props: CommentType) => {
   };
 
   const handleSubmit = () => {
-    console.log('//TODO: PATCH /issues/:id/comments/:commentId', editedValue);
+    onSubmit(commentId, editedValue);
     setValue(editedValue);
     setIsEdit(false);
   };
@@ -32,7 +36,7 @@ const Comment = (props: CommentType) => {
     <>
       <section className={getCommentStyle(isEdit)}>
         <CommentHeader
-          {...props}
+          {...comments}
           onEditBtn={handleEditBtnClick}
           onEmojiBtn={handleAddEmoji}
         />
@@ -59,4 +63,4 @@ const getCommentStyle = (isEdit: boolean) => {
   }`;
 };
 
-export default Comment;
+export default memo(Comment);

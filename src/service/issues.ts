@@ -66,7 +66,7 @@ export async function getIssueById({ id, username }: IssueById) {
   "mainComment": contents,
   "labels": labels[]->{labelName, backgroundColor, fontColor},
   "assignees": assignees[]->{userId, "userImage": userImage},
-  "comments" : comments[]{comment, "authorId": author->userId, "authorImage": author->userImage, "createdAt": createdAt, "updatedAt": updatedAt, "isMine": author->name == "${username}"} | order(_createdAt asc),
+  "comments" : comments[]{"commentId":_key, comment, "authorId": author->userId, "authorImage": author->userImage, "createdAt": createdAt, "updatedAt": updatedAt, "isMine": author->name == "${username}"} | order(_createdAt asc),
   "createdAt": _createdAt,
   "updatedAt": _updatedAt,
   "isMine": "${username}" in assignees[]->name || author->name == "${username}"
@@ -134,5 +134,28 @@ export async function editIsOpen(issueId: string, isOpen: boolean) {
   return client
     .patch(issueId)
     .set({ isOpen: isOpen })
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function editComment(
+  issueId: string,
+  userId: string,
+  commentId: string,
+  comment: string,
+) {
+  return client
+    .patch(issueId)
+    .setIfMissing({ comments: [] })
+    .insert('replace', `comments[_key == "${commentId}"]`, [
+      {
+        _type: 'comment',
+        author: {
+          _ref: userId,
+          _type: 'reference',
+        },
+        comment: comment,
+        updatedAt: new Date().toISOString(),
+      },
+    ])
     .commit({ autoGenerateArrayKeys: true });
 }
