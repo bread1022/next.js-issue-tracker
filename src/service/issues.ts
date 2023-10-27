@@ -1,5 +1,6 @@
 import { FilterState } from '@/context/IssueFilterContext';
 import { client } from './sanity';
+import { IssueType } from '@/app/model/issue';
 
 export async function getFilterdIssueList(filters: FilterState) {
   const query = buildFilterQuery(filters);
@@ -158,4 +159,36 @@ export async function editComment(
       },
     ])
     .commit({ autoGenerateArrayKeys: true });
+}
+
+export interface Issue {
+  title: string;
+  contents: string;
+  assignees: string[];
+  labels: string[];
+  userId: string;
+}
+
+export async function createIssue({
+  title,
+  contents,
+  assignees,
+  labels,
+  userId,
+}: Issue) {
+  return client.create(
+    {
+      _type: 'issue',
+      title: title,
+      contents: contents,
+      isOpen: true,
+      author: { _ref: userId },
+      assignees: assignees.map((assignee) => ({
+        _ref: assignee,
+      })),
+      labels: labels.map((label) => ({ _ref: label, _type: 'reference' })),
+      createdAt: new Date().toISOString(),
+    },
+    { autoGenerateArrayKeys: true },
+  );
 }

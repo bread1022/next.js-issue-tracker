@@ -6,6 +6,8 @@ import {
   editTitle,
   editIsOpen,
   editComment,
+  createIssue,
+  Issue,
 } from '@/service/issues';
 
 export async function PUT(request: NextRequest) {
@@ -71,3 +73,23 @@ const handleTitle = async (id: string, title: string) => {
 const handleIsOpen = async (id: string, isOpen: boolean) => {
   return editIsOpen(id, isOpen).then(NextResponse.json);
 };
+
+export async function POST(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+
+  if (!user) {
+    return new Response('인증 오류 (Authentication Error)', { status: 401 });
+  }
+
+  const issue: Issue = await request.json();
+
+  if (!issue) {
+    return new Response('Bad request. 이슈 정보가 없습니다.', { status: 400 });
+  }
+
+  return createIssue({
+    ...issue,
+    userId: user.id,
+  }).then(NextResponse.json);
+}

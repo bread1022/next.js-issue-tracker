@@ -26,12 +26,14 @@ const SideBar = ({ assignees, labels, onSelect }: SideBarProps) => {
     switch (value) {
       case 'assignees':
         return items.map((item: User) => ({
+          id: item.id,
           menuIcon: item.userImage,
           menuItem: item.userId,
           selected: assignees.some((user) => user.menuItem === item.userId),
         }));
       case 'labels':
         return items.map((item: Label) => ({
+          id: item.id,
           menuIcon: item.backgroundColor,
           menuItem: item.labelName,
           menuColor: item.fontColor,

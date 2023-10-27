@@ -25,17 +25,19 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
           <Link href={`/issue/${id}`} className="font-semibold">
             {title}
           </Link>
-          <ul className="flex gap-1">
-            {labels.map(({ labelName, backgroundColor, fontColor }) => (
-              <li key={labelName}>
-                <LabelTag
-                  labelName={labelName}
-                  backgroundColor={backgroundColor}
-                  fontColor={fontColor}
-                />
-              </li>
-            ))}
-          </ul>
+          {labels.length > 0 && (
+            <ul className="flex gap-1">
+              {labels.map(({ labelName, backgroundColor, fontColor }) => (
+                <li key={labelName}>
+                  <LabelTag
+                    labelName={labelName}
+                    backgroundColor={backgroundColor}
+                    fontColor={fontColor}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="flex gap-2">
           <span>#{id}</span>
@@ -46,31 +48,27 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
         </div>
       </div>
       <div className="w-full grid grid-cols-3 gap-10">
-        <ul className="group flex col-start-1 justify-center">
-          {assignees.map(({ userImage, userId }, index) => (
-            <li
-              key={userImage}
-              style={{
-                transform: `translateX(-${index * 10}px)`,
-              }}
-              className="cursor-pointer"
-            >
-              <Avatar src={userImage} alt={userId} size="sm" />
-            </li>
-          ))}
-        </ul>
+        {assignees.length > 0 && (
+          <ul className="group flex col-start-1 justify-center">
+            {assignees.map(({ userImage, userId }, index) => (
+              <li
+                key={userImage}
+                style={{
+                  transform: `translateX(-${index * 10}px)`,
+                }}
+                className="cursor-pointer"
+              >
+                <Avatar src={userImage} alt={userId} size="sm" />
+              </li>
+            ))}
+          </ul>
+        )}
         <div className="col-start-3">
           <Avatar src={author.userImage} alt={author.userId} size="sm" />
         </div>
       </div>
     </li>
   );
-};
-
-const getAssigneeStyle = (index: number) => {
-  return `cursor-pointer -translate-x-${
-    index * 2
-  } transition-transform group-hover:translate-x-0`;
 };
 
 export default IssueItem;

@@ -8,6 +8,7 @@ import SelectedUsers from './SelectedUsers';
 import SelectedLabels from './SelectedLabels';
 
 export interface SideBarItem {
+  id: string;
   menuIcon: string;
   menuItem: string;
   menuColor?: string;

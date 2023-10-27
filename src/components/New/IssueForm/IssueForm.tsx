@@ -8,8 +8,11 @@ import SubmitBtn from '../SubmitBtn';
 import SideBar from '../SideBar';
 import { MenuItemValue } from '../SideBar/constant';
 import { SideBarItem } from '../SideBar/SideBarDropdown';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const IssueForm = () => {
+  const router = useRouter();
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
   const [assignees, setAssignees] = useState<SideBarItem[]>([]);
@@ -23,37 +26,47 @@ const IssueForm = () => {
   const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
     setComment(e.target.value);
 
-  //TODO: 아이템클릭시, 해당 value에 해당 MenuItem POST
   const handleSelectMenuItem = (value: MenuItemValue, item: SideBarItem) => {
-    if (value === 'assignees') {
-      const isExist = assignees.find(
-        (assignee) => assignee.menuItem === item.menuItem,
+    const findAndSetItems = (
+      items: SideBarItem[],
+      targetItem: SideBarItem,
+      setItems: (items: SideBarItem[]) => void,
+    ) => {
+      const isExist = items.find(
+        (item) => item.menuItem === targetItem.menuItem,
       );
       if (isExist) {
-        setAssignees(
-          assignees.filter((assignee) => assignee.menuItem !== item.menuItem),
-        );
+        setItems(items.filter((item) => item.menuItem !== targetItem.menuItem));
       } else {
-        setAssignees([...assignees, item]);
+        setItems([...items, targetItem]);
       }
+    };
+
+    if (value === 'assignees') {
+      findAndSetItems(assignees, item, setAssignees);
     } else if (value === 'labels') {
-      const isExist = labels.find((label) => label.menuItem === item.menuItem);
-      if (isExist) {
-        setLabels(labels.filter((label) => label.menuItem !== item.menuItem));
-      } else {
-        setLabels([...labels, item]);
-      }
+      findAndSetItems(labels, item, setLabels);
     }
   };
 
   const handleFormReset = () => {
     setTitle('');
     setComment('');
+    setAssignees([]);
+    setLabels([]);
   };
 
   const handleFormSubmit = () => {
-    // TODO: POST /api/issues - 해당 id 이슈로 이동
-    console.log('완료', title, comment);
+    axios
+      .post('/api/issue', {
+        title,
+        contents: comment,
+        assignees: assignees.map((assignee) => assignee.id),
+        labels: labels.map((label) => label.id),
+      })
+      .then(() => handleFormReset())
+      .then(() => router.push('/issues'))
+      .catch((err) => console.error(err));
   };
 
   return (
