@@ -1,27 +1,31 @@
 import { FilterState } from '@/context/IssueFilterContext';
 import { client } from './sanity';
 
-export async function getFilterdIssueList({
+export async function getFilterdIssueList(filters: FilterState) {
+  const query = buildFilterQuery(filters);
+  return client.fetch(query);
+}
+
+const buildFilterQuery = ({
   isOpen,
   author,
   labels,
   assignee,
   comment,
-}: FilterState) {
-  return client.fetch(
-    `*[_type == "issue" && isOpen == ${isOpen}${
-      author ? `&& author->userId == "${author}"` : ''
-    }${labels.length > 0 ? `&& labels[]->labelName match ${labels}` : ''}${
-      assignee ? `&& "${assignee}" in assignees[]->userId` : ''
-    }] | order(_createdAt desc){${issueFields}}`,
-  );
-}
-
-export async function getIssueList() {
-  return client.fetch(
-    `*[_type == "issue"] | order(_createdAt desc){${issueFields}}`,
-  );
-}
+}: FilterState) => {
+  const query = `*[_type == "issue"${
+    isOpen === null ? '' : `&& isOpen == ${isOpen}`
+  }${author ? `&& author->userId == "${author}"` : ''}${
+    labels.length > 0
+      ? `&& labels[]->labelName match ["${labels[0]}"${
+          labels[1] ? `, "${labels[1]}"` : ''
+        }]`
+      : ''
+  }${assignee ? `&& "${assignee}" in assignees[]->userId` : ''}${
+    comment ? `&& "${comment}" in comments[].author->userId` : ''
+  }] | order(_createdAt desc){${issueFields}}`;
+  return query;
+};
 
 const issueFields = `
   "id": _id,
@@ -62,7 +66,7 @@ export async function getIssueById({ id, username }: IssueById) {
   "mainComment": contents,
   "labels": labels[]->{labelName, backgroundColor, fontColor},
   "assignees": assignees[]->{userId, "userImage": userImage},
-  "comments" : commentsBy[]{comment, "authorId": author->userId, "authorImage": author->userImage, "createdAt": createdAt, "updatedAt": updatedAt, "isMine": author->name == "${username}"} | order(_createdAt asc),
+  "comments" : comments[]{comment, "authorId": author->userId, "authorImage": author->userImage, "createdAt": createdAt, "updatedAt": updatedAt, "isMine": author->name == "${username}"} | order(_createdAt asc),
   "createdAt": _createdAt,
   "updatedAt": _updatedAt,
   "isMine": "${username}" in assignees[]->name || author->name == "${username}"
@@ -104,8 +108,8 @@ export async function addComment(
 ) {
   return client
     .patch(issueId)
-    .setIfMissing({ commentsBy: [] })
-    .append('commentsBy', [
+    .setIfMissing({ comments: [] })
+    .append('comments', [
       {
         _type: 'comment',
         author: {

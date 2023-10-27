@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '@/lib/authOptions';
 import { getFilterdIssueList } from '@/service/issues';
+import { User } from '@/app/model/user';
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -21,11 +22,31 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  return getFilterdIssueList({
-    isOpen: searchParams.get('isOpen') === 'true' ? true : false,
-    author: searchParams.get('author'),
-    labels: searchParams.get('labels')?.split(',') || [],
-    assignee: searchParams.get('assignee'),
-    comment: searchParams.get('comment'),
-  }).then(NextResponse.json);
+  const queryParams = getQueryParams(searchParams, user);
+
+  return getFilterdIssueList(queryParams).then(NextResponse.json);
 }
+
+const getQueryParams = (searchParams: URLSearchParams, user: User) => {
+  return {
+    isOpen:
+      searchParams.get('isOpen') === 'true'
+        ? true
+        : searchParams.get('isOpen') === 'false'
+        ? false
+        : null,
+    author:
+      searchParams.get('author') === 'me'
+        ? user.userId
+        : searchParams.get('author'),
+    labels: searchParams.get('labels')?.split(',') || [],
+    assignee:
+      searchParams.get('assignee') === 'me'
+        ? user.userId
+        : searchParams.get('assignee'),
+    comment:
+      searchParams.get('comment') === 'me'
+        ? user.userId
+        : searchParams.get('comment'),
+  };
+};

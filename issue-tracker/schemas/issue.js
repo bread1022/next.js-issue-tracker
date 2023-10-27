@@ -37,8 +37,8 @@ export default {
       of: [{type: 'reference', to: {type: 'label'}}],
     },
     {
-      title: 'CommentsBy',
-      name: 'commentsBy',
+      title: 'comments',
+      name: 'comments',
       type: 'array',
       of: [
         {
