@@ -102,20 +102,23 @@ export default function useIssue(issueId: string) {
 
   const putEditComment = useCallback(
     async (commentId: string, comment: string) => {
-      if (!user) return;
+      if (!user || !data) return;
       const index = data.comments.findIndex(
         (comment: SimpleComment) => comment.commentId === commentId,
       );
+      const newComment = {
+        comment: comment,
+        authorId: user.user.userId,
+        authorImage: user.user.userImage,
+        updatedAt: new Date().toISOString(),
+        isMine: true,
+      };
 
       const newIssue = {
         ...data,
         comments: [
-          data.comments[index],
-          {
-            comment: comment,
-            authorId: user.user.userId,
-            authorImage: user.user.userImage,
-          },
+          ...data.comments.slice(0, index),
+          newComment,
           ...data.comments.slice(index + 1),
         ],
       };

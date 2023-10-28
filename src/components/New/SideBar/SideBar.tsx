@@ -6,12 +6,13 @@ import { User } from '@/app/model/user';
 import { Label } from '@/app/model/label';
 
 interface SideBarProps {
+  isMine: boolean;
   assignees: SideBarItem[];
   labels: SideBarItem[];
   onSelect: (menu: MenuItemValue, item: SideBarItem) => void;
 }
 
-const SideBar = ({ assignees, labels, onSelect }: SideBarProps) => {
+const SideBar = ({ isMine, assignees, labels, onSelect }: SideBarProps) => {
   const [endpoint, setEndpoint] = useState('user');
   const { data: items } = useSWR(`/api/${endpoint}`);
 
@@ -55,7 +56,7 @@ const SideBar = ({ assignees, labels, onSelect }: SideBarProps) => {
           assignees={assignees}
           labels={labels}
           items={convertSideBarItem(value)}
-          onBtnClick={() => handleMenuBtnClick(endpoint)}
+          onBtnClick={isMine ? () => handleMenuBtnClick(endpoint) : undefined}
           onSelect={handleSelectItemClick}
         />
       ))}

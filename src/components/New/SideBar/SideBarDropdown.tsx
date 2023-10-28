@@ -21,7 +21,7 @@ interface SideBarDropdownProps {
   items?: SideBarItem[];
   assignees: SideBarItem[];
   labels: SideBarItem[];
-  onBtnClick: () => void;
+  onBtnClick?: () => void;
   onSelect: (menu: MenuItemValue, item: SideBarItem) => void;
 }
 
@@ -37,6 +37,7 @@ const SideBarDropdown = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuBtnClick = () => {
+    if (!onBtnClick) return;
     onBtnClick();
     handleMenuToggle();
   };

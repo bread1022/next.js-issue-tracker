@@ -17,7 +17,6 @@ const SubText = ({
   authorId,
   commentsCount,
 }: SubTextProps) => {
-  console.log(updatedAt);
   return (
     <div className="px-1 flex items-center gap-5">
       <StatusLabel isOpen={isOpen} />

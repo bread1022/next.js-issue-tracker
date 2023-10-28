@@ -44,7 +44,7 @@ const CommentsArea = ({ id, comments, isLoading }: CommentProps) => {
         <Skeletone type="comment" />
       ) : (
         comments.map((comment: CommentType) => (
-          <li key={comment.comment}>
+          <li key={comment.createdAt}>
             <Comment comments={comment} onSubmit={handleEditComment} />
           </li>
         ))

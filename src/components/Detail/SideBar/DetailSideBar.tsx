@@ -55,6 +55,7 @@ const DetailSideBar = ({
       ) : (
         <div>
           <SideBar
+            isMine={isMine}
             assignees={selectedAssignee}
             labels={selectedLabel}
             onSelect={handleSelectItems}
