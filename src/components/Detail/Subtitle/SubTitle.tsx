@@ -9,6 +9,7 @@ type SubTitle = {
   title: string;
   isOpen: boolean;
   createdAt: string;
+  updatedAt?: string;
   authorId: string;
   commentsCount: number;
   isMine: boolean;
@@ -19,7 +20,8 @@ interface SubTitleProps {
 }
 
 const SubTitle = ({ issue }: SubTitleProps) => {
-  const { id, title, isOpen, createdAt, authorId, commentsCount } = issue;
+  const { id, title, isOpen, createdAt, updatedAt, authorId, commentsCount } =
+    issue;
   const [isEdit, setIsEdit] = useState(false);
   const [value, setValue] = useState(title);
   const [editedValue, setEditedValue] = useState(title);
@@ -40,9 +42,10 @@ const SubTitle = ({ issue }: SubTitleProps) => {
   }, [value]);
 
   const handleTitleEdit = useCallback(() => {
-    putTitle(editedValue);
-    setValue(editedValue);
-    setIsEdit(false);
+    putTitle(editedValue).then(() => {
+      setValue(editedValue);
+      setIsEdit(false);
+    });
   }, [putTitle, editedValue]);
 
   const handleIssueOpen = useCallback(() => {
@@ -80,6 +83,7 @@ const SubTitle = ({ issue }: SubTitleProps) => {
       <SubText
         isOpen={isOpen}
         createdAt={createdAt}
+        updatedAt={updatedAt}
         authorId={authorId}
         commentsCount={commentsCount}
       />

@@ -1,7 +1,7 @@
 import TextArea from '@/components/Common/TextArea';
 import TextInput from '@/components/Common/TextInput';
 import CancleBtn from '../CancleBtn';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import SubmitBtn from '../SubmitBtn';
 import SideBar from '../SideBar';
 import { MenuItemValue } from '../SideBar/constant';
@@ -28,33 +28,29 @@ const IssueForm = ({ onPost }: IssueFormProps) => {
   const [labels, setLabels] = useState<SideBarItem[]>([]);
   const isSubmitReady = title.length > 0 && comment.length > 0;
 
-  const handleSelectMenuItem = useCallback(
-    (value: MenuItemValue, item: SideBarItem) => {
-      const findAndSetItems = (
-        items: SideBarItem[],
-        targetItem: SideBarItem,
-        setItems: (items: SideBarItem[]) => void,
-      ) => {
-        const isExist = items.find(
-          (item) => item.menuItem === targetItem.menuItem,
-        );
-        if (isExist) {
-          setItems(
-            items.filter((item) => item.menuItem !== targetItem.menuItem),
-          );
-        } else {
-          setItems([...items, targetItem]);
-        }
-      };
+  const handleSelectMenuItem = (
+    value: MenuItemValue,
+    selectedItem: SideBarItem,
+  ) => {
+    const findAndSetItems = (
+      items: SideBarItem[],
+      targetItem: SideBarItem,
+      setItems: (items: SideBarItem[]) => void,
+    ) => {
+      const { menuItem } = targetItem;
+      const isExist = items.some((item) => item.menuItem === menuItem);
+      if (isExist) {
+        const newItems = items.filter((item) => item.menuItem !== menuItem);
+        setItems(newItems);
+      } else setItems([...items, targetItem]);
+    };
 
-      if (value === 'assignees') {
-        findAndSetItems(assignees, item, setAssignees);
-      } else if (value === 'labels') {
-        findAndSetItems(labels, item, setLabels);
-      }
-    },
-    [],
-  );
+    if (value === 'assignees') {
+      findAndSetItems(assignees, selectedItem, setAssignees);
+    } else if (value === 'labels') {
+      findAndSetItems(labels, selectedItem, setLabels);
+    }
+  };
 
   const handleFormReset = () => {
     setTitle('');

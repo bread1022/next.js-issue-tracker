@@ -8,17 +8,22 @@ import {
   useIssueCheckState,
 } from '@/context/IssueCheckContext';
 import SwitchStatusMenu from './StatusSelectMenu';
-import axios from 'axios';
-import { useIssueFilterState } from '@/context/IssueFilterContext';
+import {
+  useIssueFilterDispatch,
+  useIssueFilterState,
+} from '@/context/IssueFilterContext';
+import useIssueList from '@/hook/issueList';
 
 interface TableHeaderProps {
   issueCount: IssueCountType;
 }
 
 const TableHeader = ({ issueCount }: TableHeaderProps) => {
+  const { putIsOpenOfIssue } = useIssueList();
+  const { onFilterOpen, onFilterClose } = useIssueFilterDispatch();
   const filterState = useIssueFilterState();
   const { checkedAll, checkeditems } = useIssueCheckState();
-  const { onCheckAll, onUncheckAll, onSwitchCheck } = useIssueCheckDispatch();
+  const { onCheckAll, onUncheckAll } = useIssueCheckDispatch();
   const isChecked = checkeditems.length > 0;
 
   const handleCheckBoxClick = () => {
@@ -26,22 +31,16 @@ const TableHeader = ({ issueCount }: TableHeaderProps) => {
     else onCheckAll();
   };
 
-  // TODO: 이슈리스트 revalidate 아니면 optimistic ui
   const handleSelectStatusItem = (item: string) => {
-    if (item === 'open') {
-      if (filterState.isOpen) return;
-      axios.put('/api/issues', {
-        isOpen: true,
-        issues: checkeditems,
-      });
-    } else {
-      if (!filterState.isOpen) return;
-      axios.put('/api/issues', {
-        isOpen: false,
-        issues: checkeditems,
-      });
-    }
-    onSwitchCheck();
+    const updateStatus = item === 'open';
+    if (filterState.isOpen === updateStatus) return;
+
+    putIsOpenOfIssue(checkeditems, updateStatus)
+      .then(() => {
+        if (item === 'open') onFilterOpen();
+        else onFilterClose();
+      })
+      .finally(() => onUncheckAll());
   };
 
   return (

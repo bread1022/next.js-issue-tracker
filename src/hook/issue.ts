@@ -4,38 +4,34 @@ import { useSession } from 'next-auth/react';
 import { useCallback } from 'react';
 import useSWR from 'swr';
 
-const addComment = async (id: string, comment: string) => {
-  return axios
+const addComment = (id: string, comment: string) =>
+  axios
     .put(`/api/issues/${id}/comments`, {
       comment: comment,
     })
     .then((res) => res.data);
-};
 
-const editComment = async (id: string, commentId: string, comment: string) => {
-  return axios
+const editComment = (id: string, commentId: string, comment: string) =>
+  axios
     .put(`/api/issues/${id}/comments`, {
       commentId: commentId,
       comment: comment,
     })
     .then((res) => res.data);
-};
 
-const editTitle = async (id: string, title: string) => {
-  return axios
+const editTitle = (id: string, title: string) =>
+  axios
     .put(`/api/issues/${id}`, {
       title: title,
     })
     .then((res) => res.data);
-};
 
-const editIsOpen = async (id: string, isOpen: boolean) => {
-  return axios
+const editIsOpen = (id: string, isOpen: boolean) =>
+  axios
     .put(`/api/issues/${id}`, {
       isOpen: isOpen,
     })
     .then((res) => res.data);
-};
 
 export default function useIssue(issueId: string) {
   const { data: user } = useSession();
@@ -43,13 +39,13 @@ export default function useIssue(issueId: string) {
 
   const putTitle = useCallback(
     async (title: string) => {
-      const newTitle = {
+      const newIssue = {
         ...data,
         title: title,
       };
 
       return mutate(editTitle(issueId, title), {
-        optimisticData: newTitle,
+        optimisticData: newIssue,
         populateCache: false,
         revalidate: false,
         rollbackOnError: true,
@@ -60,13 +56,14 @@ export default function useIssue(issueId: string) {
 
   const putIsOpen = useCallback(
     async ({ isOpen }: { isOpen: boolean }) => {
-      const newIsOpen = {
+      const newIssue = {
         ...data,
         isOpen: isOpen,
+        updatedAt: new Date().toISOString(),
       };
 
       return mutate(editIsOpen(issueId, isOpen), {
-        optimisticData: newIsOpen,
+        optimisticData: newIssue,
         populateCache: false,
         revalidate: false,
         rollbackOnError: true,
@@ -78,7 +75,7 @@ export default function useIssue(issueId: string) {
   const putNewComment = useCallback(
     async (comment: string) => {
       if (!user) return;
-      const newComment = {
+      const newIssue = {
         ...data,
         comments: [
           ...(data.comments ?? []),
@@ -94,7 +91,7 @@ export default function useIssue(issueId: string) {
       };
 
       return mutate(addComment(issueId, comment), {
-        optimisticData: newComment,
+        optimisticData: newIssue,
         populateCache: false,
         revalidate: false,
         rollbackOnError: true,
@@ -110,7 +107,7 @@ export default function useIssue(issueId: string) {
         (comment: SimpleComment) => comment.commentId === commentId,
       );
 
-      const newComment = {
+      const newIssue = {
         ...data,
         comments: [
           data.comments[index],
@@ -124,7 +121,7 @@ export default function useIssue(issueId: string) {
       };
 
       return mutate(editComment(issueId, commentId, comment), {
-        optimisticData: newComment,
+        optimisticData: newIssue,
         populateCache: false,
         revalidate: false,
         rollbackOnError: true,

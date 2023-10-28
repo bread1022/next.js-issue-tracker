@@ -7,10 +7,6 @@ import { useSession } from 'next-auth/react';
 import { useCallback } from 'react';
 import useSWR from 'swr';
 
-const deleteIssue = async (id: string) => {
-  return axios.delete(`/api/issues/${id}`).then((res) => res.data);
-};
-
 export interface AddIssueProps {
   user?: {
     userId: string;
@@ -22,13 +18,11 @@ export interface AddIssueProps {
   labels: SideBarItem[];
 }
 
-const addIssue = async ({
-  title,
-  comment,
-  assignees,
-  labels,
-}: AddIssueProps) => {
-  return axios
+const deleteIssue = (id: string) =>
+  axios.delete(`/api/issues/${id}`).then((res) => res.data);
+
+const addIssue = ({ title, comment, assignees, labels }: AddIssueProps) =>
+  axios
     .post('/api/issue', {
       title,
       contents: comment,
@@ -36,8 +30,16 @@ const addIssue = async ({
       labels: labels.map((label) => label.id),
     })
     .then((res) => res.data);
-};
 
+const switchStatusOfIssue = (items: string[], isOpen: boolean) =>
+  axios
+    .put('/api/issues', {
+      isOpen: isOpen,
+      issues: items,
+    })
+    .then((res) => res.data);
+
+//TODO: OptimisticData가 제대로 적용이 안됨
 export default function useIssueList() {
   const { data: session } = useSession();
   const user = session?.user;
@@ -95,11 +97,29 @@ export default function useIssueList() {
     [data, mutate],
   );
 
+  const putIsOpenOfIssue = useCallback(
+    async (items: string[], isOpen: boolean) => {
+      if (!data) return;
+      const newIssues = data?.map((issue) => {
+        return items.includes(issue.id) ? { ...issue, isOpen: isOpen } : issue;
+      });
+
+      return mutate(switchStatusOfIssue(items, isOpen), {
+        optimisticData: newIssues,
+        populateCache: false,
+        revalidate: false,
+        rollbackOnError: true,
+      });
+    },
+    [data, mutate],
+  );
+
   return {
     data,
     isLoading,
     error,
     deleteIssueBy,
     postIssue,
+    putIsOpenOfIssue,
   };
 }

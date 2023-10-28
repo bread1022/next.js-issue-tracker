@@ -18,7 +18,6 @@ enum CheckActionType {
   ALL_CHECK_IN = 'ALL_CHECK_IN',
   CHECK = 'CHECK',
   ALL_UNCHECK = 'ALL_UNCHECK',
-  SWITCH_CHECK = 'SWITCH_CHECK',
 }
 
 interface Action {
@@ -35,7 +34,7 @@ interface Action {
 
 interface CheckState {
   checkedAll: boolean;
-  checkeditems: string[]; // Issue Id 저장
+  checkeditems: string[];
 }
 
 const reducer = (state: CheckState, action: Action): CheckState => {
@@ -75,13 +74,6 @@ const reducer = (state: CheckState, action: Action): CheckState => {
         checkedAll: false,
         checkeditems: [],
       };
-    case CheckActionType.SWITCH_CHECK: {
-      return {
-        ...state,
-        checkedAll: !state.checkedAll,
-        checkeditems: [],
-      };
-    }
     default:
       return state;
   }
@@ -101,7 +93,6 @@ const IssueCheckDispatchContext = createContext({
   onCheckAllIn: (checkeditems: string[]) => {},
   onCheck: (id: string) => {},
   onUncheckAll: () => {},
-  onSwitchCheck: () => {},
 });
 
 const IssueCheckProvider = ({ children }: IssueCheckContextProps) => {
@@ -135,22 +126,14 @@ const IssueCheckProvider = ({ children }: IssueCheckContextProps) => {
     });
   }, []);
 
-  const onSwitchCheck = useCallback(() => {
-    dispatch({
-      type: CheckActionType.SWITCH_CHECK,
-      payload: {},
-    });
-  }, []);
-
   const checkIssuesDispatch = useMemo(() => {
     return {
       onCheckAll,
       onCheckAllIn,
       onCheck,
       onUncheckAll,
-      onSwitchCheck,
     };
-  }, [onCheckAll, onCheckAllIn, onCheck, onUncheckAll, onSwitchCheck]);
+  }, [onCheckAll, onCheckAllIn, onCheck, onUncheckAll]);
 
   return (
     <IssueCheckContext.Provider value={{ checkedIssuesState }}>
@@ -167,9 +150,9 @@ export const useIssueCheckState = () => {
 };
 
 export const useIssueCheckDispatch = () => {
-  const { onCheckAll, onCheckAllIn, onCheck, onUncheckAll, onSwitchCheck } =
+  const { onCheckAll, onCheckAllIn, onCheck, onUncheckAll } =
     useContext(IssueCheckDispatchContext);
-  return { onCheckAll, onCheckAllIn, onCheck, onUncheckAll, onSwitchCheck };
+  return { onCheckAll, onCheckAllIn, onCheck, onUncheckAll };
 };
 
 export default IssueCheckProvider;

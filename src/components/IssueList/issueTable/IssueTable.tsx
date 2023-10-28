@@ -13,8 +13,6 @@ import useIssueList from '@/hook/issueList';
 const IssueTable = () => {
   const { data: issues, isLoading } = useIssueList();
 
-  console.log(issues);
-
   const { checkedAll, checkeditems } = useIssueCheckState();
   const { onCheckAllIn, onCheck } = useIssueCheckDispatch();
 

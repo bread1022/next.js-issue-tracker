@@ -1,5 +1,5 @@
 import { MenuItemValue, SIDEBAR_SELECT_MENU } from './constant';
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import useSWR from 'swr';
 import SideBarDropdown, { SideBarItem } from './SideBarDropdown';
 import { User } from '@/app/model/user';
@@ -63,4 +63,4 @@ const SideBar = ({ assignees, labels, onSelect }: SideBarProps) => {
   );
 };
 
-export default memo(SideBar);
+export default SideBar;
