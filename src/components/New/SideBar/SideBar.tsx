@@ -6,7 +6,7 @@ import { User } from '@/app/model/user';
 import { Label } from '@/app/model/label';
 
 interface SideBarProps {
-  isMine: boolean;
+  isMine?: boolean;
   assignees: SideBarItem[];
   labels: SideBarItem[];
   onSelect: (menu: MenuItemValue, item: SideBarItem) => void;

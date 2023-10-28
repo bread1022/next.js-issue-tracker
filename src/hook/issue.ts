@@ -51,7 +51,7 @@ export default function useIssue(issueId: string) {
         rollbackOnError: true,
       });
     },
-    [data, mutate],
+    [data, mutate, issueId],
   );
 
   const putIsOpen = useCallback(
@@ -69,7 +69,7 @@ export default function useIssue(issueId: string) {
         rollbackOnError: true,
       });
     },
-    [data, mutate],
+    [data, mutate, issueId],
   );
 
   const putNewComment = useCallback(
@@ -97,7 +97,7 @@ export default function useIssue(issueId: string) {
         rollbackOnError: true,
       });
     },
-    [data, mutate],
+    [data, mutate, issueId, user],
   );
 
   const putEditComment = useCallback(
@@ -130,7 +130,7 @@ export default function useIssue(issueId: string) {
         rollbackOnError: true,
       });
     },
-    [data, mutate],
+    [data, mutate, issueId],
   );
 
   return {

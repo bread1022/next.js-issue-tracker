@@ -94,7 +94,7 @@ export default function useIssueList() {
         rollbackOnError: true,
       });
     },
-    [data, mutate],
+    [data, mutate, user],
   );
 
   const putIsOpenOfIssue = useCallback(

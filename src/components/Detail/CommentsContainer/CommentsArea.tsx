@@ -16,11 +16,6 @@ interface CommentProps {
 
 const CommentsArea = ({ id, comments, isLoading }: CommentProps) => {
   const [value, setValue] = useState('');
-
-  const { data: user } = useSession();
-  const authorId = user?.user.userId;
-  const authorImage = user?.user.userImage;
-
   const { putNewComment, putEditComment } = useIssue(id);
 
   const handleNewComment = (e: ChangeEvent<HTMLTextAreaElement>) =>
@@ -35,7 +30,7 @@ const CommentsArea = ({ id, comments, isLoading }: CommentProps) => {
     (commentId: string, comment: string) => {
       putEditComment(commentId, comment);
     },
-    [putEditComment, authorId, authorImage],
+    [putEditComment],
   );
 
   return (
