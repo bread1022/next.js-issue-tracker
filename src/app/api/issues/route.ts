@@ -23,11 +23,14 @@ export async function GET(request: NextRequest) {
   }
 
   const queryParams = getQueryParams(searchParams, user);
-
   return getFilterdIssueList(queryParams).then(NextResponse.json);
 }
 
 const getQueryParams = (searchParams: URLSearchParams, user: User) => {
+  const extractParams = (value: string | null) => {
+    return value === 'me' ? user.userId : value;
+  };
+
   return {
     isOpen:
       searchParams.get('isOpen') === 'true'
@@ -35,19 +38,10 @@ const getQueryParams = (searchParams: URLSearchParams, user: User) => {
         : searchParams.get('isOpen') === 'false'
         ? false
         : null,
-    author:
-      searchParams.get('author') === 'me'
-        ? user.userId
-        : searchParams.get('author'),
+    author: extractParams(searchParams.get('author')),
     labels: searchParams.get('labels')?.split(',') || [],
-    assignee:
-      searchParams.get('assignee') === 'me'
-        ? user.userId
-        : searchParams.get('assignee'),
-    comment:
-      searchParams.get('comment') === 'me'
-        ? user.userId
-        : searchParams.get('comment'),
+    assignee: extractParams(searchParams.get('assignee')),
+    comment: extractParams(searchParams.get('comment')),
   };
 };
 
