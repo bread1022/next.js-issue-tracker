@@ -2,7 +2,7 @@ import Avatar from '@/components/Common/Avatar';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 import { redirect } from 'next/navigation';
-import IssueForm from '@/components/New/IssueForm/IssueForm';
+import NewIssueForm from '@/components/New';
 
 export default async function NewPage() {
   const session = await getServerSession(authOptions);
@@ -13,7 +13,7 @@ export default async function NewPage() {
   return (
     <>
       <Avatar src={user.userImage} alt={user.name} size="lg" />
-      <IssueForm />
+      <NewIssueForm />
     </>
   );
 }

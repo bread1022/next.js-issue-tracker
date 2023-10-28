@@ -25,7 +25,7 @@ const TextArea = ({
   const handleFileInput = () => {
     const file = fileRef.current?.files;
     if (file) {
-      //** 사용자가 파일을 첨부하면, url로 변경해서 ![filename](url) 형식으로 textarea에 마지막 커서 뒤에 위치시킨다.
+      //TODO: 사용자가 파일을 첨부하면, url로 변경해서 ![filename](url) 형식으로 textarea에 마지막 커서 뒤에 위치시킨다.
       console.log(file);
       const fileArr = Array.from(file);
       const url = fileArr.map((file) => {

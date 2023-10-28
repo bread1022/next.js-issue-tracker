@@ -1,53 +1,60 @@
-'use client';
-
 import TextArea from '@/components/Common/TextArea';
 import TextInput from '@/components/Common/TextInput';
 import CancleBtn from '../CancleBtn';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import SubmitBtn from '../SubmitBtn';
 import SideBar from '../SideBar';
 import { MenuItemValue } from '../SideBar/constant';
 import { SideBarItem } from '../SideBar/SideBarDropdown';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { AddIssueProps } from '@/hook/issueList';
+import { IssueType } from '@/app/model/issue';
 
-const IssueForm = () => {
+interface IssueFormProps {
+  onPost: ({
+    user,
+    title,
+    comment,
+    assignees,
+    labels,
+  }: AddIssueProps) => Promise<IssueType[] | undefined>;
+}
+
+const IssueForm = ({ onPost }: IssueFormProps) => {
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
   const [assignees, setAssignees] = useState<SideBarItem[]>([]);
   const [labels, setLabels] = useState<SideBarItem[]>([]);
-
   const isSubmitReady = title.length > 0 && comment.length > 0;
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setTitle(e.target.value);
+  const handleSelectMenuItem = useCallback(
+    (value: MenuItemValue, item: SideBarItem) => {
+      const findAndSetItems = (
+        items: SideBarItem[],
+        targetItem: SideBarItem,
+        setItems: (items: SideBarItem[]) => void,
+      ) => {
+        const isExist = items.find(
+          (item) => item.menuItem === targetItem.menuItem,
+        );
+        if (isExist) {
+          setItems(
+            items.filter((item) => item.menuItem !== targetItem.menuItem),
+          );
+        } else {
+          setItems([...items, targetItem]);
+        }
+      };
 
-  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
-    setComment(e.target.value);
-
-  const handleSelectMenuItem = (value: MenuItemValue, item: SideBarItem) => {
-    const findAndSetItems = (
-      items: SideBarItem[],
-      targetItem: SideBarItem,
-      setItems: (items: SideBarItem[]) => void,
-    ) => {
-      const isExist = items.find(
-        (item) => item.menuItem === targetItem.menuItem,
-      );
-      if (isExist) {
-        setItems(items.filter((item) => item.menuItem !== targetItem.menuItem));
-      } else {
-        setItems([...items, targetItem]);
+      if (value === 'assignees') {
+        findAndSetItems(assignees, item, setAssignees);
+      } else if (value === 'labels') {
+        findAndSetItems(labels, item, setLabels);
       }
-    };
-
-    if (value === 'assignees') {
-      findAndSetItems(assignees, item, setAssignees);
-    } else if (value === 'labels') {
-      findAndSetItems(labels, item, setLabels);
-    }
-  };
+    },
+    [],
+  );
 
   const handleFormReset = () => {
     setTitle('');
@@ -56,22 +63,27 @@ const IssueForm = () => {
     setLabels([]);
   };
 
-  const handleFormSubmit = () => {
-    axios
-      .post('/api/issue', {
-        title,
-        contents: comment,
-        assignees: assignees.map((assignee) => assignee.id),
-        labels: labels.map((label) => label.id),
-      })
+  const handleFormSubmit = async () => {
+    return onPost({
+      title,
+      comment,
+      assignees,
+      labels,
+    })
       .then(() => handleFormReset())
       .then(() => router.push('/issues'))
       .catch((err) => console.error(err));
   };
 
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setTitle(e.target.value);
+
+  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
+    setComment(e.target.value);
+
   return (
     <>
-      <form className="w-full flex flex-col gap-2">
+      <form id="new-issue-form" className="w-full flex flex-col gap-2">
         <TextInput
           id="title"
           placeholder="제목"

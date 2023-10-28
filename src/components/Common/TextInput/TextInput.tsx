@@ -1,5 +1,5 @@
 import useFocus from '@/hook/useFocus';
-import { ChangeEvent, InputHTMLAttributes, useRef } from 'react';
+import { ChangeEvent, InputHTMLAttributes } from 'react';
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
@@ -9,7 +9,6 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const TextInput = ({ id, placeholder, value, ...rest }: TextInputProps) => {
-  const ref = useRef<HTMLInputElement>(null);
   const { isFocus, onFocus, onBlur } = useFocus();
 
   return (
@@ -18,7 +17,6 @@ const TextInput = ({ id, placeholder, value, ...rest }: TextInputProps) => {
         {placeholder}
       </span>
       <input
-        ref={ref}
         id={id}
         type="text"
         className={getInputStyle(isFocus)}

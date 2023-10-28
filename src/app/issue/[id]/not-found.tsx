@@ -1,4 +1,3 @@
-// TODO: 해당하는 이슈 가 없을 때 보여줄 페이지
 export default function NotFound() {
-  return <div>없쒀용!</div>;
+  return <div>페이지를 찾을 수 없습니다</div>;
 }

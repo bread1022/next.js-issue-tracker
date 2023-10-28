@@ -7,7 +7,6 @@ import Skeletone from '@/components/Common/Skeletone';
 import Comment from './Comment';
 import useIssue from '@/hook/issue';
 import { useSession } from 'next-auth/react';
-import axios from 'axios';
 
 interface CommentProps {
   id: string;
@@ -22,29 +21,21 @@ const CommentsArea = ({ id, comments, isLoading }: CommentProps) => {
   const authorId = user?.user.userId;
   const authorImage = user?.user.userImage;
 
-  const { putComment } = useIssue(id);
+  const { putNewComment, putEditComment } = useIssue(id);
 
   const handleNewComment = (e: ChangeEvent<HTMLTextAreaElement>) =>
     setValue(e.target.value);
 
   const handleNewCommentSubmit = () => {
-    putComment({
-      authorId,
-      authorImage,
-      comment: value,
-    });
+    putNewComment(value);
     setValue('');
   };
 
   const handleEditComment = useCallback(
     (commentId: string, comment: string) => {
-      axios.put('/api/issue/', {
-        id: id,
-        commentId: commentId,
-        comment: comment,
-      });
+      putEditComment(commentId, comment);
     },
-    [id],
+    [putEditComment, authorId, authorImage],
   );
 
   return (

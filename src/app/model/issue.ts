@@ -1,8 +1,8 @@
 import { Label } from './label';
 import { User } from './user';
 
-type SimpleUser = Omit<User, 'name'>;
-type SimpleLabel = Omit<Label, 'createdAt'>;
+export type SimpleUser = Omit<User, 'name'>;
+export type SimpleLabel = Omit<Label, 'createdAt'>;
 
 export interface IssueType {
   id: string;
@@ -36,4 +36,11 @@ export interface DetailIssueType {
   assignees: SimpleUser[];
   labels: SimpleLabel[];
   updatedAt: string;
+}
+
+export interface IssueData extends DetailIssueType {
+  authorImage: string;
+  authorName: string;
+  isMine: boolean;
+  mainComment: string;
 }

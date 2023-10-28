@@ -26,6 +26,7 @@ const TableHeader = ({ issueCount }: TableHeaderProps) => {
     else onCheckAll();
   };
 
+  // TODO: 이슈리스트 revalidate 아니면 optimistic ui
   const handleSelectStatusItem = (item: string) => {
     if (item === 'open') {
       if (filterState.isOpen) return;

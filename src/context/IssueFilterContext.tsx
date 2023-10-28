@@ -17,10 +17,10 @@ enum FilterActionType {
   RESET_FILTER = 'RESET_FILTER',
   FILTER_OPEN = 'FILTER_OPEN',
   FILTER_CLOSE = 'FILTER_CLOSE',
-  FILTER_AUTHOR = 'FILTER_AUTHOR', //usename
-  FILTER_LABEL = 'FILTER_LABEL', // ['labelName', 'labelName']
-  FILTER_ASSIGNEE = 'FILTER_ASSIGNEE', // ['assigneeName', 'assigneeName']
-  FILTER_COMMENT_BY_ME = 'FILTER_COMMENT_BY_ME', // 무조건 me (username)
+  FILTER_AUTHOR = 'FILTER_AUTHOR',
+  FILTER_LABEL = 'FILTER_LABEL',
+  FILTER_ASSIGNEE = 'FILTER_ASSIGNEE',
+  FILTER_COMMENT_BY_ME = 'FILTER_COMMENT_BY_ME',
 }
 
 export interface FilterState {
