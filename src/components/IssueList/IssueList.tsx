@@ -1,6 +1,6 @@
 import IssueCheckProvider from '@/context/IssueCheckContext';
-import IssueTable from './IssueTable';
-import TableHeader from './TableHeader';
+import IssueTable from './IssueTable/IssueTable';
+import TableHeader from './TableHeader/TableHeader';
 import { IssueCountType } from './TableHeader/TableStatusBtns';
 
 const IssueList = (props: IssueCountType) => {

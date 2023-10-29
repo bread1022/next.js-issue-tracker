@@ -1,5 +1,5 @@
-import FilterBar from '@/components/IssueList/FilterBar';
-import IssueList from '@/components/IssueList/Index';
+import FilterBar from '@/components/IssueList/FilterBar/FilterBar';
+import IssueList from '@/components/IssueList/IssueList';
 import LabelBtn from '@/components/IssueList/LinkBtns/LabelBtn';
 import NewIssueBtn from '@/components/IssueList/LinkBtns/NewIssueBtn';
 import { authOptions } from '@/lib/authOptions';

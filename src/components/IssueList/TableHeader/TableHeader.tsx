@@ -7,7 +7,7 @@ import {
   useIssueCheckDispatch,
   useIssueCheckState,
 } from '@/context/IssueCheckContext';
-import SwitchStatusMenu from './StatusSelectMenu';
+import SwitchStatusMenu from './StatusSelectMenu/SwitchStatusMenu';
 import {
   useIssueFilterDispatch,
   useIssueFilterState,

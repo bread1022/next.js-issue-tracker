@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import FilterBar from '.';
+import FilterBar from './FilterBar';
 import FilterResetBtn from './FilterResetBtn';
 
 const meta: Meta<typeof FilterBar> = {

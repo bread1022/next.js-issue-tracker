@@ -130,7 +130,7 @@ export default function useIssue(issueId: string) {
         rollbackOnError: true,
       });
     },
-    [data, mutate, issueId],
+    [data, mutate, issueId, user],
   );
 
   return {
