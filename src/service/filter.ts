@@ -1,4 +1,3 @@
-import { SimpleLabel, SimpleUser } from '@/app/model/issue';
 import { Label } from '@/app/model/label';
 import { User } from '@/app/model/user';
 import { SelectMenuItemValue } from '@/components/IssueList/TableHeader/TableSelectMenu/constant';

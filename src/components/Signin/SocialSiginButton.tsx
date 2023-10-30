@@ -1,6 +1,6 @@
 'use client';
 
-import { ClientSafeProvider, signIn } from 'next-auth/react';
+import { ClientSafeProvider, getProviders, signIn } from 'next-auth/react';
 import Button from '../Common/Button';
 import * as icons from '../ui/icons/index';
 
@@ -34,5 +34,14 @@ const SocialSiginButton = ({
     </>
   );
 };
+
+export async function getServersideProps() {
+  const providers = await getProviders();
+  return {
+    props: {
+      providers,
+    },
+  };
+}
 
 export default SocialSiginButton;
