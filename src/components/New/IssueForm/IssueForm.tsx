@@ -94,6 +94,7 @@ const IssueForm = ({ onPost }: IssueFormProps) => {
         />
       </form>
       <SideBar
+        isMine
         assignees={assignees}
         labels={labels}
         onSelect={handleSelectMenuItem}

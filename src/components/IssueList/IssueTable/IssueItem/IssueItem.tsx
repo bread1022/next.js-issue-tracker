@@ -14,6 +14,7 @@ interface issueItemProps {
 
 const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
   const { id, title, isOpen, assignees, labels, author, createdAt } = item;
+  const issueId = id.slice(-4);
   const statusIcon = isOpen ? 'OpenIssue' : 'CloseIssue';
 
   return (
@@ -40,7 +41,7 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
           )}
         </div>
         <div className="flex gap-2">
-          <span>#{id}</span>
+          <span>#{issueId}</span>
           <span>
             이 이슈가 {getElapsedTime(createdAt)}, {author.userId}님에 의해
             작성되었습니다

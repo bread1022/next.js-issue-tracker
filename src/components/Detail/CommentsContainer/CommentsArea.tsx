@@ -6,7 +6,6 @@ import { CommentType } from '@/app/model/issue';
 import Skeletone from '@/components/Common/Skeletone';
 import Comment from './Comment';
 import useIssue from '@/hook/issue';
-import { useSession } from 'next-auth/react';
 
 interface CommentProps {
   id: string;
@@ -39,7 +38,7 @@ const CommentsArea = ({ id, comments, isLoading }: CommentProps) => {
         <Skeletone type="comment" />
       ) : (
         comments.map((comment: CommentType) => (
-          <li key={comment.createdAt}>
+          <li key={comment.comment}>
             <Comment comments={comment} onSubmit={handleEditComment} />
           </li>
         ))

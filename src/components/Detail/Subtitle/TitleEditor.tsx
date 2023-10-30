@@ -9,6 +9,7 @@ interface TitleEditorProps extends HTMLAttributes<HTMLInputElement> {
 
 const TitleEditor = forwardRef<HTMLInputElement, TitleEditorProps>(
   ({ id, title, isEdit, ...rest }, ref) => {
+    const issueId = id.slice(-4);
     const { isFocus, onFocus, onBlur } = useFocus();
 
     return (
@@ -31,7 +32,7 @@ const TitleEditor = forwardRef<HTMLInputElement, TitleEditorProps>(
         ) : (
           <div className="flex gap-5 text-2xl items-center truncate">
             <h3 className="text-textDark">{title}</h3>
-            <span className="truncate">#{id}</span>
+            <span className="truncate">#{issueId}</span>
           </div>
         )}
       </>
