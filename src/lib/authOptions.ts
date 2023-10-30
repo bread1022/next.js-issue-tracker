@@ -50,7 +50,7 @@ export const authOptions: NextAuthOptions = {
         userId,
         name,
         email,
-        userImage: image || '',
+        userImage: image ?? '',
       });
       return true;
     },
