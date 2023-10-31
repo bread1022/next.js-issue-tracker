@@ -1,9 +1,17 @@
 import Link from 'next/link';
 import { ButtonHTMLAttributes, LinkHTMLAttributes, ReactNode } from 'react';
 
+export type ButtonMode =
+  | 'ghost'
+  | 'primary'
+  | 'primaryGhost'
+  | 'default'
+  | 'github'
+  | 'naver';
+
 interface CommonButtonProps {
   size?: 'sm' | 'md' | 'lg' | 'max';
-  mode?: 'ghost' | 'primary' | 'default' | 'black' | 'primaryGhost';
+  mode?: ButtonMode;
   active?: boolean;
   justify?: 'center' | 'between' | 'end';
 }
@@ -81,7 +89,8 @@ const getButtonStyle = ({
     primary: 'bg-primary text-white',
     primaryGhost: 'border border-primary text-primary',
     default: 'border border-border',
-    black: 'bg-black text-white',
+    github: 'bg-black text-white',
+    naver: 'bg-[#2DB400] text-white',
   };
 
   const buttonJustify = {

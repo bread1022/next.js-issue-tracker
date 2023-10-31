@@ -13,9 +13,11 @@ const Singin = async () => {
   const providers = (await getProviders()) ?? {};
 
   return (
-    <div className="w-1/2 mx-auto my-20 flex flex-col justify-center items-center gap-20 ">
+    <div className="w-1/2 mx-auto my-20 text-center">
       <Logo />
-      <SocialSiginButton providers={providers} callbackUrl={'/issues'} />
+      <div className="mt-20 w-full flex flex-col gap-3 justify-center items-center">
+        <SocialSiginButton providers={providers} callbackUrl={'/issues'} />
+      </div>
     </div>
   );
 };

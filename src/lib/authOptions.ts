@@ -1,6 +1,7 @@
 import { addUser } from '@/service/users';
 import { NextAuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
+import NaverProvider from 'next-auth/providers/naver';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -14,6 +15,19 @@ export const authOptions: NextAuthOptions = {
           name: profile.name,
           email: profile.email,
           image: profile.avatar_url,
+        };
+      },
+    }),
+    NaverProvider({
+      clientId: process.env.NAVER_CLIENTID ?? '',
+      clientSecret: process.env.NAVER_SECRET ?? '',
+      profile({ response }) {
+        return {
+          id: response.id.toString().slice(1),
+          userId: response.email?.split('@')[0] ?? '',
+          name: response.nickname,
+          email: response.email,
+          image: response.profile_image,
         };
       },
     }),

@@ -9,6 +9,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'avatars.githubusercontent.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'phinf.pstatic.net',
+      },
     ],
   },
   async redirects() {

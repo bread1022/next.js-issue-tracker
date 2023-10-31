@@ -65,7 +65,7 @@ export const GitHubBtn: Story = {
   ...Template,
   args: {
     size: 'lg',
-    mode: 'black',
+    mode: 'github',
     active: true,
     justify: 'center',
     children: 'GitHub 계정으로 로그인',
