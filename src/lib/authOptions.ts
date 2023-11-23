@@ -6,8 +6,8 @@ import NaverProvider from 'next-auth/providers/naver';
 export const authOptions: NextAuthOptions = {
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_CLIENTID ?? '',
-      clientSecret: process.env.GITHUB_SECRET ?? '',
+      clientId: process.env.NEXT_PUBLIC_GITHUB_CLIENTID ?? '',
+      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET ?? '',
       profile(profile) {
         return {
           id: profile.id.toString(),
@@ -19,8 +19,8 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     NaverProvider({
-      clientId: process.env.NAVER_CLIENTID ?? '',
-      clientSecret: process.env.NAVER_SECRET ?? '',
+      clientId: process.env.NEXT_PUBLIC_NAVER_CLIENTID ?? '',
+      clientSecret: process.env.NEXT_PUBLIC_NAVER_SECRET ?? '',
       profile({ response }) {
         return {
           id: response.id.toString().slice(1),
@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   pages: {
     signIn: '/auth/signin',
   },
