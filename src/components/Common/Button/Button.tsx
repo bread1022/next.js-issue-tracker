@@ -78,10 +78,10 @@ const getButtonStyle = ({
   justify = 'center',
 }: CommonButtonProps) => {
   const buttonSizes = {
-    sm: 'h-10 w-max py-1 text-[0.75rem] gap-1',
-    md: 'h-10 w-32 py-2 px-3 text-sm gap-2',
-    lg: 'h-full w-full max-w-xs py-3 text-sm gap-2',
-    max: 'h-full min-w-[80px] w-max py-2 px-2 text-sm gap-2',
+    sm: 'h-10 w-max py-1 text-xs web:text-sm gap-1',
+    md: 'h-10 w-32 py-2 px-3 text-xs web:text-sm gap-2',
+    lg: 'h-full w-max max-w-xs py-3 text-xs web:text-sm gap-2',
+    max: 'h-full w-max py-2 px-2 text-xs web:text-sm gap-2',
   };
 
   const buttonmode = {

@@ -11,7 +11,7 @@ const SelectedUsers = ({ users }: SelectedUsersProps) => {
       {users.map(({ menuItem, menuIcon }) => (
         <li key={menuItem} className="w-full flex gap-3 py-1">
           <Avatar src={menuIcon} alt={menuItem} size="sm" />
-          <p className="grow text-sm">{menuItem}</p>
+          <p className="grow text-xs web:text-sm">{menuItem}</p>
         </li>
       ))}
     </ul>

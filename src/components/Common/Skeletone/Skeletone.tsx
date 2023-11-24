@@ -52,7 +52,7 @@ Skeletone.Text = ({ size = 'sm' }: SizeProps) => {
 Skeletone.ListItem = () => {
   return (
     <li
-      className={`relative h-24 min-w-[965px] grid grid-cols-[40px_3fr_1fr] items-center ${listStyle}`}
+      className={`relative h-24 w-full grid grid-cols-[40px_1fr_auto] items-center ${listStyle}`}
     >
       <div className="m-auto">
         <Icon name="UnCheckBox" color="border" />

@@ -8,7 +8,7 @@ const StatusLabel = ({ isOpen }: StatusLabelProps) => {
   return (
     <div className={getStatusLabelStyle(isOpen)}>
       <Icon name={`${isOpen ? 'OpenIssue' : 'CloseIssue'}`} color="white" />
-      <span className="text-white text-sm">
+      <span className="text-white text-xs web:text-sm">
         {isOpen ? '열린 이슈' : '닫힌 이슈'}
       </span>
     </div>

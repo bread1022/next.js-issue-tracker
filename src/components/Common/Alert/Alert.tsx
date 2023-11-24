@@ -16,7 +16,7 @@ interface AlertProps {
 const Alert = ({ message, type }: AlertProps) => {
   if (typeof window === 'undefined') return null;
   return createPortal(
-    <div className="absolute z-10 w-full h-full top-0 left-0 bg-alert flex justify-center items-center">
+    <div className="fixed z-10 w-full h-full top-0 left-0 bg-alert flex justify-center items-center">
       <div className="h-32 w-80 bg-white rounded-lg shadow-md">
         <div className="h-3/5 flex justify-center items-center text-textDark">
           {message}

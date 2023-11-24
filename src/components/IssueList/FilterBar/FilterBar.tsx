@@ -15,7 +15,7 @@ const FilterBar = () => {
     comment === null;
 
   return (
-    <div className="w-max h-24 flex flex-col justify-between gap-3">
+    <div className="w-full h-24 flex flex-col justify-between gap-3">
       <FilterInputBar />
       {isFiltered || <FilterResetBtn />}
     </div>

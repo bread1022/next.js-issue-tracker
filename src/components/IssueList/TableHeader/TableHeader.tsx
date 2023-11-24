@@ -35,16 +35,14 @@ const TableHeader = ({ issueCount }: TableHeaderProps) => {
     const updateStatus = item === 'open';
     if (filterState.isOpen === updateStatus) return;
 
-    putIsOpenOfIssue(checkeditems, updateStatus)
-      .then(() => {
-        if (item === 'open') onFilterOpen();
-        else onFilterClose();
-      })
-      .finally(() => onUncheckAll());
+    putIsOpenOfIssue(checkeditems, updateStatus);
+    if (item === 'open') onFilterOpen();
+    else onFilterClose();
+    onUncheckAll();
   };
 
   return (
-    <div className="h-16 pr-5 grid grid-cols-[40px_3fr_minmax(300px,_1fr)] items-center border-b border-border">
+    <div className="h-16 pr-5 grid grid-cols-[40px_1fr_auto] items-center border-b border-border">
       <CheckBox id={'all'} checked={isChecked} onClick={handleCheckBoxClick} />
       {isChecked ? (
         <SwitchStatusMenu

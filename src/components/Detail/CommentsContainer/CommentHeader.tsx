@@ -28,7 +28,7 @@ const CommentHeader = ({
       <div className="flex items-center gap-3">
         <Avatar src={authorImage} alt={authorId} />
         <span>{authorId}</span>
-        <span className="text-textLight text-sm">
+        <span className="text-textLight text-xs web:text-sm">
           {updatedAt
             ? `${getElapsedTime(updatedAt)} 수정`
             : getElapsedTime(createdAt)}

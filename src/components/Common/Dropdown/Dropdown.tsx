@@ -64,7 +64,7 @@ const Dropdown = ({
   });
 
   return (
-    <div ref={containerRef} className="relative h-[inherit]">
+    <div ref={containerRef} className="relative h-[inherit] w-full">
       <Dropdown.Button size={size} label={label} onClick={handleMenuBtnClick} />
       {isMenuOpen && (
         <Dropdown.Menu ref={menuRef} style={menuPosition}>
@@ -80,17 +80,15 @@ const Dropdown = ({
 
 Dropdown.Button = ({ size = 'lg', label, onClick }: DropdownMenuBtnProps) => {
   return (
-    <div className={`${getDropdownSize(size)}`}>
-      <Button
-        onClick={onClick}
-        mode="ghost"
-        justify={getButtonIconJustify(size)}
-        size="lg"
-      >
-        {label}
-        <Icon name="ArrowDown" color="text" />
-      </Button>
-    </div>
+    <Button
+      onClick={onClick}
+      mode="ghost"
+      justify={getButtonIconJustify(size)}
+      size={size}
+    >
+      {label}
+      <Icon name="ArrowDown" color="text" />
+    </Button>
   );
 };
 
@@ -100,7 +98,7 @@ Dropdown.Menu = forwardRef<HTMLDivElement, DropdownMenuProps>(
       <section
         ref={ref}
         {...rest}
-        className="absolute z-10 w-60 rounded-lg bg-neutralWeak border border-border text-sm overflow-hidden"
+        className="absolute z-10 w-60 rounded-lg bg-neutralWeak border border-border text-xs web:text-sm overflow-hidden"
       >
         {children}
       </section>

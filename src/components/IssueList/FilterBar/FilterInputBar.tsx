@@ -53,7 +53,7 @@ const FilterInputBar = () => {
   }, [filterState]);
 
   return (
-    <div className={`h-[40px] flex items-center rounded-mds text-sm`}>
+    <div className={`h-[40px] w-full flex items-center rounded-mds text-xs web:text-sm`}>
       <div className="h-full rounded-l-md border border-border border-e-transparent">
         {FILTERBAR_MENU.map(({ label, menuTitle, items }) => (
           <Dropdown key={label} size="md" label={label} menuTitle={menuTitle}>
@@ -93,7 +93,7 @@ const getInputStyle = (isFocus: boolean) => {
   const focusStyle = 'bg-white border-primary';
   const blurStyle = 'bg-neutralText border-border';
 
-  return `block min-w-[30rem] w-full h-[40px] pl-9 pr-3 rounded-r-md overflow-hidden outline-none border  ${
+  return `w-full h-[40px] pl-9 pr-3 rounded-r-md overflow-hidden outline-none border  ${
     isFocus ? focusStyle : blurStyle
   } placeholder:text-textLight`;
 };

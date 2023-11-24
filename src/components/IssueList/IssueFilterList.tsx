@@ -16,12 +16,12 @@ const IssueFilterList = ({ countInfo }: IssueFilterListProps) => {
   return (
     <IssueFilterProvider>
       <section className="px-5">
-        <div className="flex justify-between">
-          <FilterBar />
-          <div className="h-full flex gap-3">
+        <div className="h-max flex flex-col web:flex-row gap-3">
+          <div className="h-max flex gap-3 web:order-1">
             <LabelBtn count={countInfo.label} />
             <NewIssueBtn />
           </div>
+          <FilterBar />
         </div>
         <IssueList {...countInfo.issue} />
       </section>

@@ -15,7 +15,7 @@ export default function Header() {
   if (pathname === '/auth/signin') return null;
 
   return (
-    <header className="h-20 px-8 my-6 flex items-center justify-between">
+    <header className="h-20 w-full px-8 my-6 flex items-center justify-between">
       <Link href={'/'}>
         <Logo />
       </Link>
