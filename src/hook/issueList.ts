@@ -1,14 +1,12 @@
-import { IssueType, SimpleLabel, SimpleUser } from '@/app/model/issue';
+import { IssueType, SimpleLabel, SimpleUser } from '@/model/issue';
 import { SideBarItem } from '@/components/New/SideBar';
-import { useIssueFilterState } from '@/context/IssueFilterContext';
 import { convertFromSideBarItem, createQuery } from '@/service/filter';
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import { useCallback } from 'react';
 import useSWR from 'swr';
+import { FilterState, useIssueFilterState } from '@/context/IssueFilterContext';
 
-export interface AddIssueProps {
-  user?: {
+export interface PostIssueProps {
+  user: {
     userId: string;
     userImage: string;
   };
@@ -18,11 +16,19 @@ export interface AddIssueProps {
   labels: SideBarItem[];
 }
 
-const deleteIssue = (id: string) =>
-  axios.delete(`/api/issues/${id}`).then((res) => res.data);
+type AddIssueProps = Omit<PostIssueProps, 'user'>;
 
-const addIssue = ({ title, comment, assignees, labels }: AddIssueProps) =>
-  axios
+const deleteIssue = async (id: string) => {
+  return axios.delete(`/api/issues/${id}`).then((res) => res.data);
+};
+
+const addIssue = async ({
+  title,
+  comment,
+  assignees,
+  labels,
+}: AddIssueProps) => {
+  return axios
     .post('/api/issue', {
       title,
       contents: comment,
@@ -30,89 +36,76 @@ const addIssue = ({ title, comment, assignees, labels }: AddIssueProps) =>
       labels: labels.map((label) => label.id),
     })
     .then((res) => res.data);
+};
 
-const switchStatusOfIssue = (items: string[], isOpen: boolean) =>
-  axios
+const switchStatusOfIssue = async (items: string[], isOpen: boolean) => {
+  return axios
     .put('/api/issues', {
       isOpen: isOpen,
       issues: items,
     })
     .then((res) => res.data);
+};
 
-//TODO: OptimisticData가 제대로 적용이 안됨
 export default function useIssueList() {
-  const { data: session } = useSession();
-  const user = session?.user;
-
   const filterState = useIssueFilterState();
   const query = createQuery(filterState);
-
-  const { data, isLoading, error, mutate } = useSWR<IssueType[]>(
+  const { data, isLoading, error, mutate } = useSWR<IssueType[]>([
     `/api/issues?${query}`,
-  );
+  ]);
 
-  const deleteIssueBy = useCallback(
-    async (id: string) => {
-      if (!data) return;
-      const newIssues = data?.filter((issue) => issue.id !== id);
+  const deleteIssueBy = (id: string) => {
+    const newIssues = data?.filter((issue) => issue.id !== id);
+    return mutate(deleteIssue(id), {
+      optimisticData: newIssues,
+      populateCache: false,
+      revalidate: false,
+      rollbackOnError: true,
+    });
+  };
 
-      return mutate(deleteIssue(id), {
-        optimisticData: newIssues,
-        populateCache: false,
-        revalidate: false,
-        rollbackOnError: true,
-      });
-    },
-    [data, mutate],
-  );
+  const postIssue = ({
+    user,
+    title,
+    comment,
+    assignees,
+    labels,
+  }: PostIssueProps) => {
+    const newIssue: IssueType = {
+      id: (data?.length ?? 0 + 1).toString(),
+      title,
+      isOpen: true,
+      assignees: convertFromSideBarItem('assignees', assignees) as SimpleUser[],
+      labels: convertFromSideBarItem('labels', labels) as SimpleLabel[],
+      author: {
+        id: user.userId,
+        userId: user.userId,
+        userImage: user.userImage,
+      },
+      createdAt: new Date().toISOString(),
+    };
+    const newIssues = [newIssue, ...(data ?? [])];
 
-  const postIssue = useCallback(
-    async ({ title, comment, assignees, labels }: AddIssueProps) => {
-      if (!data || !user) return;
-      const newIssue: IssueType = {
-        id: (data.length + 1).toString(),
-        title,
-        isOpen: true,
-        assignees: convertFromSideBarItem(
-          'assignees',
-          assignees,
-        ) as SimpleUser[],
-        labels: convertFromSideBarItem('labels', labels) as SimpleLabel[],
-        author: {
-          id: user.userId,
-          userId: user.userId,
-          userImage: user.userImage,
-        },
-        createdAt: new Date().toISOString(),
-      };
-      const newIssues = [...data, newIssue];
+    return mutate(addIssue({ title, comment, assignees, labels }), {
+      optimisticData: newIssues,
+      populateCache: false,
+      revalidate: false,
+      rollbackOnError: true,
+    });
+  };
 
-      return mutate(addIssue({ title, comment, assignees, labels }), {
-        optimisticData: newIssues,
-        populateCache: false,
-        revalidate: false,
-        rollbackOnError: true,
-      });
-    },
-    [data, mutate, user],
-  );
+  const putIsOpenOfIssue = (items: string[], isOpen: boolean) => {
+    const newIssues = data?.map((issue) => {
+      return items.includes(issue.id) ? { ...issue, isOpen: isOpen } : issue;
+    });
 
-  const putIsOpenOfIssue = useCallback(
-    async (items: string[], isOpen: boolean) => {
-      if (!data) return;
-      const newIssues = data?.map((issue) => {
-        return items.includes(issue.id) ? { ...issue, isOpen: isOpen } : issue;
-      });
-
-      return mutate(switchStatusOfIssue(items, isOpen), {
-        optimisticData: newIssues,
-        populateCache: false,
-        revalidate: false,
-        rollbackOnError: true,
-      });
-    },
-    [data, mutate],
-  );
+    return mutate(switchStatusOfIssue(items, isOpen), {
+      optimisticData: newIssues,
+      populateCache: false,
+      revalidate: false,
+      rollbackOnError: true,
+    });
+  };
 
   return {
     data,

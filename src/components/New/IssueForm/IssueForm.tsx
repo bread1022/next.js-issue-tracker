@@ -7,21 +7,18 @@ import SideBar from '../SideBar';
 import { MenuItemValue } from '../SideBar/constant';
 import { SideBarItem } from '../SideBar/SideBarDropdown';
 import { useRouter } from 'next/navigation';
-import { AddIssueProps } from '@/hook/issueList';
-import { IssueType } from '@/app/model/issue';
+import { PostIssueProps } from '@/hook/issueList';
+import { useSession } from 'next-auth/react';
 
 interface IssueFormProps {
-  onPost: ({
-    user,
-    title,
-    comment,
-    assignees,
-    labels,
-  }: AddIssueProps) => Promise<IssueType[] | undefined>;
+  onPost: (issue: PostIssueProps) => void;
 }
 
 const IssueForm = ({ onPost }: IssueFormProps) => {
   const router = useRouter();
+  const { data: session } = useSession();
+  const user = session?.user;
+
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
   const [assignees, setAssignees] = useState<SideBarItem[]>([]);
@@ -59,16 +56,19 @@ const IssueForm = ({ onPost }: IssueFormProps) => {
     setLabels([]);
   };
 
-  const handleFormSubmit = async () => {
-    return onPost({
+  const handleFormSubmit = () => {
+    onPost({
+      user: {
+        userId: user.userId,
+        userImage: user.userImage,
+      },
       title,
       comment,
       assignees,
       labels,
-    })
-      .then(() => handleFormReset())
-      .then(() => router.push('/issues'))
-      .catch((err) => console.error(err));
+    });
+    handleFormReset();
+    router.push('/');
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>

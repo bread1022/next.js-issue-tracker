@@ -1,10 +1,10 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Nanum_Gothic_Coding } from 'next/font/google';
-import AuthSessionContext from '@/context/AuthSessionContext';
 import Header from '@/components/Common/Header';
 import { ReactNode } from 'react';
 import SWRContext from '@/context/SWRContext';
+import AuthSessionContext from '@/context/AuthSessionContext';
 
 const nanum = Nanum_Gothic_Coding({
   subsets: ['latin'],

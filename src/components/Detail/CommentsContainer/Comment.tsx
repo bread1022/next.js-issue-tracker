@@ -1,4 +1,4 @@
-import { CommentType } from '@/app/model/issue';
+import { CommentType } from '@/model/issue';
 import { useState, ChangeEvent, useCallback, memo } from 'react';
 import CommentEditor from './CommentEditor';
 import CommentHeader from './CommentHeader';

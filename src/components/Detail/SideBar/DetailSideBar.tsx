@@ -2,8 +2,8 @@ import SideBar from '@/components/New/SideBar';
 import { SideBarItem } from '@/components/New/SideBar';
 import { useState } from 'react';
 import DeleteBtn from './DeleteBtn';
-import { User } from '@/app/model/user';
-import { Label } from '@/app/model/label';
+import { User } from '@/model/user';
+import { Label } from '@/model/label';
 import Skeletone from '@/components/Common/Skeletone';
 import Alert from '@/components/Common/Alert';
 import { AlertType } from '@/components/Common/Alert/Alert';
@@ -42,10 +42,9 @@ const DetailSideBar = ({
 
   const confirmDelete = () => {
     if (!isMine) return;
-    deleteIssueBy(id)
-      .then(() => setIsAlertOpen(false))
-      .then(() => router.push('/issues'))
-      .catch((err) => console.error(err));
+    deleteIssueBy(id);
+    setIsAlertOpen(false);
+    router.push('/');
   };
 
   return (

@@ -2,7 +2,7 @@ import TextArea from '../../Common/TextArea';
 import { ChangeEvent, useCallback, useState } from 'react';
 
 import SubmitCommentBtn from './SubmitCommentBtn';
-import { CommentType } from '@/app/model/issue';
+import { CommentType } from '@/model/issue';
 import Skeletone from '@/components/Common/Skeletone';
 import Comment from './Comment';
 import useIssue from '@/hook/issue';

@@ -1,4 +1,4 @@
-import { SimpleComment } from '@/app/model/issue';
+import { SimpleComment } from '@/model/issue';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useCallback } from 'react';

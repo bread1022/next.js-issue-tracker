@@ -2,8 +2,8 @@ import { MenuItemValue, SIDEBAR_SELECT_MENU } from './constant';
 import { useState } from 'react';
 import useSWR from 'swr';
 import SideBarDropdown, { SideBarItem } from './SideBarDropdown';
-import { User } from '@/app/model/user';
-import { Label } from '@/app/model/label';
+import { User } from '@/model/user';
+import { Label } from '@/model/label';
 
 interface SideBarProps {
   isMine?: boolean;

@@ -1,4 +1,4 @@
-import { IssueType } from '@/app/model/issue';
+import { IssueType } from '@/model/issue';
 import Avatar from '@/components/Common/Avatar';
 import CheckBox from '@/components/Common/CheckBox';
 import LabelTag from '@/components/Common/LabelTag';

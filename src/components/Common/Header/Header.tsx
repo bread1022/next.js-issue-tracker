@@ -1,19 +1,22 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import Avatar from '../Avatar';
 import SignInOutButton from '../../Signin/SignInOutButton';
 import Logo from '../Logo';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const { data: session } = useSession();
-  if (!session) return <></>;
   const user = session?.user;
+
+  const pathname = usePathname();
+  if (pathname === '/auth/signin') return null;
 
   return (
     <header className="h-20 px-8 my-6 flex items-center justify-between">
-      <Link href={'/issues'}>
+      <Link href={'/'}>
         <Logo />
       </Link>
       <div className="group flex gap-3 items-center">

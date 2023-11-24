@@ -1,3 +1,15 @@
-export default function Home() {
-  return <>로그인 화면으로 리다이렉트</>;
+import IssueFilterList from '@/components/IssueList/IssueFilterList';
+import { authOptions } from '@/lib/authOptions';
+import { getIssueCount } from '@/service/issues';
+import { getServerSession } from 'next-auth/next';
+import { redirect } from 'next/navigation';
+
+export default async function IssueListPage() {
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+
+  if (!user) redirect('/auth/signin');
+  const countInfo = await getIssueCount();
+
+  return <IssueFilterList countInfo={countInfo} />;
 }

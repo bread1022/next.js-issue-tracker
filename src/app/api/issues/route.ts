@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '@/lib/authOptions';
 import { editAllIsOpen, getFilterdIssueList } from '@/service/issues';
-import { User } from '@/app/model/user';
+import { User } from '@/model/user';
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);

@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   images: {
     remotePatterns: [
       {
@@ -14,15 +11,6 @@ const nextConfig = {
         hostname: 'phinf.pstatic.net',
       },
     ],
-  },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/auth/signin',
-        permanent: true,
-      },
-    ];
   },
 };
 

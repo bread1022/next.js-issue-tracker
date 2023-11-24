@@ -19,9 +19,9 @@ interface TableHeaderProps {
 }
 
 const TableHeader = ({ issueCount }: TableHeaderProps) => {
+  const filterState = useIssueFilterState();
   const { putIsOpenOfIssue } = useIssueList();
   const { onFilterOpen, onFilterClose } = useIssueFilterDispatch();
-  const filterState = useIssueFilterState();
   const { checkedAll, checkeditems } = useIssueCheckState();
   const { onCheckAll, onUncheckAll } = useIssueCheckDispatch();
   const isChecked = checkeditems.length > 0;

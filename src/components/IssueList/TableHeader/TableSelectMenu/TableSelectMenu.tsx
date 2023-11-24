@@ -9,8 +9,8 @@ import {
   useIssueFilterState,
 } from '@/context/IssueFilterContext';
 import { getSelectedMenuItems } from '@/service/filter';
-import { User } from '@/app/model/user';
-import { Label } from '@/app/model/label';
+import { User } from '@/model/user';
+import { Label } from '@/model/label';
 
 interface TableSelectMenuItemProps {
   item: string;

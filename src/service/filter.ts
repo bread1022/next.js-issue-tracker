@@ -1,5 +1,5 @@
-import { Label } from '@/app/model/label';
-import { User } from '@/app/model/user';
+import { Label } from '@/model/label';
+import { User } from '@/model/user';
 import { SelectMenuItemValue } from '@/components/IssueList/TableHeader/TableSelectMenu/constant';
 import { SideBarItem } from '@/components/New/SideBar';
 import { FilterState } from '@/context/IssueFilterContext';

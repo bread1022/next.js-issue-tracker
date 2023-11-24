@@ -23,11 +23,7 @@ const logoType = {
 const Logo = ({ size = 'sm', color = 'black' }: LogoProps) => {
   const logo = logoType[size][color];
 
-  return (
-    <>
-      <Image src={logo} alt={`${size}-${color}-logo`} />
-    </>
-  );
+  return <Image src={logo} alt={`${size}-${color}-logo`} priority />;
 };
 
 export default Logo;

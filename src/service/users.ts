@@ -1,4 +1,4 @@
-import { OAuthUser } from '@/app/model/user';
+import { OAuthUser } from '@/model/user';
 import { client } from './sanity';
 
 export async function addUser({

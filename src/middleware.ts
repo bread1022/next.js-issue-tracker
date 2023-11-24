@@ -2,7 +2,10 @@ import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req });
+  const token = await getToken({
+    req,
+    secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+  });
 
   if (!token) {
     if (req.nextUrl.pathname.startsWith('/api')) {
@@ -25,7 +28,6 @@ export const config = {
   matcher: [
     '/new',
     '/',
-    '/issues',
     '/issue/:path*',
     '/api/issue',
     '/api/issues/:path*',
