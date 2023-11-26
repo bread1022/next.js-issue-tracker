@@ -6,11 +6,7 @@ import IssueForm from './IssueForm/IssueForm';
 const NewIssueForm = () => {
   const { postIssue } = useIssueList();
 
-  return (
-    <>
-      <IssueForm onPost={postIssue} />
-    </>
-  );
+  return <IssueForm onPost={postIssue} />;
 };
 
 export default NewIssueForm;

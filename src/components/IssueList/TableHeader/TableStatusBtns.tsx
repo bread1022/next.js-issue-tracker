@@ -28,15 +28,19 @@ const TableStatusBtns = ({ openCount, closeCount }: IssueCountType) => {
     <div className="flex">
       <Button mode="ghost" size="max" onClick={handleOpenIssueClick}>
         <Icon name="OpenIssue" color="textDark" />
-        <p className={`${isOpen && 'font-semibold'}`}>
-          열린 이슈 ({openCount})
-        </p>
+        <span className={`${isOpen && 'font-semibold'} hidden web:inline`}>
+          열린 이슈
+        </span>
+        <span> ({openCount})</span>
       </Button>
       <Button mode="ghost" size="max" onClick={handleCloseIssueClick}>
         <Icon name="CloseIssue" />
-        <p className={`${isOpen === false && 'font-semibold'}`}>
-          닫힌 이슈 ({closeCount})
-        </p>
+        <span
+          className={`${isOpen === false && 'font-semibold'} hidden web:inline`}
+        >
+          닫힌 이슈
+        </span>
+        <span> ({closeCount})</span>
       </Button>
     </div>
   );

@@ -98,7 +98,7 @@ Dropdown.Menu = forwardRef<HTMLDivElement, DropdownMenuProps>(
       <section
         ref={ref}
         {...rest}
-        className="absolute z-10 w-60 rounded-lg bg-neutralWeak border border-border text-xs web:text-sm overflow-hidden"
+        className="absolute z-10 w-48 web:w-60 rounded-lg bg-neutralWeak border border-border text-xs web:text-sm overflow-hidden"
       >
         {children}
       </section>

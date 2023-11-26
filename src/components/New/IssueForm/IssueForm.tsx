@@ -68,7 +68,7 @@ const IssueForm = ({ onPost }: IssueFormProps) => {
       labels,
     });
     handleFormReset();
-    router.push('/');
+    router.replace('/');
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>

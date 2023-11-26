@@ -80,7 +80,7 @@ const getButtonStyle = ({
   const buttonSizes = {
     sm: 'h-10 w-max py-1 text-xs web:text-sm gap-1',
     md: 'h-10 w-32 py-2 px-3 text-xs web:text-sm gap-2',
-    lg: 'h-full w-max max-w-xs py-3 text-xs web:text-sm gap-2',
+    lg: 'h-full w-full max-w-xs px-1 py-3 text-xs web:text-sm gap-2',
     max: 'h-full w-max py-2 px-2 text-xs web:text-sm gap-2',
   };
 
