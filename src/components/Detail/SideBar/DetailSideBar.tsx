@@ -26,7 +26,7 @@ const DetailSideBar = ({
   labels,
   isMine,
 }: DetailSideBarProps) => {
-  const router = useRouter();
+  const { push } = useRouter();
   const { deleteIssueBy } = useIssueList();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
@@ -44,7 +44,7 @@ const DetailSideBar = ({
     if (!isMine) return;
     deleteIssueBy(id);
     setIsAlertOpen(false);
-    router.push('/');
+    push('/');
   };
 
   return (

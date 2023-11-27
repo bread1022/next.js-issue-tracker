@@ -7,7 +7,7 @@ interface LabelBtnProps {
 
 const LabelBtn = ({ count }: LabelBtnProps) => {
   return (
-    <Button.Link href={'/label'}>
+    <Button.Link href="">
       <Icon name="Label" />
       레이블
       {!!count && <p className="text-xs">({count})</p>}

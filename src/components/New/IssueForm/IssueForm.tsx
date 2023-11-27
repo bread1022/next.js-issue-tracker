@@ -15,7 +15,7 @@ interface IssueFormProps {
 }
 
 const IssueForm = ({ onPost }: IssueFormProps) => {
-  const router = useRouter();
+  const { refresh, replace } = useRouter();
   const { data: session } = useSession();
   const user = session?.user;
 
@@ -68,7 +68,8 @@ const IssueForm = ({ onPost }: IssueFormProps) => {
       labels,
     });
     handleFormReset();
-    router.replace('/');
+    replace('/');
+    refresh();
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
