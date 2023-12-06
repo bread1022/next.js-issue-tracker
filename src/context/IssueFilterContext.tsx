@@ -31,72 +31,67 @@ export interface FilterState {
   comment: string | null;
 }
 
+type PayloadType =
+  | {
+      username: string;
+    }
+  | {
+      label: string;
+    }
+  | {};
+
 interface Action {
   type: FilterActionType;
-  payload:
-    | {
-        username: string;
-      }
-    | {
-        label: string;
-      }
-    | {};
+  payload: PayloadType;
 }
 
 const reducer = (state: FilterState, action: Action): FilterState => {
-  const { isOpen, author, labels, assignee, comment } = state;
+  const { isOpen, labels } = state;
   const { type, payload } = action;
 
+  const updateState = (
+    key: keyof FilterState,
+    value: PayloadType | null,
+  ): FilterState => ({
+    ...state,
+    [key]: state[key] === value ? null : value,
+  });
+
   switch (type) {
-    case FilterActionType.RESET_FILTER: {
+    case FilterActionType.RESET_FILTER:
       return initialState;
-    }
-    case FilterActionType.FILTER_OPEN: {
-      return {
-        ...state,
-        isOpen: isOpen === true ? null : true,
-      };
-    }
-    case FilterActionType.FILTER_CLOSE: {
-      return {
-        ...state,
-        isOpen: isOpen === false ? null : false,
-      };
-    }
-    case FilterActionType.FILTER_AUTHOR: {
-      if (!('username' in payload)) return state;
-      const updateState = {
-        ...state,
-        author: author === payload.username ? null : payload.username,
-      };
-      return updateState;
-    }
-    case FilterActionType.FILTER_LABEL: {
-      if (!('label' in payload)) return state;
-      const updateState = {
-        ...state,
-        labels: labels.includes(payload.label)
-          ? labels.filter((label) => label !== payload.label)
-          : [...labels, payload.label],
-      };
-      return updateState;
-    }
-    case FilterActionType.FILTER_ASSIGNEE: {
-      if (!('username' in payload)) return state;
-      const updateState = {
-        ...state,
-        assignee: assignee === payload.username ? null : payload.username,
-      };
-      return updateState;
-    }
-    case FilterActionType.FILTER_COMMENT_BY_ME: {
-      if (!('username' in payload)) return state;
-      const updateState = {
-        ...state,
-        comment: comment === payload.username ? null : payload.username,
-      };
-      return updateState;
-    }
+
+    case FilterActionType.FILTER_OPEN:
+      return updateState('isOpen', isOpen === true ? null : true);
+
+    case FilterActionType.FILTER_CLOSE:
+      return updateState('isOpen', isOpen === false ? null : false);
+
+    case FilterActionType.FILTER_AUTHOR:
+      return 'username' in payload
+        ? updateState('author', payload.username)
+        : state;
+
+    case FilterActionType.FILTER_LABEL:
+      return 'label' in payload
+        ? updateState(
+            'labels',
+            labels.includes(payload.label)
+              ? labels.filter((label) => label !== payload.label)
+              : [...labels, payload.label],
+          )
+        : state;
+
+    case FilterActionType.FILTER_ASSIGNEE:
+      return 'username' in payload
+        ? updateState('assignee', payload.username)
+        : state;
+
+    case FilterActionType.FILTER_COMMENT_BY_ME:
+      return 'username' in payload
+        ? updateState('comment', payload.username)
+        : state;
+
     default:
       return state;
   }
