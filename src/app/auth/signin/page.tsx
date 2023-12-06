@@ -1,7 +1,6 @@
 import Logo from '@/components/Common/Logo';
 import SocialSiginButton from '@/components/Signin/SocialSiginButton';
-import { authOptions } from '@/lib/authOptions';
-import { getServerSession } from 'next-auth';
+import { getUser } from '@/service/session';
 import { getProviders } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 
@@ -13,8 +12,8 @@ interface SignInProps {
 export default async function SingInPage({
   searchParams: { callbackUrl },
 }: SignInProps) {
-  const session = await getServerSession(authOptions);
-  if (session) redirect('/');
+  const { user } = await getUser();
+  if (user) redirect('/');
 
   const providers = (await getProviders()) ?? {};
 

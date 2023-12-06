@@ -18,7 +18,7 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
   const statusIcon = isOpen ? 'OpenIssue' : 'CloseIssue';
 
   return (
-    <li className="h-24 pr-5 grid grid-cols-[40px_1fr_auto] items-center text-xs web:text-sm bg-neutralWeak border-b border-border last:border-b-0 last:rounded-b-lg hover:bg-white">
+    <li className="h-24 pr-5 grid grid-cols-[40px_2fr_minmax(160px,_1fr)] items-center text-xs web:text-sm bg-neutralWeak border-b border-border last:border-b-0 last:rounded-b-lg hover:bg-white">
       <CheckBox id={id} checked={checked} onClick={onCheck} />
       <div className="mx-3 flex flex-col gap-2">
         <div className="flex items-center gap-2">
@@ -40,7 +40,7 @@ const IssueItem = ({ item, checked, onCheck }: issueItemProps) => {
             </ul>
           )}
         </div>
-        <div className="flex gap-2 overflow-ellipsis">
+        <div className="flex gap-2 truncate">
           <span>#{issueId}</span>
           <span>
             이 이슈가 {getElapsedTime(createdAt)}, {author.userId}님에 의해

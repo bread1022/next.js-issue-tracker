@@ -1,11 +1,9 @@
-import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/authOptions';
 import { createIssue, Issue } from '@/service/issues';
+import { getUser } from '@/service/session';
 
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  const { user } = await getUser();
 
   if (!user) {
     return new Response('인증 오류 (Authentication Error)', { status: 401 });

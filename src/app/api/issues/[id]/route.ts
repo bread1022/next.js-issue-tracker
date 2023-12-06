@@ -1,12 +1,11 @@
-import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/authOptions';
 import {
   editTitle,
   editIsOpen,
   deleteIssue,
   getIssueById,
 } from '@/service/issues';
+import { getUser } from '@/service/session';
 
 type Context = {
   params: {
@@ -15,8 +14,7 @@ type Context = {
 };
 
 export async function GET(_: NextRequest, { params: { id } }: Context) {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  const { user } = await getUser();
 
   if (!user) {
     return new Response('인증 오류 (Authentication Error)', { status: 401 });
@@ -27,8 +25,7 @@ export async function GET(_: NextRequest, { params: { id } }: Context) {
 }
 
 export async function DELETE(_: NextRequest, { params: { id } }: Context) {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  const { user } = await getUser();
 
   if (!user) {
     return new Response('인증 오류 (Authentication Error)', { status: 401 });
@@ -38,8 +35,7 @@ export async function DELETE(_: NextRequest, { params: { id } }: Context) {
 }
 
 export async function PUT(request: NextRequest, { params: { id } }: Context) {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  const { user } = await getUser();
 
   if (!user) {
     return new Response('인증 오류 (Authentication Error)', { status: 401 });

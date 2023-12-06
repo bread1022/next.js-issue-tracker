@@ -1,3 +1,5 @@
+'use client';
+
 import TextArea from '@/components/Common/TextArea';
 import TextInput from '@/components/Common/TextInput';
 import CancleBtn from '../CancleBtn';
@@ -7,17 +9,15 @@ import SideBar from '../SideBar';
 import { MenuItemValue } from '../SideBar/constant';
 import { SideBarItem } from '../SideBar/SideBarDropdown';
 import { useRouter } from 'next/navigation';
-import { PostIssueProps } from '@/hook/issueList';
+import useIssueList from '@/hook/issueList';
 import { useSession } from 'next-auth/react';
 
-interface IssueFormProps {
-  onPost: (issue: PostIssueProps) => void;
-}
-
-const IssueForm = ({ onPost }: IssueFormProps) => {
+const IssueForm = () => {
   const { refresh, replace } = useRouter();
   const { data: session } = useSession();
   const user = session?.user;
+
+  const { postIssue } = useIssueList();
 
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
@@ -57,7 +57,7 @@ const IssueForm = ({ onPost }: IssueFormProps) => {
   };
 
   const handleFormSubmit = () => {
-    onPost({
+    postIssue({
       user: {
         userId: user.userId,
         userImage: user.userImage,
@@ -68,8 +68,8 @@ const IssueForm = ({ onPost }: IssueFormProps) => {
       labels,
     });
     handleFormReset();
-    replace('/');
     refresh();
+    replace('/');
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>

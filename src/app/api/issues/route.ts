@@ -1,12 +1,10 @@
-import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '@/lib/authOptions';
 import { editAllIsOpen, getFilterdIssueList } from '@/service/issues';
 import { User } from '@/model/user';
+import { getUser } from '@/service/session';
 
 export async function GET(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  const { user } = await getUser();
 
   if (!user) {
     return new Response('인증 오류 (Authentication Error)', { status: 401 });
@@ -46,8 +44,7 @@ const getQueryParams = (searchParams: URLSearchParams, user: User) => {
 };
 
 export async function PUT(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  const { user } = await getUser();
 
   if (!user) {
     return new Response('인증 오류 (Authentication Error)', { status: 401 });
