@@ -4,7 +4,7 @@ import { useState } from 'react';
 import DeleteBtn from './DeleteBtn';
 import { User } from '@/model/user';
 import { Label } from '@/model/label';
-import Skeletone from '@/components/Common/Skeletone';
+import Skeleton from '@/components/Common/Skeleton';
 import Alert from '@/components/Common/Alert';
 import { AlertType } from '@/components/Common/Alert/Alert';
 import { useRouter } from 'next/navigation';
@@ -50,7 +50,7 @@ const DetailSideBar = ({
   return (
     <>
       {isLoading ? (
-        <Skeletone type="sideBar" />
+        <Skeleton type="sideBar" />
       ) : (
         <div>
           <SideBar

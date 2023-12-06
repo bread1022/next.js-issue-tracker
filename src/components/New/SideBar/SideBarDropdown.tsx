@@ -1,7 +1,7 @@
 import { MenuItemValue } from './constant';
 import { useRef, useState } from 'react';
 import Dropdown from '@/components/Common/Dropdown';
-import Skeletone from '@/components/Common/Skeletone';
+import Skeleton from '@/components/Common/Skeleton';
 import useModalOutside from '@/hook/useClickOutside';
 import useCalculateMenuPosition from '@/hook/useCalculateMenuPosition';
 import SelectedUsers from './SelectedUsers';
@@ -74,7 +74,7 @@ const SideBarDropdown = ({
               ))}
             </ul>
           ) : (
-            <Skeletone type="menuItem" />
+            <Skeleton type="menuItem" />
           )}
         </Dropdown.Menu>
       )}

@@ -2,7 +2,7 @@ import Dropdown from '@/components/Common/Dropdown';
 import Avatar from '@/components/Common/Avatar';
 import { useState } from 'react';
 import { ISSUE_SELECT_MENU } from './constant';
-import Skeletone from '@/components/Common/Skeletone';
+import Skeleton from '@/components/Common/Skeleton';
 import useSWR from 'swr';
 import {
   useIssueFilterDispatch,
@@ -68,7 +68,7 @@ const TableSelectMenu = () => {
           onClick={() => handleMenuBtnClick(endpoint)}
         >
           {isLoading ? (
-            <Skeletone type="menuItem" />
+            <Skeleton type="menuItem" />
           ) : (
             items?.length === 0 && (
               <Dropdown.Empty>항목이 없습니다.</Dropdown.Empty>

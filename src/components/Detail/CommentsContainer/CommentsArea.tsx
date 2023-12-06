@@ -3,7 +3,7 @@ import { ChangeEvent, useCallback, useState } from 'react';
 
 import SubmitCommentBtn from './SubmitCommentBtn';
 import { CommentType } from '@/model/issue';
-import Skeletone from '@/components/Common/Skeletone';
+import Skeleton from '@/components/Common/Skeleton';
 import Comment from './Comment';
 import useIssue from '@/hook/issue';
 
@@ -35,7 +35,7 @@ const CommentsArea = ({ id, comments, isLoading }: CommentProps) => {
   return (
     <ul className="grid gap-4">
       {isLoading ? (
-        <Skeletone type="comment" />
+        <Skeleton type="comment" />
       ) : (
         comments.map((comment: CommentType) => (
           <li key={comment.comment}>

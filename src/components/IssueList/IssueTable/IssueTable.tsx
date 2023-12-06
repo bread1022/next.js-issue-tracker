@@ -1,7 +1,7 @@
 'use client';
 
 import IssueItem from './IssueItem/IssueItem';
-import Skeletone from '@/components/Common/Skeletone';
+import Skeleton from '@/components/Common/Skeleton';
 import IssueEmptyItem from './IssueItem/IssueEmptyItem';
 import {
   useIssueCheckDispatch,
@@ -27,7 +27,7 @@ const IssueTable = () => {
   // TODO: 페이지 네이션 !!!
   return (
     <ul>
-      {isLoading && <Skeletone type="list" />}
+      {isLoading && <Skeleton type="list" />}
       {!isLoading &&
         (issues && issues.length > 0 ? (
           issues.map((issue) => (
