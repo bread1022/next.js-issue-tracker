@@ -2,8 +2,9 @@
 name: 'Chromatic Deployment'
 
 # Event for the workflow
-on: push
-
+on:
+  push:
+    branches: [main]
 # List of jobs
 jobs:
   test:
@@ -19,4 +20,3 @@ jobs:
         with:
           #👇 Chromatic projectToken, see https://storybook.js.org/tutorials/intro-to-storybook/react/ko/deploy/ to obtain it
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          token: ${{ secrets.AUTO_TOKEN }}
